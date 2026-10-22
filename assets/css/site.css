@@ -207,3 +207,10 @@ td.c, th.c { text-align: center; }
 .prose pre { background: var(--surface); padding: 14px 16px; border-radius: 10px; overflow-x: auto; }
 .prose pre code { background: none; padding: 0; }
 .prose blockquote { margin: 18px 0; padding: 4px 18px; border-left: 3px solid var(--primary); color: var(--muted); }
+
+/* privacy "protections" bar: green = on by default, amber = after changing settings */
+td.prot { white-space: nowrap; }
+.protbar { display: flex; gap: 2px; margin-bottom: 4px; }
+.protbar i { width: 9px; height: 6px; border-radius: 2px; background: var(--surface-2); }
+.protbar i.on { background: var(--primary); }
+.protbar i.set { background: var(--warn); }

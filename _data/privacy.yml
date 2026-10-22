@@ -3,13 +3,14 @@
 #   2 = protective by default
 #   1 = protective only after you change a setting (or with documented exceptions)
 #   0 = not protective, or the company doesn't say
-#   null = we haven't verified this cell yet (shown as "·" and never scored)
-# red: true marks a red flag. Any red flag caps a service's score at 40.
-# A service gets a score only once all 7 cells are verified.
+#   null = not verified yet (shown as a hollow dot)
+# red: true marks a red flag: a problem no setting fixes (see "How to read this" on the page).
+# The page counts protections on by default (2s) and protections you can turn on (1s and 2s).
+# source = the company's own page; source2 = a second official page or a news report.
 checked: 2026-10-21
 status: >-
-  In review. Each cell below comes from the company's own pages or reporting retrieved October 2026.
-  Cells marked "·" are still being verified, and the remaining cells are being checked before the workshop.
+  Every answer comes from the company's own help pages, policies and terms, plus news reports where marked "report".
+  Policies change often, so open the source before relying on a cell.
 
 questions:
   - id: training
@@ -38,127 +39,312 @@ services:
   - name: ChatGPT
     maker: OpenAI
     cells:
+      training:
+        rating: 1
+        note: "Used by default on Free, Plus, and Pro. Turn off “Improve the model for everyone” in Settings > Data controls. Temporary Chats aren't used."
+        source: https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance
+      processing:
+        rating: 1
+        note: "Runs on OpenAI's servers. The policy says data is processed and stored in the U.S. and where its vendors operate."
+        source: https://openai.com/policies/privacy-policy/
       retention:
         rating: 1
-        note: Deleted chats and Temporary Chats are removed within 30 days. Other chats stay until you delete them.
-        source: https://openai.com/index/response-to-nyt-data-demands/
+        note: "Saved chats stay until you delete them. Temporary Chats skip your history and are deleted within 30 days."
+        source: https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
+      human:
+        rating: 1
+        note: "Staff and contractors may read chats for abuse checks, support, and legal issues, and for model improvement unless you turn training off."
+        source: https://help.openai.com/en/articles/7039943-data-usage-for-consumer-services-faq
+      connected:
+        rating: 1
+        note: "Web search runs on its own and sends rewritten queries plus your rough location to search partners. Turn off Memory in Settings > Personalization."
+        source: https://help.openai.com/en/articles/9237897-chatgpt-search
+        source2: https://help.openai.com/en/articles/8590148-memory-faq
       deletion:
         rating: 1
-        note: Removed within 30 days, but some April–September 2025 data was preserved for the New York Times lawsuit.
-        source: https://openai.com/index/response-to-nyt-data-demands/
+        note: "Deleted chats are erased within 30 days, except data held for security or legal reasons (some 2025 data is preserved for the NYT lawsuit)."
+        source: https://help.openai.com/en/articles/8983778-chat-and-file-retention-policies-in-chatgpt
+        source2: https://openai.com/index/response-to-nyt-data-demands/
+      sharing:
+        rating: 0
+        note: "Anyone with the link can view, and you can delete links. In 2025 an opt-in checkbox let shared chats show up on Google; OpenAI removed it."
+        source: https://help.openai.com/en/articles/7925741-chatgpt-shared-links-faq
+        source2: https://www.searchenginejournal.com/openai-is-pulling-shared-chatgpt-chats-from-google-search/552671/
 
   - name: Claude
     maker: Anthropic
     cells:
       training:
         rating: 1
-        note: Since August 2025 you're asked to choose. The setting was on unless you switched it off.
+        note: "Everyone is asked to choose. News reports say the training toggle is pre-set to on. Change it anytime in Settings > Privacy."
         source: https://www.anthropic.com/news/updates-to-our-consumer-terms
+        source2: https://www.tomsguide.com/ai/claude/your-claude-chats-are-being-used-to-train-ai-heres-how-to-opt-out
+      processing:
+        rating: 1
+        note: "Runs on Anthropic's servers. The policy says data goes to servers in the U.S. or other countries outside the EU/UK."
+        source: https://www.anthropic.com/legal/privacy
       retention:
         rating: 1
-        note: Up to 5 years if you allow training, 30 days if you don't.
-        source: https://www.anthropic.com/news/updates-to-our-consumer-terms
+        note: "Chats stay until you delete them. With training on, copies unlinked from your account may be kept 5 years. Incognito chats: 30 days."
+        source: https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data
+      human:
+        rating: 1
+        note: "Staff can't open chats by default, except feedback you send, safety-flagged chats, and (with training on) chats unlinked from your account."
+        source: https://privacy.claude.com/en/articles/10458704-how-does-anthropic-protect-the-personal-data-of-claude-users
+      connected:
+        rating: 1
+        note: "Memory is on by default, and you can pause or reset it in Settings. Claude also searches the web on its own when it decides that helps."
+        source: https://support.claude.com/en/articles/11817273
+        source2: https://support.claude.com/en/articles/10684626-enabling-and-using-web-search
+      deletion:
+        rating: 0
+        note: "Deleted chats leave Anthropic's servers within 30 days, but chats flagged for policy violations are kept up to 2 years."
+        source: https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data
+      sharing:
+        rating: 0
+        note: "Anyone with the link sees a snapshot, and you can unshare it. In 2025 nearly 600 shared Claude chats appeared in Google and Bing results."
+        source: https://support.claude.com/en/articles/10593882-share-and-unshare-chats
+        source2: https://www.forbes.com.au/news/innovation/hundreds-of-anthropic-chatbot-transcripts-showed-up-in-google-search/
 
   - name: Gemini
     maker: Google
     cells:
       training:
         rating: 1
-        note: Keep Activity is on by default for adults. Turn it off to stop chats from improving models.
-        source: https://support.google.com/gemini/answer/13594961
+        note: "Used for training by default for users 18+ (Keep Activity on). Turn Keep Activity off, or use Temporary Chat, to stop it."
+        source: https://support.google.com/gemini/answer/13278892
+        source2: https://support.google.com/gemini/answer/13594961
+      processing:
+        rating: 1
+        note: "Runs on Google's servers worldwide. The policy says data may leave your country and links to its data center locations."
+        source: https://policies.google.com/privacy
       retention:
         rating: 1
-        note: Auto-deleted after 18 months by default. With Activity off, chats are still kept up to 72 hours.
-        source: https://support.google.com/gemini/answer/13594961
+        note: "Saved 18 months by default; you can choose 3 or 36 months. With Keep Activity off or in Temporary Chat, chats are kept 72 hours."
+        source: https://support.google.com/gemini/answer/13278892
       human:
         rating: 1
-        note: Human reviewers, including service providers, may read chats while Keep Activity is on.
+        note: "By default some chats are read by human reviewers, including contractors. Turning off Keep Activity stops future reviews."
         source: https://support.google.com/gemini/answer/13594961
+      connected:
+        rating: 1
+        note: "Gemini automatically uses Google Maps, YouTube, Flights, and Hotels. Apps with personal data need your permission. Disconnect any in Connected Apps."
+        source: https://support.google.com/gemini/answer/13695044
       deletion:
         rating: 0
         red: true
-        note: Chats that humans reviewed are kept up to 3 years, separately from your account, even after you delete them.
+        note: "Deleting starts removal right away, but chats already read by human reviewers are kept up to 3 years, even after you delete them."
         source: https://support.google.com/gemini/answer/13594961
       sharing:
-        rating: 1
-        note: Shared chats are public links that anyone with the link can open.
-        source: https://support.google.com/gemini/answer/13594961
+        rating: 0
+        note: "Anyone with a public link can read the chat, and you can delete links. In 2023, when Gemini was called Bard, shared chats appeared in Google Search."
+        source: https://support.google.com/gemini/answer/13743730
+        source2: https://searchengineland.com/google-to-block-bards-shared-chats-from-showing-in-google-search-432497
 
   - name: Copilot
     maker: Microsoft
     cells:
       training:
+        rating: 2
+        note: "Microsoft says chats in the updated Copilot app (Aug. 2026) don't train its foundation models. The older app trained by default, with an off switch."
+        source: https://support.microsoft.com/en-us/privacy/microsoft-copilot/activity-history
+      processing:
         rating: 1
-        note: On by default for eligible adults. Opting out stops future training, not use for ads or safety.
-        source: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+        note: "Runs on Microsoft's cloud servers. Microsoft says data may be stored in your region, the US, or other countries where it operates."
+        source: https://www.microsoft.com/en-us/privacy/privacystatement
       retention:
         rating: 1
-        note: Conversation history is kept 18 months by default, and you can delete it.
-        source: https://support.microsoft.com/en-us/microsoft-copilot/privacy-faq-for-microsoft-copilot
+        note: "Chat history is kept for 18 months by default. You can delete single chats or your whole history anytime."
+        source: https://support.microsoft.com/en-us/microsoft-copilot/conversation-history-in-microsoft-copilot
       human:
         rating: 0
-        note: Microsoft says "an opt-out of human review is not available."
-        source: https://support.microsoft.com/en-us/microsoft-copilot/privacy-faq-for-microsoft-copilot
+        note: "Microsoft says people may read Copilot chats for safety, legal, product-improvement or troubleshooting reasons, with no opt-out listed."
+        source: https://support.microsoft.com/en-us/privacy/microsoft-copilot/young-people
+        source2: https://www.microsoft.com/microsoft-copilot/for-individuals/termsofuse
+      connected:
+        rating: 1
+        note: "Web search, saved memories and 'One shared experience' (which uses chats to personalize Bing, Edge and MSN) each have an off switch."
+        source: https://support.microsoft.com/en-us/privacy/microsoft-copilot/privacy-controls
+      deletion:
+        rating: 0
+        note: "You can delete chats or all activity, but Microsoft doesn't say how long deleted chats stay on its servers or list exceptions."
+        source: https://support.microsoft.com/en-us/microsoft-copilot/conversation-history-in-microsoft-copilot
+      sharing:
+        rating: 1
+        note: "Sharing makes a link anyone with a Microsoft account can open. Revoke it under Settings > Data controls > Shared links > Stop sharing."
+        source: https://support.microsoft.com/en-us/microsoft-365-copilot/share-conversations-responses-in-microsoft-copilot
 
   - name: Meta AI
     maker: Meta
     cells:
+      training:
+        rating: 0
+        red: true
+        note: "Meta may train its AI on what you send Meta AI. US users have no setting to opt out; only EU/UK users can object."
+        source: https://about.fb.com/news/2023/09/privacy-matters-metas-generative-ai-features/
+        source2: https://www.engadget.com/2268598/how-to-stop-ai-companies-training-your-data/
+      processing:
+        rating: 1
+        note: "Runs on Meta's servers, not your phone. Meta says it uses global data centers, including in the United States."
+        source: https://www.whatsapp.com/legal/privacy-policy
+      retention:
+        rating: 1
+        note: "Regular chats are saved with no stated time limit until you delete them. Incognito Chat (rolling out since May 2026) isn't saved."
+        source: https://about.fb.com/news/2026/05/incognito-chat-whatsapp-meta-ai/
+      human:
+        rating: 0
+        note: "Meta says people, not just automated systems, review Meta AI chats. No opt-out is described."
+        source: https://about.fb.com/news/2023/09/privacy-matters-metas-generative-ai-features/
+      connected:
+        rating: 0
+        note: "Since Dec. 16, 2025, your Meta AI chats shape the ads and posts you see across Meta's apps. There's no opt-out in the US."
+        source: https://about.fb.com/news/2025/10/improving-your-recommendations-apps-ai-meta/
+        source2: https://techcrunch.com/2025/10/01/meta-plans-to-sell-targeted-ads-based-on-data-in-your-ai-chats/
+      deletion:
+        rating: 0
+        note: "You can delete chats or type /reset-ai, but Meta doesn't say when deleted chats leave its servers or whether training copies are removed."
+        source: https://about.fb.com/news/2023/09/privacy-matters-metas-generative-ai-features/
       sharing:
         rating: 0
         red: true
-        note: “Share” then “Post to feed” publishes a prompt to a public Discover feed, and posts may be suggested on other Meta apps.
-        source: https://www.cpomagazine.com/data-privacy/meta-ai-adds-warning-that-all-prompts-including-those-with-personal-information-could-be-made-public/
+        note: "In the Meta AI app, 'Post to feed' publishes your prompt publicly on the Discover feed, and Meta may suggest it in its other apps."
+        source: https://about.fb.com/news/2025/04/introducing-meta-ai-app-new-way-access-ai-assistant/
+        source2: https://engadget.com/social-media/meta-warns-users-to-avoid-sharing-personal-or-sensitive-information-in-its-ai-app-233900625.html
 
   - name: Perplexity
     maker: Perplexity AI
     cells:
       training:
         rating: 1
-        note: “AI Data Retention” is on by default for Free, Pro, and Max. Turning it off only applies going forward.
+        note: "Chats may train AI by default on Free, Pro and Max. Turn off 'AI Data Retention' in Settings; it only covers future chats."
         source: https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity
+      processing:
+        rating: 1
+        note: "Runs on Perplexity's servers and partner AI companies' servers. Its policy names the US but says other countries are possible too."
+        source: https://www.perplexity.ai/hub/legal/privacy-policy
+      retention:
+        rating: 1
+        note: "Threads are kept as long as your account is active. You can delete threads anytime, and Incognito sessions expire within 24 hours."
+        source: https://www.perplexity.ai/help-center/en/articles/10354873-how-long-does-perplexity-retain-my-search-history-profile-data-and-personal-information
+        source2: https://www.perplexity.ai/help-center/en/articles/12639758-incognito-mode-troubleshooting
+      human:
+        rating: 0
+        note: "Perplexity's privacy policy doesn't say whether staff or contractors read your threads. Its terms let it screen your content."
+        source: https://www.perplexity.ai/hub/legal/terms-of-service
+      connected:
+        rating: 1
+        note: "Memory and 'Use search history' can be switched off in Settings. Memory content may train models unless AI Data Retention is off."
+        source: https://www.perplexity.ai/help-center/en/articles/10968016-memory
+      deletion:
+        rating: 1
+        note: "Deleting your account erases data within 30 days, but data already used for training can't be removed. No timeline is given for single threads."
+        source: https://www.perplexity.ai/help-center/en/articles/11564562-self-serve-data-deletion
+        source2: https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity
+      sharing:
+        rating: 1
+        note: "Threads are private by default. 'Anyone with the link' lets anyone holding the URL view it, and you can switch it back to Private."
+        source: https://www.perplexity.ai/help-center/en/articles/10354769-what-is-a-thread
 
   - name: Grok
     maker: xAI
     cells:
       training:
         rating: 1
-        note: Trains on chats by default, and you can opt out under “Improve the model.” Signed-out users in some regions can't opt out.
+        note: "Chats train Grok unless you turn off “Improve the model” in Settings > Data Controls. Signed-out users outside the EU/UK can't opt out."
+        source: https://x.ai/legal/faq
+      processing:
+        rating: 1
+        note: "Runs on xAI's servers. Its Europe privacy addendum says all personal data is processed in the United States."
+        source: https://x.ai/legal/europe-privacy-policy-addendum
+      retention:
+        rating: 1
+        note: "Regular chats are kept until you delete them. Private Chat (the ghost icon) and deleted chats are erased within 30 days."
         source: https://x.ai/legal/faq
       human:
         rating: 0
-        note: xAI says authorized personnel may review conversations.
+        note: "A limited number of staff may read conversations, including to improve the model or investigate misuse. There's no way to opt out."
+        source: https://x.ai/legal/faq
+      connected:
+        rating: 0
+        note: "Grok searches the web and X in real time. xAI doesn't say what it sends to search providers or how to switch searching off."
+        source: https://x.ai/legal/faq
+      deletion:
+        rating: 1
+        note: "Deleted chats are removed within 30 days, except copies that are de-identified or kept for safety, security, or legal reasons."
         source: https://x.ai/legal/faq
       sharing:
         rating: 0
         red: true
-        note: In August 2025 about 370,000 shared Grok chats showed up in Google results. The FAQ now warns that shared links can be indexed.
+        note: "Shared links are public, and xAI warns Google may index them. About 370,000 shared Grok chats turned up in search results in August 2025."
         source: https://x.ai/legal/faq
-        source2: https://tech.yahoo.com/cybersecurity/articles/groks-share-button-privacy-disaster-165832807.html
+        source2: https://9to5mac.com/2025/08/20/370k-grok-ai-chats-made-public-without-user-consent/
 
   - name: DeepSeek
     maker: DeepSeek
     cells:
       training:
-        rating: 0
-        red: true
-        note: Trains on your data. The only opt-out is emailing privacy@deepseek.com.
-        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+        rating: 1
+        note: "Chats train models by default. Turn off “Improve the model for everyone” in the Data settings to opt out."
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-terms-of-use.html
       processing:
         rating: 1
-        note: Stored on servers in the People's Republic of China, as the policy discloses.
+        note: "Runs on DeepSeek's servers. The policy says your data is collected, processed, and stored in the People's Republic of China."
         source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
       retention:
-        rating: 0
-        note: Kept as long as you have an account.
+        rating: 1
+        note: "Kept as long as you have an account. You can delete chats in Settings, but the policy doesn't say that erases DeepSeek's copies."
         source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+      human:
+        rating: 0
+        note: "DeepSeek doesn't say whether staff can read your chats. Its training notice says some hand-built training data may come from user input."
+        source: https://cdn.deepseek.com/policies/en-US/model-algorithm-disclosure.html
+      connected:
+        rating: 2
+        note: "No memory or plug-ins are described. Web search runs only when you turn on “Search”, which sends your keywords to outside search services."
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-terms-of-use.html
+      deletion:
+        rating: 0
+        note: "You can delete chats or your account, but DeepSeek gives no timeline for erasing its copies and lists legal and business exceptions."
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+      sharing:
+        rating: 0
+        red: true
+        note: "Anyone with the link can view a shared chat. DeepSeek's policy warns crawlers may pick them up, and Google indexed shared chats in July 2026."
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+        source2: https://cybernews.com/ai-news/deepseek-data-leak-shared-chats-google-index/
 
-  - name: Le Chat
+  - name: Vibe
+    aka: Le Chat
     maker: Mistral AI
     cells:
       training:
         rating: 1
-        note: Inputs and outputs train models by default unless you opt out.
-        source: https://help.mistral.ai/en/articles/323757-do-you-use-my-user-data-to-train-your-artificial-intelligence-models
+        note: "On by default. Turn off “Allow your interactions to be used to train our models” (web) or “Enable data sharing” (app)."
+        source: https://help.mistral.ai/en/articles/455207-can-i-opt-out-of-my-input-or-output-data-being-used-for-training
+      processing:
+        rating: 1
+        note: "Runs on Mistral's servers, hosted in the European Union by default. Some features may briefly send data outside the EU."
+        source: https://help.mistral.ai/en/articles/347629-where-do-you-store-my-data-or-my-organization-s-data
+      retention:
+        rating: 1
+        note: "Chats are kept until you delete them or your account. Temporary Chat isn't saved to your history or used for training."
+        source: https://legal.mistral.ai/terms/privacy-policy
+      human:
+        rating: 1
+        note: "Mistral staff can see chats you report to support. Thumbs-up/down feedback is de-identified and used to improve models."
+        source: https://help.mistral.ai/en/articles/347632-can-people-other-than-myself-view-my-conversations
+      connected:
+        rating: 1
+        note: "Knowledge Base (memory) is on by default; turn it off under Privacy > Personalization. Web search and app connectors stay off until you switch them on."
+        source: https://docs.mistral.ai/vibe/work/knowledge
+      deletion:
+        rating: 0
+        note: "Deleted chats can't be recovered, but Mistral gives no time frame for erasing them and may keep data to enforce rules or obey laws."
+        source: https://help.mistral.ai/en/articles/347613-can-i-delete-a-chat-conversation
+      sharing:
+        rating: 1
+        note: "Anyone with a shared link can view the chat and pass it on."
+        source: https://help.mistral.ai/en/articles/347632-can-people-other-than-myself-view-my-conversations
 
 local:
   note: >-

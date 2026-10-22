@@ -11,7 +11,7 @@
 | Check `/check/?r=host/owner/repo`: three grades, Fidelity, "Why?" breakdown, weight sliders, host checks, AI disclosure | Built |
 | Browse `/browse/`: weekly leaderboard with category and host filters | Built |
 | Models `/models/`: openness (OSI's three parts) with evidence from each model card, laptop fit, sign-up flags, verified-task benchmark | Built; openness checked against model cards Oct 21; benchmark runs monthly |
-| AI privacy `/ai-privacy/`: 7-question matrix with sources and red flags | Built; 21 of 63 cells verified |
+| AI privacy `/ai-privacy/`: 7-question matrix with sources and red flags | Built; all 63 cells verified Oct 21, 2026 |
 | Method `/method/`: every formula, weight, reason, source, and the calibration table | Built |
 
 ## Calibration (Oct 21, 2026)
@@ -41,7 +41,7 @@
 | D13 | Deck palette, Inter + JetBrains Mono | Decided by Will |
 | D14 | GitLab (KDE, GNOME, Inkscape) | Next. Couldn't test from the sandbox |
 | D15 | **Host checks** (nonprofit, no AI training, open platform, scraper defense) are shown separately, never mixed into grades; uptime isn't scored | Built. GitHub only for now; confirm it stays out of Fidelity |
-| D16 | AI privacy: equal weights + red-flag caps at 40 (research recommendation) | Built. Will to confirm (v0 proposed unequal weights) |
+| D16 | AI privacy: no single grade. Show "protections on by default x/7" and "with settings y/7", plus red flags (problems no setting fixes) | Built (replaces the equal-weight letter grade with a cap at 40) |
 | D17 | Hand-verified facts in projects.yml must cite a source (LLVM license, Zig signatures, foundations) | Built |
 | D18 | Relicense watch compares real SPDX ids only between weekly runs | Built |
 | D19 | The site's own license | **Ask Will** |
@@ -49,11 +49,12 @@
 | D22 | Discovery opens a monthly issue of candidates; never auto-adds | Built |
 | D23 | Result pages flag weight-sensitive letters (equal-weight re-run) and label quiet projects "may be finished" | Built |
 | D24 | Signal-style blind spot: Security only sees GitHub-visible practices; documented on Method. Hand-verified evidence vs. relabel still **Ask Will** | Documented |
+| D25 | Host card removed from result pages ("Hosted on GitHub" now sits in the page kicker); every expandable card shows a chevron | Asked by Will (Oct 21) |
 | D20 | **v1 is GitHub only** (projects + open-weight models). Codeberg, self-hosted Forgejo, and GitLab are parked; `forges/forgejo.js` stays in the repo, dormant | Decided by Will (Oct 21) |
 
 ## Next
 
-1. Push to github.com/willmitchellcodes/ossfidelity. Run **Weekly scoring** once to grade the curated list.
-2. DNS for ossfidelity.com (see README).
-3. Verification pass: the remaining privacy cells, model openness against the OSAI Index, and local-AI app telemetry.
-4. Cross-check model openness against the OSAI Index; verify remaining AI-privacy cells. Later: Codeberg and GitLab.
+1. DNS for ossfidelity.com (see README), then re-add the custom domain.
+2. Local-AI app telemetry (Jan, Ollama, PocketPal AI) for the "Local isn't automatically private" section.
+3. Cross-check model openness against the OSAI Index. Later: Codeberg and GitLab.
+4. Re-check privacy cells before the workshop; Copilot's Aug. 2026 app change and Meta's Incognito Chat rollout are the likeliest to move.

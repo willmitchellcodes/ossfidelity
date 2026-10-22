@@ -13,47 +13,49 @@ description: Seven questions to ask any AI service, answered from each company's
   <span><span class="pip p2"></span> protective by default</span>
   <span><span class="pip p1"></span> only if you change a setting</span>
   <span><span class="pip p0"></span> not protective, or not disclosed</span>
-  <span><span class="pip pn"></span> not verified yet</span>
 </div>
 
 <div class="table-wrap">
 <table class="pm">
-  <thead><tr><th>Service</th>{% for q in pv.questions %}<th class="num" title="{{ q.ask }}">{{ q.label }}</th>{% endfor %}<th>Flags</th><th class="c">Score</th></tr></thead>
+  <thead><tr><th>Service</th><th>Protections</th>{% for q in pv.questions %}<th class="c" title="{{ q.ask }}">{{ q.label }}</th>{% endfor %}</tr></thead>
   <tbody>
   {%- for s in pv.services %}
-    {%- assign reds = 0 -%}{%- assign verified = 0 -%}{%- assign points = 0 -%}
+    {%- assign reds = 0 -%}{%- assign verified = 0 -%}{%- assign dflt = 0 -%}{%- assign able = 0 -%}
+    {%- for q in pv.questions -%}
+      {%- assign c = s.cells[q.id] -%}
+      {%- if c.red -%}{%- assign reds = reds | plus: 1 -%}{%- endif -%}
+      {%- if c.rating != nil -%}{%- assign verified = verified | plus: 1 -%}{%- endif -%}
+      {%- if c.rating == 2 -%}{%- assign dflt = dflt | plus: 1 -%}{%- endif -%}
+      {%- if c.rating >= 1 -%}{%- assign able = able | plus: 1 -%}{%- endif -%}
+    {%- endfor %}
     <tr>
-      <td><strong>{{ s.name }}</strong><br><span class="muted small">{{ s.maker }}</span></td>
+      <td><a href="#{{ s.name | slugify }}"><strong>{{ s.name }}</strong></a><br><span class="muted small">{{ s.maker }}{% if s.aka %}, formerly {{ s.aka }}{% endif %}</span>{% if reds > 0 %}<br><span class="chip bad" title="Red flags: problems no setting fixes">⚑ {{ reds }} red flag{% if reds > 1 %}s{% endif %}</span>{% endif %}</td>
+      <td class="small prot">
+        {%- if verified == 7 -%}
+        <span class="protbar" role="img" aria-label="{{ dflt }} of 7 protective by default, {{ able }} of 7 after changing settings">{% for i in (1..7) %}<i class="{% if i <= dflt %}on{% elsif i <= able %}set{% endif %}"></i>{% endfor %}</span>
+        <strong>{{ dflt }}/7</strong> by default<br><span class="muted">{{ able }}/7 with settings</span>
+        {%- else -%}<span class="muted">{{ verified }}/7 checked</span>{%- endif -%}
+      </td>
       {%- for q in pv.questions -%}
-        {%- assign c = s.cells[q.id] -%}
-        {%- if c.red -%}{%- assign reds = reds | plus: 1 -%}{%- endif -%}
-        {%- if c.rating != nil -%}{%- assign verified = verified | plus: 1 -%}{%- assign points = points | plus: c.rating -%}{%- endif -%}
-        <td class="cell" title="{{ q.label }}: {{ c.note | default: 'Not verified yet' | escape }}">
+        {%- assign c = s.cells[q.id] %}
+      <td class="cell" title="{{ q.label }}: {{ c.note | default: 'Not verified yet' | escape }}">
           {%- if c.rating == 2 -%}<span class="pip p2" role="img" aria-label="protective by default"></span>
           {%- elsif c.rating == 1 -%}<span class="pip p1" role="img" aria-label="only if you change a setting"></span>
           {%- elsif c.rating == 0 -%}<span class="pip p0" role="img" aria-label="not protective"></span>
           {%- else -%}<span class="pip pn" role="img" aria-label="not verified yet"></span>{%- endif -%}
-        </td>
+      </td>
       {%- endfor %}
-      <td class="small">{% if reds > 0 %}<span class="chip bad">⚑ {{ reds }}</span>{% else %}<span class="muted">none</span>{% endif %}{% if verified < 7 %}<br><span class="muted">{{ verified }}/7 checked</span>{% endif %}</td>
-      {%- if verified == 7 -%}
-        {%- assign score = points | times: 100.0 | divided_by: 14 | round -%}
-        {%- if reds > 0 and score > 40 -%}{%- assign score = 40 -%}{%- endif -%}
-        {%- assign letter = "F" -%}{%- for l in site.data.weights.letters -%}{%- if score >= l.min -%}{%- assign letter = l.letter -%}{%- break -%}{%- endif -%}{%- endfor %}
-      <td class="c"><span class="letter g-{{ letter }}" title="{{ points }} of 14 points{% if reds > 0 %}, capped at 40 by a red flag{% endif %}">{{ letter }}</span><br><span class="muted small">{{ score }}</span></td>
-      {%- else %}
-      <td class="c muted small">in review</td>
-      {%- endif %}
     </tr>
   {%- endfor %}
   </tbody>
 </table>
 </div>
+<p class="muted small">Open a service below for every answer and its source. Each note names the setting to change.</p>
 
 <h2>The details, with sources</h2>
 {% for s in pv.services %}
-<details class="grade">
-  <summary><span class="gname">{{ s.name }}</span><span></span><span class="muted small">{{ s.maker }}</span></summary>
+<details class="grade" id="{{ s.name | slugify }}">
+  <summary><span class="gname">{{ s.name }}</span><span></span><span class="muted small">{{ s.maker }}{% if s.aka %}, formerly {{ s.aka }}{% endif %}</span></summary>
   <div class="why">
     <ul class="checks">
     {%- for q in pv.questions %}{% assign c = s.cells[q.id] %}
@@ -68,13 +70,15 @@ description: Seven questions to ask any AI service, answered from each company's
 <h2>"Local" isn't automatically <em>private</em></h2>
 <p class="prose">{{ pv.local.note }}</p>
 
-<h2>How this will be scored</h2>
+<h2>How to read this</h2>
 <div class="prose">
-  <p>Each question gets 2, 1, or 0 points, all weighted equally, because there's no evidence that one matters more for everyone. A service gets a score only once all seven answers are verified. <strong>Red flags cap the score at 40</strong> no matter how the rest look:</p>
+  <p>Every answer gets one of three marks: <strong>protective by default</strong>, <strong>protective once you change a setting</strong>, or <strong>not protective</strong>. "Not disclosed" counts as not protective, because trust requires verification. We don't boil this down to a single grade. The two useful numbers are how many protections are already on, and how many you can turn on yourself. The gap between them is the setting work the company leaves to you.</p>
+  <p><strong>Red flags</strong> mark problems no setting fixes:</p>
   <ul>
-    <li>Chats can become public by default, or with one tap</li>
-    <li>Human-reviewed chats are kept more than a year after you delete them</li>
+    <li>Chats can become public with one tap, or shared links are being found by search engines</li>
+    <li>Chats read by human reviewers are kept more than a year after you delete them</li>
     <li>There's no self-serve way to opt out of training</li>
   </ul>
+  <p>A past incident that has since been fixed, like shared links once showing up in Google, keeps a sharing answer at "not protective" but isn't a red flag.</p>
   <p class="muted small">This covers consumer accounts only. A school or work account (for example, Microsoft 365 Copilot through your university) may have very different terms, so check with your IT office.</p>
 </div>
