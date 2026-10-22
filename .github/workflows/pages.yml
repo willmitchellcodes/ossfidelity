@@ -21,7 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      # Build for wherever GitHub serves the site: "" on ossfidelity.com,
+      # "/ossfidelity" on willmitchellcodes.github.io while no custom domain is active.
+      - name: Set site address
+        run: |
+          sed -i -E '/^(url|baseurl):/d' _config.yml
+          printf '\nurl: "%s"\nbaseurl: "%s"\n' "${{ steps.pages.outputs.origin }}" "${{ steps.pages.outputs.base_path }}" >> _config.yml
+          tail -n 2 _config.yml
       - uses: actions/jekyll-build-pages@v1
         with:
           source: ./

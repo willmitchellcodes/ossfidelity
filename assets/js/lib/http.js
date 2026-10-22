@@ -27,7 +27,7 @@ export function makeClient(base, opts = {}) {
       last = Date.now();
       count++;
       onRequest(url);
-      const res = await fetch(url, { headers: { ...headers, ...(accept ? { Accept: accept } : {}) } });
+      const res = await fetch(url, { headers: { ...headers, ...(accept ? { Accept: accept } : {}) }, signal: AbortSignal.timeout(30000) });
       if (res.status === 202) { await sleep(1500 * (attempt + 1)); continue; }
       if (res.status === 403 || res.status === 429) {
         const remaining = res.headers.get("x-ratelimit-remaining");

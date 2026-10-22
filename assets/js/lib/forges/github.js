@@ -265,7 +265,7 @@ export function backingSignal(curated, isOrg, owner) {
 
 export async function bestPractices(url) {
   try {
-    const res = await fetch(`https://www.bestpractices.dev/projects.json?url=${encodeURIComponent(url)}`, { headers: { Accept: "application/json" } });
+    const res = await fetch(`https://www.bestpractices.dev/projects.json?url=${encodeURIComponent(url)}`, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(15000) });
     if (!res.ok) throw new Error();
     const list = await res.json();
     const p = (Array.isArray(list) ? list : []).find((x) => (x.repo_url || "").replace(/\/$/, "").toLowerCase() === url.toLowerCase());
@@ -280,7 +280,7 @@ export async function bestPractices(url) {
 
 async function scorecard(ref) {
   try {
-    const res = await fetch(`https://api.securityscorecards.dev/projects/github.com/${ref.owner}/${ref.repo}`);
+    const res = await fetch(`https://api.securityscorecards.dev/projects/github.com/${ref.owner}/${ref.repo}`, { signal: AbortSignal.timeout(15000) });
     if (!res.ok) return null;
     const j = await res.json();
     return { score: j.score, date: j.date, url: `https://scorecard.dev/viewer/?uri=github.com/${ref.owner}/${ref.repo}` };

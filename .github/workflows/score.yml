@@ -2,6 +2,14 @@ name: Weekly scoring
 on:
   schedule:
     - cron: "17 9 * * 1"   # Mondays 09:17 UTC
+  # Also regrade whenever the curated list, the weights, or the formula changes.
+  push:
+    branches: [main]
+    paths:
+      - "_data/projects.yml"
+      - "_data/weights.json"
+      - "assets/js/lib/**"
+      - "scripts/score.mjs"
   workflow_dispatch:
     inputs:
       only:

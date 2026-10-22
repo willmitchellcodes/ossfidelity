@@ -3,6 +3,8 @@ tagline: Check open source before you trust it.
 description: >-
   Paste a link or search for an open source project and get plain-English grades
   for reliability, maintenance, and security, plus every reason behind them.
+# url and baseurl are set by .github/workflows/pages.yml at build time, so the site
+# works both at ossfidelity.com and at willmitchellcodes.github.io/ossfidelity.
 url: https://ossfidelity.com
 baseurl: ""
 lang: en
