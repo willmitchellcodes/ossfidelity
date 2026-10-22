@@ -248,6 +248,20 @@ test("proxy signs a valid GitHub App JWT from a key in GitHub's PKCS#1 format", 
   assert.ok(pkcs8Der(privateKey.replace(/\n/g, "\\n")).length > 1000);
 });
 
+test("proxy says which setup step is missing, without revealing secrets", async () => {
+  const { installationToken, SetupError } = await import("../proxy/worker.js");
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "", GITHUB_APP_PRIVATE_KEY: "x" }), (e) => e instanceof SetupError && /GITHUB_APP_CLIENT_ID is empty/.test(e.message));
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: "" }), (e) => e instanceof SetupError && /secret isn't set/.test(e.message));
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: "not a key" }), (e) => e instanceof SetupError && /couldn't be read/.test(e.message) && !/not a key/.test(e.message));
+  const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs1", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
+  const env = { GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: privateKey };
+  await assert.rejects(installationToken(env, async () => new Response("{}", { status: 401 })), (e) => e instanceof SetupError && /HTTP 401/.test(e.message));
+  await assert.rejects(installationToken(env, async () => Response.json([])), (e) => e instanceof SetupError && /isn't installed/.test(e.message));
+  const res = await worker.fetch(new Request("https://proxy.example/repos/a/b", { headers: { Origin: "https://ossfidelity.com" } }), { ALLOWED_ORIGINS: "https://ossfidelity.com", GITHUB_APP_CLIENT_ID: "" }, {});
+  assert.equal(res.status, 503);
+  assert.match((await res.json()).message, /GITHUB_APP_CLIENT_ID is empty/);
+});
+
 test("proxy end to end: origin check, allowlist, auth, headers, cache", async () => {
   const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs1", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
   const env = { ALLOWED_ORIGINS: "https://ossfidelity.com", GITHUB_APP_CLIENT_ID: "Iv23liTEST", GITHUB_APP_PRIVATE_KEY: privateKey, GITHUB_APP_INSTALLATION_ID: "42" };
