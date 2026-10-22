@@ -21,13 +21,13 @@ The origin check stops other websites, not scripts, so the per-visitor limits ar
 
 ### 1. Create the GitHub App
 
-1. On GitHub: **Settings → Developer settings → GitHub Apps → New GitHub App**.
+1. On GitHub, click your **profile picture** (top right) → **Settings**. This is your account's settings, not the repository's Settings tab. Then, at the bottom of the left sidebar, **Developer settings → GitHub Apps → New GitHub App**.
 2. Name it (for example `ossfidelity-reader`), and set the homepage to `https://ossfidelity.com`.
 3. Untick **Webhook → Active**. No callback URL is needed.
 4. **Permissions:** leave everything at *No access*. GitHub adds *Metadata: read-only* automatically, which is all the proxy needs, since it only reads public data.
 5. **Where can this GitHub App be installed?** *Only on this account.* Create it.
-6. On the App's page, note the **Client ID**, then **Generate a private key**. A `.pem` file downloads.
-7. **Install App** → your account → **Only select repositories** → `ossfidelity`. Installing on one public repository is enough, and it keeps the token away from any private repositories.
+6. On the App's settings page, note the **Client ID** (under *About*), then scroll to **Private keys → Generate a private key**. A `.pem` file downloads. Keep it out of the repository.
+7. In the App's left sidebar, **Install App** → **Install** next to your account. If GitHub asks which repositories, choose **Only select repositories** → `ossfidelity`; with no repository permissions it may not ask. GitHub says an App always has read-only access to public repositories, which is all the proxy uses.
 
 ### 2. Check that the token can read other public repositories
 
