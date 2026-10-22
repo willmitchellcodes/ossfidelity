@@ -1,0 +1,304 @@
+{
+ "slug": "phi-4-mini",
+ "name": "Phi-4-mini",
+ "file": "Phi-4-mini-instruct-Q4_K_M.gguf",
+ "repo": "unsloth/Phi-4-mini-instruct-GGUF",
+ "ran_at": "2026-10-22T03:17:13.492Z",
+ "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
+ "server": "b11783-339f3242c",
+ "tasks_version": "1.0",
+ "score": 94,
+ "categories": {
+  "format": {
+   "passed": 9,
+   "total": 10
+  },
+  "grounded": {
+   "passed": 12,
+   "total": 12
+  },
+  "unanswerable": {
+   "passed": 8,
+   "total": 8
+  },
+  "consistency": {
+   "passed": 8,
+   "total": 10
+  }
+ },
+ "tokens_per_sec": 9.5,
+ "items": [
+  {
+   "id": "f1",
+   "type": "format",
+   "answer": "- Apple  \n- Banana  \n- Cherry",
+   "pass": true
+  },
+  {
+   "id": "f2",
+   "type": "format",
+   "answer": "```json\n{\"city\": \"Tokyo\", \"country\": \"Japan\"}\n```",
+   "pass": true
+  },
+  {
+   "id": "f3",
+   "type": "format",
+   "answer": "Quiet sanctuary.",
+   "pass": false
+  },
+  {
+   "id": "f4",
+   "type": "format",
+   "answer": "The ocean is vast and mysterious.",
+   "pass": true
+  },
+  {
+   "id": "f5",
+   "type": "format",
+   "answer": "Yes.",
+   "pass": true
+  },
+  {
+   "id": "f6",
+   "type": "format",
+   "answer": "PRIVACY",
+   "pass": true
+  },
+  {
+   "id": "f7",
+   "type": "format",
+   "answer": "hello, how are you today?",
+   "pass": true
+  },
+  {
+   "id": "f8",
+   "type": "format",
+   "answer": "Recycling: A Lifeline for Our Planet?",
+   "pass": true
+  },
+  {
+   "id": "f9",
+   "type": "format",
+   "answer": "[2, 4, 6, 8]",
+   "pass": true
+  },
+  {
+   "id": "f10",
+   "type": "format",
+   "answer": "The quick brown fox jumps over the lazy dog.",
+   "pass": true
+  },
+  {
+   "id": "g1",
+   "type": "grounded",
+   "answer": "412 items",
+   "pass": true
+  },
+  {
+   "id": "g2",
+   "type": "grounded",
+   "answer": "Dana Okafor",
+   "pass": true
+  },
+  {
+   "id": "g3",
+   "type": "grounded",
+   "answer": "Every second Saturday.",
+   "pass": true
+  },
+  {
+   "id": "g4",
+   "type": "grounded",
+   "answer": "GPL-3.0",
+   "pass": true
+  },
+  {
+   "id": "g5",
+   "type": "grounded",
+   "answer": "Version 4.2",
+   "pass": true
+  },
+  {
+   "id": "g6",
+   "type": "grounded",
+   "answer": "31",
+   "pass": true
+  },
+  {
+   "id": "g7",
+   "type": "grounded",
+   "answer": "18",
+   "pass": true
+  },
+  {
+   "id": "g8",
+   "type": "grounded",
+   "answer": "Twice a week",
+   "pass": true
+  },
+  {
+   "id": "g9",
+   "type": "grounded",
+   "answer": "Harper Park",
+   "pass": true
+  },
+  {
+   "id": "g10",
+   "type": "grounded",
+   "answer": "Room 204 of the science building.",
+   "pass": true
+  },
+  {
+   "id": "g11",
+   "type": "grounded",
+   "answer": "November 14",
+   "pass": true
+  },
+  {
+   "id": "g12",
+   "type": "grounded",
+   "answer": "Seven",
+   "pass": true
+  },
+  {
+   "id": "u1",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u2",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u3",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u4",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u5",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u6",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u7",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  },
+  {
+   "id": "u8",
+   "type": "unanswerable",
+   "answer": "Not in the text.",
+   "pass": true
+  }
+ ],
+ "consistency": [
+  {
+   "id": "g1",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "g2",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "g4",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "g5",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "g7",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "g10",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "u1",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "u2",
+   "verdicts": [
+    true,
+    false,
+    true
+   ],
+   "same": false
+  },
+  {
+   "id": "u4",
+   "verdicts": [
+    true,
+    true,
+    true
+   ],
+   "same": true
+  },
+  {
+   "id": "u5",
+   "verdicts": [
+    true,
+    false,
+    true
+   ],
+   "same": false
+  }
+ ]
+}
