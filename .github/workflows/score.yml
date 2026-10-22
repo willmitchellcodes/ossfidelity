@@ -11,6 +11,7 @@ on:
       - "assets/js/lib/**"
       - "scripts/score.mjs"
       - "scripts/models.mjs"
+      - ".github/workflows/score.yml"
   workflow_dispatch:
     inputs:
       only:
@@ -50,4 +51,5 @@ jobs:
           git add _data/scores.json _data/model_facts.json
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Weekly scores $(date -u +%F)"
+          git pull --rebase origin main
           git push

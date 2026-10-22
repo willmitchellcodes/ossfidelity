@@ -16,7 +16,7 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
   if (token) headers.Authorization = `Bearer ${token}`;
   // The weekly job can afford to wait for GitHub to finish computing statistics.
   const api = makeClient("https://api.github.com", { headers, waitOnLimit: mode === "full", onRequest: log,
-    tries202: mode === "full" ? 8 : 3, wait202Ms: mode === "full" ? 3000 : 1500 });
+    tries202: mode === "full" ? 4 : 3, wait202Ms: mode === "full" ? 2500 : 1500 });
   const R = `/repos/${ref.owner}/${ref.repo}`;
   const since = new Date(now - 365 * DAY);
   const sinceISO = since.toISOString();
