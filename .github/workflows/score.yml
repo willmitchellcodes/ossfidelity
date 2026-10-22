@@ -40,10 +40,15 @@ jobs:
       - name: Get a GitHub App token
         id: app
         if: ${{ vars.SCORER_APP_CLIENT_ID != '' }}
+        # If this fails, scoring still runs with the next token below instead of stopping.
+        continue-on-error: true
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           client-id: ${{ vars.SCORER_APP_CLIENT_ID }}
           private-key: ${{ secrets.SCORER_APP_PRIVATE_KEY }}
+          # Find the App by account, not by this repository. It only reads public data, so it asks
+          # for no repository permissions, and GitHub then doesn't attach it to any repository.
+          owner: ${{ github.repository_owner }}
       - name: Score projects
         run: node scripts/score.mjs ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
         env:
