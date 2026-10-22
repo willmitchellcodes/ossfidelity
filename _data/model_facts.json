@@ -1,0 +1,97 @@
+{
+ "updated": "2026-10-22T03:24:14.868Z",
+ "source": "https://huggingface.co/docs/hub/api",
+ "models": {
+  "olmo-2-7b": {
+   "license": "apache-2.0",
+   "gated": false,
+   "downloads_30d": 73995,
+   "likes": 72,
+   "last_modified": "2025-01-06T19:46:53.000Z",
+   "params": 7298617344,
+   "datasets": [
+    "allenai/dolmino-mix-1124",
+    "allenai/olmo-mix-1124"
+   ],
+   "base_model": []
+  },
+  "smollm3-3b": {
+   "license": "apache-2.0",
+   "gated": false,
+   "downloads_30d": 743150,
+   "likes": 1068,
+   "last_modified": "2025-09-10T12:28:11.000Z",
+   "params": 3075098624,
+   "datasets": [],
+   "base_model": [
+    "HuggingFaceTB/SmolLM3-3B-Base"
+   ]
+  },
+  "granite-3-3-8b": {
+   "license": "apache-2.0",
+   "gated": false,
+   "downloads_30d": 87471,
+   "likes": 161,
+   "last_modified": "2025-05-12T06:39:42.000Z",
+   "params": 8170864640,
+   "datasets": [],
+   "base_model": [
+    "ibm-granite/granite-3.3-8b-base"
+   ]
+  },
+  "phi-4-mini": {
+   "license": "mit",
+   "gated": false,
+   "downloads_30d": 366357,
+   "likes": 864,
+   "last_modified": "2025-12-10T20:24:40.000Z",
+   "params": 3836021760,
+   "datasets": [],
+   "base_model": []
+  },
+  "qwen3-4b": {
+   "license": "apache-2.0",
+   "gated": false,
+   "downloads_30d": 11600540,
+   "likes": 767,
+   "last_modified": "2025-07-26T03:46:39.000Z",
+   "params": 4022468096,
+   "datasets": [],
+   "base_model": [
+    "Qwen/Qwen3-4B-Base"
+   ]
+  },
+  "gpt-oss-20b": {
+   "license": "apache-2.0",
+   "gated": false,
+   "downloads_30d": 5892118,
+   "likes": 5199,
+   "last_modified": "2025-08-26T17:25:47.000Z",
+   "params": 20914757184,
+   "datasets": [],
+   "base_model": []
+  },
+  "llama-3-2-3b": {
+   "license": "llama3.2",
+   "gated": "manual",
+   "downloads_30d": 1110545,
+   "likes": 2847,
+   "last_modified": "2024-10-24T15:07:29.000Z",
+   "params": 3212749824,
+   "datasets": [],
+   "base_model": []
+  },
+  "gemma-3-4b": {
+   "license": "gemma",
+   "gated": "manual",
+   "downloads_30d": 1059693,
+   "likes": 1592,
+   "last_modified": "2025-03-21T20:20:53.000Z",
+   "params": 4300079472,
+   "datasets": [],
+   "base_model": [
+    "google/gemma-3-4b-pt"
+   ]
+  }
+ }
+}
