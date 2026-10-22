@@ -3,10 +3,9 @@ tagline: Check open source before you trust it.
 description: >-
   Paste a link or search for an open source project and get plain-English grades
   for reliability, maintenance, and security, plus every reason behind them.
-# url and baseurl are set by .github/workflows/pages.yml at build time, so the site
-# works both at ossfidelity.com and at willmitchellcodes.github.io/ossfidelity.
-url: https://ossfidelity.com
-baseurl: ""
+# url and baseurl are deliberately NOT set here. GitHub Pages fills them in from the
+# repository's Pages settings ("/ossfidelity" on github.io, "" on a custom domain), and
+# .github/workflows/pages.yml sets them explicitly, so either kind of build gets them right.
 lang: en
 source_repo: https://github.com/willmitchellcodes/ossfidelity
 
