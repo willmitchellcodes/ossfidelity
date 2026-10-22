@@ -3,14 +3,14 @@
  "name": "Llama 3.2 3B",
  "file": "Llama-3.2-3B-Instruct-Q4_K_M.gguf",
  "repo": "bartowski/Llama-3.2-3B-Instruct-GGUF",
- "ran_at": "2026-10-22T03:41:08.651Z",
+ "ran_at": "2026-10-22T03:49:07.919Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
  "tasks_version": "1.1",
- "score": 93,
+ "score": 92,
  "categories": {
   "format": {
-   "passed": 8,
+   "passed": 9,
    "total": 10
   },
   "grounded": {
@@ -18,7 +18,7 @@
    "total": 12
   },
   "unanswerable": {
-   "passed": 8,
+   "passed": 7,
    "total": 8
   },
   "consistency": {
@@ -26,7 +26,7 @@
    "total": 10
   }
  },
- "tokens_per_sec": 16.3,
+ "tokens_per_sec": 22.4,
  "items": [
   {
    "id": "f1",
@@ -55,8 +55,8 @@
   {
    "id": "f5",
    "type": "format",
-   "answer": "No.",
-   "pass": false
+   "answer": "Yes.",
+   "pass": true
   },
   {
    "id": "f6",
@@ -73,7 +73,7 @@
   {
    "id": "f8",
    "type": "format",
-   "answer": "Can Recycling Really Save Our Planet?",
+   "answer": "Can Recycling Help Save Our Planet?",
    "pass": true
   },
   {
@@ -169,8 +169,8 @@
   {
    "id": "u2",
    "type": "unanswerable",
-   "answer": "The text does not specify the year Fix It Forward was founded.",
-   "pass": true
+   "answer": "2019",
+   "pass": false
   },
   {
    "id": "u3",
@@ -304,14 +304,14 @@
   {
    "id": "u2",
    "verdicts": [
-    true,
     false,
-    true
+    true,
+    false
    ],
    "same": false,
    "rerun_answers": [
-    "2018",
-    "Not in the text."
+    "Not in the text.",
+    "2018."
    ]
   },
   {
@@ -340,6 +340,5 @@
     "Not in the text."
    ]
   }
- ],
- "regraded_at": "2026-10-22T03:45:36.891Z"
+ ]
 }

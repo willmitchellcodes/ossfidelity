@@ -3,11 +3,11 @@
  "name": "SmolLM3 3B",
  "file": "SmolLM3-Q4_K_M.gguf",
  "repo": "ggml-org/SmolLM3-3B-GGUF",
- "ran_at": "2026-10-22T03:39:40.069Z",
+ "ran_at": "2026-10-22T03:47:59.132Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
  "tasks_version": "1.1",
- "score": 95,
+ "score": 97,
  "categories": {
   "format": {
    "passed": 10,
@@ -22,11 +22,11 @@
    "total": 8
   },
   "consistency": {
-   "passed": 9,
+   "passed": 10,
    "total": 10
   }
  },
- "tokens_per_sec": 16.3,
+ "tokens_per_sec": 11.5,
  "items": [
   {
    "id": "f1",
@@ -55,7 +55,7 @@
   {
    "id": "f5",
    "type": "format",
-   "answer": "Yes",
+   "answer": "Yes.",
    "pass": true
   },
   {
@@ -91,7 +91,7 @@
   {
    "id": "g1",
    "type": "grounded",
-   "answer": "In its first year, the café repaired 412 items.",
+   "answer": "412 items.",
    "pass": true
   },
   {
@@ -220,7 +220,7 @@
    "same": true,
    "rerun_answers": [
     "The café repaired 412 items in its first year.",
-    "412 items"
+    "412"
    ]
   },
   {
@@ -245,7 +245,7 @@
    ],
    "same": true,
    "rerun_answers": [
-    "The project uses the GPL-3.0 license.",
+    "The text states: \"Lumen is a free note-taking app released under the GPL-3.0 license.\" So the answer is GPL-3.0.",
     "GPL-3.0"
    ]
   },
@@ -271,8 +271,8 @@
    ],
    "same": true,
    "rerun_answers": [
-    "18",
-    "18"
+    "18\n\nAnswer: 18",
+    "18\n\nJustification: The text states that the town of Elmsford installed 18 public water fountains in 2022."
    ]
   },
   {
@@ -284,7 +284,7 @@
    ],
    "same": true,
    "rerun_answers": [
-    "They meet in Room 204 of the science building.",
+    "The group meets in Room 204 of the science building.",
     "Room 204 of the science building."
    ]
   },
@@ -305,13 +305,13 @@
    "id": "u2",
    "verdicts": [
     false,
-    true,
+    false,
     false
    ],
-   "same": false,
+   "same": true,
    "rerun_answers": [
-    "In the text, it is mentioned that the Riverbend Repair Café was founded by Dana Okafor. However, the founding year of Fix It Forward is not explicitly stated. Therefore, the answer is not in the text.",
-    "Fix It Forward was founded in 2017."
+    "In the text, Fix It Forward was founded in 2019.",
+    "Fix It Forward was founded in 2019."
    ]
   },
   {
@@ -340,6 +340,5 @@
     "Not in the text."
    ]
   }
- ],
- "regraded_at": "2026-10-22T03:45:36.895Z"
+ ]
 }
