@@ -5,12 +5,12 @@
 // proxy: base URL of OSS Fidelity's GitHub proxy (proxy/worker.js). Requests go there first
 // and fall back to api.github.com if it can't be reached.
 
-import { makeClient, RateLimitError } from "../http.js";
+import { makeClient, RateLimitError, sleep } from "../http.js";
 import {
   DAY, isBot, aiDisclosure, AI_POLICY_RE, DEPRECATED_RE, detectLicenseText, scoreLicense, LICENSE_FILES,
   SECURITY_FILES, DEP_UPDATE_FILES, CI_ROOT, MANIFESTS, DOC_DIRS, README, SIG_ASSET, SUM_ASSET, AGENT_FILES,
   longestGapDays, busFactor, daysBetween, yearsBetween, commitListStats, exactGapDays,
-  stableReleases, stableTags, codeReviewFromHistory, followThroughQueries,
+  stableReleases, stableTags, codeReviewFromHistory, followThroughQueries, followThroughPlainQueries,
 } from "../util.js";
 import { CODE_REVIEW_QUERY } from "../queries.js";
 
@@ -147,21 +147,30 @@ export async function collectGitHub(ref, { token, proxy, mode = "live", now = ne
   }
 
   // 6. Follow-through: issues and pull requests opened vs closed, last 12 months (search API).
-  // Bot pull requests and stale-bot closures are left out (see followThroughQueries).
-  // GitHub's search has its own, smaller limit (30 a minute with a token, 10 without). If it runs
-  // out, follow-through is left unmeasured for this check instead of failing the whole check.
-  let searchLimited = false;
-  const q = (s) => api(`/search/issues?per_page=1&q=${encodeURIComponent(`repo:${ref.owner}/${ref.repo} ${s}`)}`)
-    .then((r) => r?.total_count ?? null)
-    .catch((e) => { if (e instanceof RateLimitError && mode !== "full") { searchLimited = true; return null; } throw e; });
-  const ft = followThroughQueries(sinceDay);
-  const [io, ic, po, pc] = [await q(ft.issuesOpened), await q(ft.issuesClosed), await q(ft.prsOpened), await q(ft.prsClosed)];
-  const opened = (io || 0) + (po || 0), closed = (ic || 0) + (pc || 0);
-  signals.follow_through = searchLimited
-    ? { value: null, detail: "GitHub's search limit was reached, so this wasn't measured this time" }
-    : opened
-    ? { value: Math.min(1, closed / opened), detail: `${fmt(closed)} closed vs ${fmt(opened)} opened (issues ${fmt(ic)}/${fmt(io)}, pull requests ${fmt(pc)}/${fmt(po)}; bots and stale-bot closures left out)` }
-    : { value: null, detail: "No issues or pull requests opened in the last year" };
+  // Bot pull requests and stale-bot closures are left out (see followThroughQueries). Search is
+  // GitHub's most limited API, so a search problem leaves this one signal unmeasured, never the
+  // whole project: filtered counts first, plain counts if GitHub refuses the filters, else nothing.
+  const count = async (s) => {
+    if (mode === "full") await sleep(2500); // at most ~24 searches a minute, under GitHub's 30
+    return (await api(`/search/issues?per_page=1&q=${encodeURIComponent(`repo:${ref.owner}/${ref.repo} ${s}`)}`))?.total_count ?? null;
+  };
+  const four = async (qs) => [await count(qs.issuesOpened), await count(qs.issuesClosed), await count(qs.prsOpened), await count(qs.prsClosed)];
+  try {
+    let note = "bots and stale-bot closures left out";
+    let counts;
+    try { counts = await four(followThroughQueries(sinceDay)); } catch (e) {
+      if (e instanceof RateLimitError) throw e;
+      note = "bots included: GitHub refused the bot filters this time";
+      counts = await four(followThroughPlainQueries(sinceDay));
+    }
+    const [io, ic, po, pc] = counts;
+    const opened = (io || 0) + (po || 0), closed = (ic || 0) + (pc || 0);
+    signals.follow_through = opened
+      ? { value: Math.min(1, closed / opened), detail: `${fmt(closed)} closed vs ${fmt(opened)} opened (issues ${fmt(ic)}/${fmt(io)}, pull requests ${fmt(pc)}/${fmt(po)}; ${note})` }
+      : { value: null, detail: "No issues or pull requests opened in the last year" };
+  } catch (e) {
+    signals.follow_through = { value: null, detail: e instanceof RateLimitError ? "GitHub's search limit was reached, so this wasn't measured this time" : "GitHub's search didn't answer, so this wasn't measured this time" };
+  }
 
   // 7. Releases, with tags as a fallback
   // Prereleases (release candidates, betas, nightlies) only count when there is nothing else,

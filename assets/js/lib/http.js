@@ -18,10 +18,18 @@ export class RateLimitError extends Error {
  * fallbackBase: if `base` (OSS Fidelity's proxy) can't be reached, GET requests switch to this
  * address for the rest of the run. POST requests (GraphQL) need the proxy's token, so they don't.
  */
+export async function isSecondaryLimit(res) {
+  try {
+    const j = await res.clone().json();
+    return /secondary rate limit|abuse detection/i.test(j?.message || "");
+  } catch { return false; }
+}
+
 export function makeClient(base, opts = {}) {
   const { headers = {}, minIntervalMs = 0, waitOnLimit = false, onRequest = () => {}, tries202 = 6, wait202Ms = 1500, fallbackBase = null } = opts;
   let last = 0;
   let count = 0;
+  let secondaryWaits = 0;
   let active = base;
   const PROXY_DOWN = new Set([502, 503, 504, 520, 521, 522, 523, 524, 530]);
 
@@ -66,6 +74,12 @@ export function makeClient(base, opts = {}) {
           if (waitOnLimit && until && until - Date.now() < 65 * 60000) { await sleep(until - Date.now() + 2000); continue; }
           throw new RateLimitError(new URL(res.url || active).host, until ? new Date(until) : null);
         }
+        // GitHub's secondary limits (too much at once, or searches that cost it a lot of work) answer
+        // 403 with a message and often no headers. Back off a minute, then two, then three.
+        if (await isSecondaryLimit(res)) {
+          if (waitOnLimit && secondaryWaits < 3) { secondaryWaits++; await sleep(60000 * secondaryWaits); continue; }
+          throw new RateLimitError(new URL(res.url || active).host, new Date(Date.now() + 60000));
+        }
       }
       if (res.status === 404 || res.status === 409) return null; // 409: empty repository
       if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
@@ -74,6 +88,7 @@ export function makeClient(base, opts = {}) {
     return null; // still computing after retries
   }
   api.count = () => count;
+  api.secondaryWaits = () => secondaryWaits;
   api.base = () => active;
   return api;
 }

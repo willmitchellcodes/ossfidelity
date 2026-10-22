@@ -248,6 +248,20 @@ test("proxy signs a valid GitHub App JWT from a key in GitHub's PKCS#1 format", 
   assert.ok(pkcs8Der(privateKey.replace(/\n/g, "\\n")).length > 1000);
 });
 
+test("proxy says which setup step is missing, without revealing secrets", async () => {
+  const { installationToken, SetupError } = await import("../proxy/worker.js");
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "", GITHUB_APP_PRIVATE_KEY: "x" }), (e) => e instanceof SetupError && /GITHUB_APP_CLIENT_ID is empty/.test(e.message));
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: "" }), (e) => e instanceof SetupError && /secret isn't set/.test(e.message));
+  await assert.rejects(installationToken({ GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: "not a key" }), (e) => e instanceof SetupError && /couldn't be read/.test(e.message) && !/not a key/.test(e.message));
+  const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs1", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
+  const env = { GITHUB_APP_CLIENT_ID: "Iv23li", GITHUB_APP_PRIVATE_KEY: privateKey };
+  await assert.rejects(installationToken(env, async () => new Response("{}", { status: 401 })), (e) => e instanceof SetupError && /HTTP 401/.test(e.message));
+  await assert.rejects(installationToken(env, async () => Response.json([])), (e) => e instanceof SetupError && /isn't installed/.test(e.message));
+  const res = await worker.fetch(new Request("https://proxy.example/repos/a/b", { headers: { Origin: "https://ossfidelity.com" } }), { ALLOWED_ORIGINS: "https://ossfidelity.com", GITHUB_APP_CLIENT_ID: "" }, {});
+  assert.equal(res.status, 503);
+  assert.match((await res.json()).message, /GITHUB_APP_CLIENT_ID is empty/);
+});
+
 test("proxy end to end: origin check, allowlist, auth, headers, cache", async () => {
   const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs1", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
   const env = { ALLOWED_ORIGINS: "https://ossfidelity.com", GITHUB_APP_CLIENT_ID: "Iv23liTEST", GITHUB_APP_PRIVATE_KEY: privateKey, GITHUB_APP_INSTALLATION_ID: "42" };
@@ -298,12 +312,15 @@ test("every GraphQL query is valid against GitHub's schema", async () => {
 
 // ---------- end to end: collector → proxy → (mocked) GitHub ----------
 
-test("a live check runs entirely through the proxy, including GitHub's /repositories/ page links", async () => {
+// search: "ok" | "refuse-filters" (GitHub rejects the bot filters) | "secondary" (GitHub's secondary limit)
+async function liveCheck({ search = "ok" } = {}) {
   const { collectGitHub } = await import("../assets/js/lib/forges/github.js");
   const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048, privateKeyEncoding: { type: "pkcs1", format: "pem" }, publicKeyEncoding: { type: "spki", format: "pem" } });
   const env = { ALLOWED_ORIGINS: "https://ossfidelity.com", GITHUB_APP_CLIENT_ID: "Iv23liTEST", GITHUB_APP_PRIVATE_KEY: privateKey, GITHUB_APP_INSTALLATION_ID: "42" };
   const PROXY = "https://proxy.example";
-  const now = new Date("2026-10-21T12:00:00Z");
+  // A different date per scenario gives different search URLs, so the proxy's cache (shared across
+  // tests, as it is across visitors) doesn't answer one scenario with another's results.
+  const now = new Date({ ok: "2026-10-21T12:00:00Z", "refuse-filters": "2026-10-20T12:00:00Z", secondary: "2026-10-19T12:00:00Z" }[search]);
   const day = 86400e3, iso = (d) => new Date(now - d * day).toISOString();
   const json = (body, headers = {}) => new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json", ...headers } });
   const weekSec = (d) => Math.floor((now - d * day) / 1000);
@@ -329,7 +346,11 @@ test("a live check runs entirely through the proxy, including GitHub's /reposito
       { tag_name: "v2.0.0-rc1", prerelease: true, draft: false, published_at: iso(1), assets: [] },
       { tag_name: "v1.9.0", prerelease: false, draft: false, published_at: iso(20), assets: [{ name: "app.tar.gz" }, { name: "app.tar.gz.sig" }] },
     ]);
-    if (p === "/search/issues") return json({ total_count: /closed/.test(q.get("q")) ? 9 : 10 });
+    if (p === "/search/issues") {
+      if (search === "secondary") return new Response(JSON.stringify({ message: "You have exceeded a secondary rate limit. Please wait a few minutes before you try again." }), { status: 403, headers: { "content-type": "application/json" } });
+      if (search === "refuse-filters" && /-author:/.test(q.get("q"))) return new Response(JSON.stringify({ message: "Validation Failed" }), { status: 422, headers: { "content-type": "application/json" } });
+      return json({ total_count: /closed/.test(q.get("q")) ? 9 : 10 });
+    }
     return new Response("{}", { status: 404 });
   }
 
@@ -348,7 +369,13 @@ test("a live check runs entirely through the proxy, including GitHub's /reposito
   try {
     const rec = await collectGitHub({ host: "github.com", owner: "o", repo: "r", forge: "github", id: "github.com/o/r", url: "https://github.com/o/r" },
       { mode: "live", proxy: PROXY, now, spdxMap: spdx });
-    const refused = proxyStatuses.filter((s) => !s.startsWith("200"));
+    return { rec, refused: proxyStatuses.filter((s) => !s.startsWith("200")) };
+  } finally { globalThis.fetch = realFetch; globalThis.caches = realCaches; }
+}
+
+test("a live check runs entirely through the proxy, including GitHub's /repositories/ page links", async () => {
+  const { rec, refused } = await liveCheck();
+  {
     assert.deepEqual(refused, [], "every request the collector sent was accepted by the proxy");
     assert.equal(rec.signals.history.value, 500);
     assert.match(rec.signals.age.detail, /2016-05-01/);
@@ -361,5 +388,30 @@ test("a live check runs entirely through the proxy, including GitHub's /reposito
     assert.equal(rec.license.kind, "open");
     const g = computeGrades(rec, weights);
     assert.ok(g.fidelity && g.fidelity.score > 0);
-  } finally { globalThis.fetch = realFetch; globalThis.caches = realCaches; }
+  }
+});
+
+test("if GitHub refuses the bot filters, follow-through falls back to plain counts", async () => {
+  const { rec } = await liveCheck({ search: "refuse-filters" });
+  assert.equal(rec.signals.follow_through.value, 0.9);
+  assert.match(rec.signals.follow_through.detail, /bots included/);
+});
+
+test("GitHub's secondary search limit leaves follow-through unmeasured, not the whole check", async () => {
+  const { rec } = await liveCheck({ search: "secondary" });
+  assert.equal(rec.signals.follow_through.value, null);
+  assert.match(rec.signals.follow_through.detail, /search limit/);
+  assert.equal(rec.signals.history.value, 500, "everything else was still measured");
+  assert.equal(rec.signals.code_review.value, 0.5);
+  assert.ok(computeGrades(rec, weights).fidelity);
+});
+
+test("a secondary-limit answer is recognized as a rate limit", async () => {
+  const { RateLimitError } = await import("../assets/js/lib/http.js");
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ message: "You have exceeded a secondary rate limit." }), { status: 403, headers: { "content-type": "application/json" } });
+  try {
+    const api = makeClient("https://api.github.com");
+    await assert.rejects(api("/search/issues?q=x"), RateLimitError);
+  } finally { globalThis.fetch = realFetch; }
 });
