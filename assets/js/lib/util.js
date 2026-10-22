@@ -39,7 +39,7 @@ export const AI_PATTERNS = [
   ["Devin", /co-authored-by:[^\n]*devin/i],
   ["Assisted-by tag", /^assisted-by:/im],
 ];
-const AI_BOT_RE = /^(copilot-swe-agent|copilot|devin-ai-integration|google-labs-jules|chatgpt-codex-connector|claude|cursor|sweep-ai|openhands-agent|codegen-sh)(\[bot\])?$/i;
+export const AI_BOT_RE = /^(copilot-swe-agent|copilot|copilot-pull-request-reviewer|devin-ai-integration|google-labs-jules|chatgpt-codex-connector|claude|cursor|sweep-ai|openhands-agent|codegen-sh|coderabbitai|gemini-code-assist|sourcery-ai|greptile-apps)(\[bot\])?$/i;
 
 /** commits: [{message, authorLogin, authorName}] → disclosure summary */
 export function aiDisclosure(commits) {
@@ -71,15 +71,16 @@ const LICENSE_TEXT = [
   ["Apache-2.0 WITH LLVM-exception", /LLVM Exceptions to the Apache 2\.0 License/i],
   ["Commons-Clause", /Commons Clause/i],
   ["BUSL-1.1", /Business Source License/i],
+  ["RSALv2", /Redis Source Available License/i],
   ["SSPL-1.0", /Server Side Public License/i],
   ["Elastic-2.0", /Elastic License 2\.0/i],
   ["FSL-1.1-MIT", /Functional Source License/i],
   ["PolyForm-Noncommercial-1.0.0", /PolyForm Noncommercial/i],
-  ["AGPL-3.0-or-later", /GNU AFFERO GENERAL PUBLIC LICENSE\s+Version 3/i],
-  ["LGPL-3.0-or-later", /GNU LESSER GENERAL PUBLIC LICENSE\s+Version 3/i],
-  ["LGPL-2.1-or-later", /GNU LESSER GENERAL PUBLIC LICENSE\s+Version 2\.1/i],
-  ["GPL-3.0-or-later", /GNU GENERAL PUBLIC LICENSE\s+Version 3/i],
-  ["GPL-2.0-or-later", /GNU GENERAL PUBLIC LICENSE\s+Version 2/i],
+  ["AGPL-3.0-or-later", /GNU AFFERO GENERAL PUBLIC LICENSE,?\s+Version 3/i],
+  ["LGPL-3.0-or-later", /GNU LESSER GENERAL PUBLIC LICENSE,?\s+Version 3/i],
+  ["LGPL-2.1-or-later", /GNU LESSER GENERAL PUBLIC LICENSE,?\s+Version 2\.1/i],
+  ["GPL-3.0-or-later", /GNU GENERAL PUBLIC LICENSE,?\s+Version 3/i],
+  ["GPL-2.0-or-later", /GNU GENERAL PUBLIC LICENSE,?\s+Version 2/i],
   ["MPL-2.0", /Mozilla Public License,?\s+(Version|v\.?)\s*2\.0/i],
   ["EPL-2.0", /Eclipse Public License\s*-?\s*v?\s*2\.0/i],
   ["Apache-2.0", /Apache License[\s,]+Version 2\.0/i],
@@ -91,11 +92,60 @@ const LICENSE_TEXT = [
   ["Unlicense", /This is free and unencumbered software released into the public domain/i],
 ];
 
-export function detectLicenseText(text) {
+// Phrases that offer the reader a choice between licenses ("A OR B"). A file that only says
+// different parts are under different licenses (Bitwarden's) is not a choice.
+const CHOICE_RE = /\b(your choice of|at your (option|choice)|choose (one|either) of|one of the following licen[cs]es|dual[- ]licen[cs]ed|tri[- ]licen[cs]ed)\b/i;
+// The short notice many GNU-licensed projects put in LICENSE or COPYING instead of the full text.
+const GNU_EITHER_RE = /GNU (?:(Lesser|Library|Affero) )?General Public License,? as published by the Free Software Foundation[,;]? either version (\d(?:\.\d)?) or (?:\(at your option\) )?version (\d(?:\.\d)?)/i;
+const GNU_LATER_RE = /GNU (?:(Lesser|Library|Affero) )?General Public License,? as published by the Free Software Foundation[,;]? (?:either )?version (\d(?:\.\d)?)(?: of the License)?,? or \(at your option\) any later version/i;
+const HEAD = 1500; // a project's own license statement comes first; third-party notices follow it
+
+const gnuId = (family, v, suffix) => {
+  const fam = { lesser: "LGPL", library: "LGPL", affero: "AGPL" }[(family || "").toLowerCase()] || "GPL";
+  return `${fam}-${v.includes(".") ? v : v + ".0"}-${suffix}`;
+};
+
+/**
+ * Best-effort SPDX expression for a license file's text, or null.
+ * spdxIds (optional): known SPDX ids, so a file that names its license ("AGPL-3.0-or-later")
+ * is recognized even without the full license text.
+ */
+export function detectLicenseText(text, spdxIds = []) {
   if (!text) return null;
+  const header = /SPDX-License-Identifier:\s*([^\n*]+?)\s*(?:\*\/|-->|$)/im.exec(text);
+  if (header) return header[1].trim();
   const flat = text.replace(/\s+/g, " "); // license files are hard-wrapped at different widths
+  const head = flat.slice(0, HEAD);
+
+  // 1. A choice between licenses: every full license text found counts, joined with OR.
+  if (CHOICE_RE.test(head)) {
+    const found = LICENSE_TEXT.filter(([, re]) => re.test(flat)).map(([id]) => id)
+      .filter((id, _, all) => !(id === "BSD-2-Clause" && all.includes("BSD-3-Clause")));
+    if (found.length > 1) return found.join(" OR ");
+  }
+  // 2. The project's own statement at the top of the file.
+  let m = GNU_EITHER_RE.exec(head);
+  if (m) return `${gnuId(m[1], m[2], "only")} OR ${gnuId(m[1], m[3], "only")}`;
+  m = GNU_LATER_RE.exec(head);
+  if (m) return gnuId(m[1], m[2], "or-later");
+  for (const [id, re] of LICENSE_TEXT) if (re.test(head)) return id;
+  const named = spdxIdIn(head, spdxIds);
+  if (named) return named;
+  // 3. Anywhere in the file, most specific license first.
   for (const [id, re] of LICENSE_TEXT) if (re.test(flat)) return id;
   return null;
+}
+
+const idPatterns = new Map();
+function spdxIdIn(text, ids) {
+  const all = [...new Set([...ids, ...SOURCE_AVAILABLE, ...LICENSE_TEXT.map(([id]) => id).filter((id) => !id.includes(" "))])];
+  const key = all.length;
+  if (!idPatterns.has(key)) {
+    const alts = all.sort((a, b) => b.length - a.length).map((id) => id.replace(/[.+]/g, "\\$&"));
+    idPatterns.set(key, new RegExp(`(?<![\\w.-])(${alts.join("|")})(?![\\w.+-])`));
+  }
+  const m = idPatterns.get(key).exec(text);
+  return m ? m[1] : null;
 }
 
 // Files that set a repo up for AI coding agents. Their presence is disclosed, never scored.
@@ -112,7 +162,8 @@ export function scoreLicense(spdx, spdxMap) {
     const andParts = alt.replace(/[()]/g, "").split(/\s+AND\s+/i).map((p) => one(p.trim()));
     return andParts.reduce((a, b) => (a.value <= b.value ? a : b));
   });
-  return orParts.reduce((a, b) => (a.value >= b.value ? a : b));
+  const best = orParts.reduce((a, b) => (a.value >= b.value ? a : b));
+  return orParts.length > 1 ? { ...best, label: `${best.label} (one of ${orParts.length} license options)` } : best;
 
   function one(id) {
     const base = id.split(/\s+WITH\s+/i)[0].replace(/\+$/, "");
@@ -183,3 +234,57 @@ export function exactGapDays(dates, since, now) {
 
 export const daysBetween = (a, b) => Math.max(0, Math.round((new Date(b) - new Date(a)) / DAY));
 export const yearsBetween = (a, b) => (new Date(b) - new Date(a)) / (365.25 * DAY);
+
+// ---------- Releases ----------
+// Tags that name a test build rather than a release people should install.
+export const PRERELEASE_TAG = /(^|[-._+])(rc|alpha|beta|pre|preview|dev|nightly|canary|snapshot)\d*([-._+]|\d|$)/i;
+
+/** Published releases → the ones that count. Prereleases count only when there is nothing else. */
+export function stableReleases(releases) {
+  const published = releases.filter((r) => !r.draft);
+  const stable = published.filter((r) => !r.prerelease);
+  return stable.length ? { list: stable, kind: "release" } : { list: published, kind: "prerelease" };
+}
+
+/** Tag names → the ones that look like real releases (all of them if none do). */
+export function stableTags(tags) {
+  const stable = tags.filter((t) => !PRERELEASE_TAG.test(t.name));
+  return stable.length ? stable : tags;
+}
+
+// ---------- Code review (OpenSSF Scorecard's method) ----------
+const isAutomation = (who) => !who?.login || who.__typename === "Bot" || isBot(who.login) || AI_BOT_RE.test(who.login);
+
+/**
+ * commits: history nodes from CODE_REVIEW_QUERY (newest first).
+ * A human change counts as reviewed when its merged pull request was approved, or merged,
+ * by a person other than its author. Bots and AI reviewers don't count as people. A change
+ * with no merged pull request was pushed straight to the branch, so it counts as unreviewed.
+ */
+export function codeReviewFromHistory(commits) {
+  let human = 0, reviewed = 0, direct = 0, bots = 0;
+  for (const c of commits || []) {
+    if (isBot(c.author?.user?.login || "", c.author?.name || "")) { bots++; continue; }
+    human++;
+    const pr = (c.associatedPullRequests?.nodes || []).find((p) => p.merged);
+    if (!pr) { direct++; continue; }
+    const author = pr.author?.login;
+    const other = (who) => !isAutomation(who) && who.login !== author;
+    if ((pr.reviews?.nodes || []).some((r) => other(r.author)) || other(pr.mergedBy)) reviewed++;
+  }
+  return { human, reviewed, direct, bots };
+}
+
+// ---------- Follow-through search terms ----------
+// Bot pull requests (often closed automatically when superseded) and closures by stale bots
+// say nothing about whether people get answers, so both are left out.
+export const NOT_BOTS = "-author:app/dependabot -author:app/renovate -author:app/github-actions";
+export const NOT_STALE = '-label:stale -label:"lifecycle/stale"';
+export function followThroughQueries(sinceDay) {
+  return {
+    issuesOpened: `is:issue created:>=${sinceDay} ${NOT_BOTS}`,
+    issuesClosed: `is:issue closed:>=${sinceDay} ${NOT_BOTS} ${NOT_STALE}`,
+    prsOpened: `is:pr created:>=${sinceDay} ${NOT_BOTS}`,
+    prsClosed: `is:pr closed:>=${sinceDay} ${NOT_BOTS} ${NOT_STALE}`,
+  };
+}

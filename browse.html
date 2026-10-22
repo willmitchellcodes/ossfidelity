@@ -18,7 +18,7 @@ scripts: [/assets/js/pages/browse.js]
 
 <div class="table-wrap">
 <table id="board">
-  <thead><tr><th>Project</th><th class="c">Fidelity</th><th class="c" title="Reliability">Rel.</th><th class="c" title="Maintenance">Maint.</th><th class="c" title="Security">Sec.</th></tr></thead>
+  <thead><tr><th>Project</th><th class="c">Fidelity</th><th class="c" title="Reliability">Rel.</th><th class="c" title="Maintenance">Maint.</th><th class="c" title="Visible security: practices you can see on GitHub">Sec.</th></tr></thead>
   <tbody>
   {% for s in scores %}{% if s.computed %}
     {% assign p = site.data.projects | where: "repo", s.url | first %}

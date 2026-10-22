@@ -1,22 +1,28 @@
 // GitHub collector: public REST API, with an optional token.
 // mode "live" (browser, no token): the cheapest set of calls.
-// mode "full" (weekly Action, with token): adds code review, README and CONTRIBUTING checks.
+// mode "full" (weekly Action, with token): adds README and CONTRIBUTING checks.
+// Code review needs GraphQL, so it runs whenever there is a token or a proxy that holds one.
+// proxy: base URL of OSS Fidelity's GitHub proxy (proxy/worker.js). Requests go there first
+// and fall back to api.github.com if it can't be reached.
 
-import { makeClient } from "../http.js";
+import { makeClient, RateLimitError } from "../http.js";
 import {
   DAY, isBot, aiDisclosure, AI_POLICY_RE, DEPRECATED_RE, detectLicenseText, scoreLicense, LICENSE_FILES,
   SECURITY_FILES, DEP_UPDATE_FILES, CI_ROOT, MANIFESTS, DOC_DIRS, README, SIG_ASSET, SUM_ASSET, AGENT_FILES,
   longestGapDays, busFactor, daysBetween, yearsBetween, commitListStats, exactGapDays,
+  stableReleases, stableTags, codeReviewFromHistory, followThroughQueries,
 } from "../util.js";
+import { CODE_REVIEW_QUERY } from "../queries.js";
 
 const RAW = "application/vnd.github.raw+json";
 
-export async function collectGitHub(ref, { token, mode = "live", now = new Date(), spdxMap = {}, curated = {}, log = () => {} } = {}) {
+export async function collectGitHub(ref, { token, proxy, mode = "live", now = new Date(), spdxMap = {}, curated = {}, log = () => {} } = {}) {
   const headers = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
   if (token) headers.Authorization = `Bearer ${token}`;
   // The weekly job can afford to wait for GitHub to finish computing statistics.
-  const api = makeClient("https://api.github.com", { headers, waitOnLimit: mode === "full", onRequest: log,
-    tries202: mode === "full" ? 4 : 3, wait202Ms: mode === "full" ? 2500 : 1500 });
+  const api = makeClient(proxy || "https://api.github.com", { headers, waitOnLimit: mode === "full", onRequest: log,
+    tries202: mode === "full" ? 4 : 3, wait202Ms: mode === "full" ? 2500 : 1500,
+    fallbackBase: proxy ? "https://api.github.com" : null });
   const R = `/repos/${ref.owner}/${ref.repo}`;
   const since = new Date(now - 365 * DAY);
   const sinceISO = since.toISOString();
@@ -51,7 +57,7 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
     const lf = root.find((f) => f.type === "file" && LICENSE_FILES.test(f.name));
     if (lf) {
       const res = await api(`${R}/contents/${encodeURIComponent(lf.name)}`, { raw: true, accept: RAW });
-      const detected = detectLicenseText(res ? await res.text() : "");
+      const detected = detectLicenseText(res ? await res.text() : "", Object.keys(spdxMap));
       if (detected) { spdx = detected; licenseSource = `detected from ${lf.name}`; }
       else spdx = spdx || "NOASSERTION";
     }
@@ -138,17 +144,21 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
     signals.age = { value: yrs, detail: `First commit ${firstDate.slice(0, 10)} (${yrs.toFixed(1)} years ago)` };
   }
 
-  // 6. Follow-through: issues and pull requests opened vs closed, last 12 months (search API)
+  // 6. Follow-through: issues and pull requests opened vs closed, last 12 months (search API).
+  // Bot pull requests and stale-bot closures are left out (see followThroughQueries).
   const q = (s) => api(`/search/issues?per_page=1&q=${encodeURIComponent(`repo:${ref.owner}/${ref.repo} ${s}`)}`).then((r) => r?.total_count ?? null);
-  const [io, ic, po, pc] = [await q(`is:issue created:>=${sinceDay}`), await q(`is:issue closed:>=${sinceDay}`), await q(`is:pr created:>=${sinceDay}`), await q(`is:pr closed:>=${sinceDay}`)];
+  const ft = followThroughQueries(sinceDay);
+  const [io, ic, po, pc] = [await q(ft.issuesOpened), await q(ft.issuesClosed), await q(ft.prsOpened), await q(ft.prsClosed)];
   const opened = (io || 0) + (po || 0), closed = (ic || 0) + (pc || 0);
   signals.follow_through = opened
-    ? { value: Math.min(1, closed / opened), detail: `${fmt(closed)} closed vs ${fmt(opened)} opened (issues ${fmt(ic)}/${fmt(io)}, pull requests ${fmt(pc)}/${fmt(po)})` }
+    ? { value: Math.min(1, closed / opened), detail: `${fmt(closed)} closed vs ${fmt(opened)} opened (issues ${fmt(ic)}/${fmt(io)}, pull requests ${fmt(pc)}/${fmt(po)}; bots and stale-bot closures left out)` }
     : { value: null, detail: "No issues or pull requests opened in the last year" };
 
   // 7. Releases, with tags as a fallback
-  const rels = ((await api(`${R}/releases?per_page=100`)) || []).filter((r) => !r.draft);
-  let latestDate = null, latestName = null, assets = [], count12 = 0, kind = "release";
+  // Prereleases (release candidates, betas, nightlies) only count when there is nothing else,
+  // so a fresh rc doesn't stand in for the release people actually install.
+  const { list: rels, kind: relKind } = stableReleases((await api(`${R}/releases?per_page=100`)) || []);
+  let latestDate = null, latestName = null, assets = [], count12 = 0, kind = relKind;
   if (rels.length) {
     rels.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
     latestDate = rels[0].published_at; latestName = rels[0].tag_name; assets = rels[0].assets.map((a) => a.name);
@@ -157,7 +167,7 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
     const tags = (await api(`${R}/tags?per_page=100`)) || [];
     if (tags.length) {
       kind = "tag";
-      const top = tags.slice().sort((a, b) => cmpVersion(b.name, a.name)).slice(0, mode === "full" ? 6 : 1);
+      const top = stableTags(tags).slice().sort((a, b) => cmpVersion(b.name, a.name)).slice(0, mode === "full" ? 6 : 1);
       const dated = [];
       for (const t of top) { const c = await api(`${R}/commits/${t.commit.sha}`); if (c) dated.push({ name: t.name, date: c.commit.committer.date }); }
       dated.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -210,9 +220,21 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
   signals.best_practices = await bestPractices(ref.url);
   if (curated.best_practices !== undefined) signals.best_practices = { value: curated.best_practices, detail: "Verified by hand" };
 
-  // 10. Recent commits: AI disclosure and README/CONTRIBUTING (full mode)
-  const recentCommits = (await api(`${R}/commits?per_page=100`)) || [];
+  // 10. AI disclosure over a fixed 90-day window, so busy and quiet projects are compared over
+  // the same stretch of time (the latest 100 commits span hours for some projects, months for others).
+  const aiSince = new Date(now - 90 * DAY).toISOString();
+  const aiPages = mode === "full" ? 10 : 1;
+  const recentCommits = [];
+  let aiTruncated = false;
+  for (let page = 1; page <= aiPages; page++) {
+    const batch = (await api(`${R}/commits?since=${aiSince}&per_page=100&page=${page}`)) || [];
+    recentCommits.push(...batch);
+    if (batch.length < 100) break;
+    if (page === aiPages) aiTruncated = true;
+  }
   record.ai = aiDisclosure(recentCommits.map((c) => ({ message: c.commit.message, authorLogin: c.author?.login, authorName: c.commit.author?.name })));
+  record.ai.window_days = 90;
+  record.ai.truncated = aiTruncated;
   record.ai.agent_files = [...names, ...dotgh].filter((n) => AGENT_FILES.test(n));
   if (mode === "full") {
     const contributing = root.find((f) => /^CONTRIBUTING/i.test(f.name)) || null;
@@ -226,10 +248,10 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
       const t = await (await api(`${R}/readme`, { raw: true, accept: RAW }))?.text();
       if (t && DEPRECATED_RE.test(t.slice(0, 1500))) record.status.deprecated = true;
     }
-    signals.code_review = await codeReview(api, ref, token);
-  } else {
-    signals.code_review = { value: null, detail: "Checked weekly only (needs too many API calls for a live check)" };
   }
+  signals.code_review = token || proxy
+    ? await codeReview(api, ref)
+    : { value: null, detail: "Checked in the weekly run only (live checks need the site's GitHub proxy)" };
 
   // 11. Backing
   signals.backing = backingSignal(curated, meta.owner?.type === "Organization", meta.owner?.login);
@@ -302,30 +324,40 @@ export async function bestPractices(url) {
   }
 }
 
+// Scorecard moved its API to api.scorecard.dev; the old hostname is kept as a fallback.
+const SCORECARD_HOSTS = ["https://api.scorecard.dev", "https://api.securityscorecards.dev"];
 async function scorecard(ref) {
-  try {
-    const res = await fetch(`https://api.securityscorecards.dev/projects/github.com/${ref.owner}/${ref.repo}`, { signal: AbortSignal.timeout(15000) });
-    if (!res.ok) return null;
-    const j = await res.json();
-    return { score: j.score, date: j.date, url: `https://scorecard.dev/viewer/?uri=github.com/${ref.owner}/${ref.repo}` };
-  } catch { return null; }
+  for (const host of SCORECARD_HOSTS) {
+    try {
+      const res = await fetch(`${host}/projects/github.com/${ref.owner}/${ref.repo}`, { signal: AbortSignal.timeout(15000) });
+      if (res.status === 404) return null; // not in Scorecard's weekly scan
+      if (!res.ok) continue;
+      const j = await res.json();
+      return { score: j.score, date: j.date, url: `https://scorecard.dev/viewer/?uri=github.com/${ref.owner}/${ref.repo}` };
+    } catch { /* try the next host */ }
+  }
+  return null;
 }
 
-async function codeReview(api, ref, token) {
-  if (!token) return { value: null, detail: "Needs a token (weekly job only)" };
-  const query = `query($o:String!,$r:String!){repository(owner:$o,name:$r){pullRequests(states:MERGED,last:20,orderBy:{field:UPDATED_AT,direction:ASC}){nodes{author{login} mergedBy{login} reviews(states:APPROVED,first:10){nodes{author{login}}}}}}}`;
-  const res = await fetch("https://api.github.com/graphql", {
-    method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ query, variables: { o: ref.owner, r: ref.repo } }),
-  });
-  if (!res.ok) return { value: null, detail: "Code review check failed" };
-  const prs = (await res.json())?.data?.repository?.pullRequests?.nodes || [];
-  if (!prs.length) return { value: null, detail: "No merged pull requests to check" };
-  const ok = prs.filter((p) => {
-    const a = p.author?.login;
-    return (p.mergedBy?.login && p.mergedBy.login !== a) || p.reviews.nodes.some((r) => r.author?.login && r.author.login !== a);
-  }).length;
-  return { value: ok / prs.length, detail: `${ok} of the last ${prs.length} merged pull requests were reviewed or merged by someone else` };
+// Latest 30 changes on the default branch, checked the way OpenSSF Scorecard does it.
+async function codeReview(api, ref) {
+  let j;
+  try {
+    j = await api("/graphql", { method: "POST", body: { query: CODE_REVIEW_QUERY, variables: { o: ref.owner, r: ref.repo } } });
+  } catch (e) {
+    if (e instanceof RateLimitError) throw e;
+    return { value: null, detail: "Code review check failed" };
+  }
+  const branch = j?.data?.repository?.defaultBranchRef;
+  const nodes = branch?.target?.history?.nodes;
+  if (!Array.isArray(nodes)) return { value: null, detail: "Code review check failed" };
+  const r = codeReviewFromHistory(nodes);
+  if (!r.human) return { value: null, detail: r.bots ? "Only bot changes recently, so nothing to check" : "No changes to check" };
+  return {
+    value: r.reviewed / r.human,
+    detail: `${r.reviewed} of the last ${r.human} human changes on ${branch.name} were approved or merged by someone else`
+      + (r.direct ? ` · ${r.direct} pushed straight to the branch` : ""),
+  };
 }
 
 export function cmpVersion(a, b) {

@@ -74,6 +74,11 @@
   repo: https://github.com/laurent22/joplin
   category: notes
   blurb: Notes and to-dos with end-to-end encrypted sync.
+  anti_features:
+    # https://github.com/laurent22/joplin/blob/dev/LICENSE and
+    # https://github.com/laurent22/joplin/blob/dev/packages/server/LICENSE.md
+    - flag: NonFreeAdd
+      reason: The apps are AGPL-3.0-or-later, but Joplin Server (packages/server) is under a non-open "Personal Use License" (open core).
 
 # ---------- Everyday ----------
 - name: KeePassXC

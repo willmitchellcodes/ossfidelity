@@ -1,0 +1,25 @@
+# OSS Fidelity's GitHub proxy. Setup steps: proxy/README.md
+name = "ossfidelity-github-proxy"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+# Pages allowed to call the proxy, comma-separated, exactly as browsers send them (no trailing slash).
+ALLOWED_ORIGINS = "https://ossfidelity.com,https://www.ossfidelity.com,https://willmitchellcodes.github.io"
+# Your GitHub App's client ID (Settings → Developer settings → GitHub Apps → your app).
+GITHUB_APP_CLIENT_ID = ""
+# The private key is a secret, not a variable:  npx wrangler secret put GITHUB_APP_PRIVATE_KEY
+
+# The Worker writes no logs. Keep Cloudflare's request logging off too.
+[observability]
+enabled = false
+
+# Optional: Cloudflare's per-visitor rate limiter (Wrangler 4.36+). Without it, the Worker uses
+# a simpler per-instance counter. Uncomment if your plan includes rate-limit bindings.
+# [[ratelimits]]
+# name = "RATE_LIMITER"
+# namespace_id = "1001"
+#   [ratelimits.simple]
+#   limit = 600
+#   period = 60

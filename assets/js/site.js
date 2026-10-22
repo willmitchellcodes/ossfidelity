@@ -45,7 +45,10 @@ export function attachSearch(form, { onPick } = {}) {
     // Remote search: GitHub (10 searches/min without an account), at most every 3 s.
     if (!looksLikeLink && q.length >= 3 && Date.now() - lastRemote > 3000) {
       lastRemote = Date.now();
-      const gh = await fetch(`https://api.github.com/search/repositories?per_page=5&q=${encodeURIComponent(q)}`)
+      // Through the site's GitHub proxy when it's set up (cached and shared), otherwise straight to GitHub.
+      const searchPath = `/search/repositories?per_page=5&q=${encodeURIComponent(q)}`;
+      const direct = () => fetch("https://api.github.com" + searchPath);
+      const gh = await (data.proxy ? fetch(data.proxy + searchPath).then((r) => (r.ok ? r : direct())).catch(direct) : direct())
         .then((r) => (r.ok ? r.json() : { items: [] })).then((j) => j.items || []).catch(() => []);
       if (mine !== seq) return;
       for (const r of gh) items.push({ id: `github.com/${r.full_name}`, label: r.full_name, src: "GitHub", group: "Search GitHub" });
