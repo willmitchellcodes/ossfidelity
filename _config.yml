@@ -11,7 +11,7 @@ source_repo: https://github.com/willmitchellcodes/ossfidelity
 # Optional: address of the GitHub proxy in proxy/ (a Cloudflare Worker), with no trailing slash,
 # e.g. https://ossfidelity-github-proxy.<you>.workers.dev. Live checks and search use it when set,
 # and go straight to GitHub when it's blank or unreachable.
-github_proxy: ""
+github_proxy: "https://ossfidelity-github-proxy.ossfidelity.workers.dev"
 
 markdown: kramdown
 kramdown:
