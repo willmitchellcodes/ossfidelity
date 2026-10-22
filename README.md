@@ -14,6 +14,16 @@ Built for the oSTEM 2026 workshop on open source software and digital autonomy. 
 | Curated project list and hand-verified facts | `_data/projects.yml` |
 | Weekly grades (generated) | `_data/scores.json` |
 | Host checks, AI privacy matrix, open models | `_data/hosts.yml`, `_data/privacy.yml`, `_data/models.yml` |
+| Model benchmark questions (CC BY 4.0) and every answer | `bench/tasks.json`, `bench/results/` |
+
+## Automations (GitHub Actions)
+
+| Workflow | When | What it does |
+|---|---|---|
+| **Deploy site** | every push, and after scoring or benchmark runs | Builds Jekyll for whichever address GitHub serves (github.io or ossfidelity.com) |
+| **Weekly scoring** | Mondays, and when the project list, weights, or formula change | Regrades every project in `_data/projects.yml` and refreshes model facts from Hugging Face |
+| **Model benchmark** | monthly, and when the questions or model list change | Runs each small model with llama.cpp on a 4-core, 16 GB machine and grades every answer with a script |
+| **Project discovery** | monthly | Opens one issue listing candidate projects by category. Nothing is added without a human. |
 
 The browser and the weekly GitHub Action share the same JavaScript, so live and cached grades always agree. The method is written up for everyone at [/method/](https://ossfidelity.com/method/).
 
@@ -24,6 +34,10 @@ npm install
 GITHUB_TOKEN=ghp_yourReadOnlyToken node scripts/score.mjs        # regrade everything
 node scripts/score.mjs --only github.com/llvm/llvm-project       # just one project
 bundle install && bundle exec jekyll serve                         # preview at localhost:4000
+
+# benchmark one model locally (needs Docker)
+docker run -d -p 8080:8080 -v "$PWD/models:/models" ghcr.io/ggml-org/llama.cpp:server -m /models/model.gguf --host 0.0.0.0 -c 4096 --reasoning-budget 0
+node scripts/bench.mjs --model qwen3-4b --endpoint http://localhost:8080
 ```
 
 ## Publish on GitHub Pages (one-time)

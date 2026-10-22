@@ -10,6 +10,7 @@ on:
       - "_data/weights.json"
       - "assets/js/lib/**"
       - "scripts/score.mjs"
+      - "scripts/models.mjs"
   workflow_dispatch:
     inputs:
       only:
@@ -39,11 +40,14 @@ jobs:
           # The default token allows 1,000 GitHub API requests/hour. A read-only
           # fine-grained token saved as SCORER_TOKEN raises that to 5,000.
           GITHUB_TOKEN: ${{ secrets.SCORER_TOKEN || github.token }}
+      - name: Refresh open-model facts from Hugging Face
+        run: node scripts/models.mjs
+        continue-on-error: true
       - name: Commit new scores
         run: |
           git config user.name "ossfidelity-scorer"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add _data/scores.json
+          git add _data/scores.json _data/model_facts.json
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Weekly scores $(date -u +%F)"
           git push

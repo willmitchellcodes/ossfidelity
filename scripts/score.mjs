@@ -27,6 +27,21 @@ try { prev = JSON.parse(await readFile(join(ROOT, "_data/scores.json"), "utf8"))
 const prevById = new Map(prev.projects.map((p) => [p.id, p]));
 
 const results = new Map(prev.projects.map((p) => [p.id, p]));
+
+// Warm-up: GitHub computes commit statistics on first request (answering 202 until ready).
+// Ask for every repository up front so the numbers are ready by the time we score it.
+if (mode === "full") {
+  const headers = { Accept: "application/vnd.github+json", ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+  for (const p of projects) {
+    const ref = parseRepoUrl(p.repo);
+    if (!ref || ref.forge !== "github" || p.pending || (only.length && !only.includes(ref.id))) continue;
+    for (const ep of ["contributors", "commit_activity"])
+      await fetch(`https://api.github.com/repos/${ref.owner}/${ref.repo}/stats/${ep}`, { headers, signal: AbortSignal.timeout(20000) }).catch(() => {});
+  }
+  console.log("Warmed up GitHub statistics; waiting 20 s for them to compute…");
+  await new Promise((r) => setTimeout(r, 20000));
+}
+
 for (const p of projects) {
   const ref = parseRepoUrl(p.repo);
   if (!ref) { console.warn(`! bad repo link: ${p.repo}`); continue; }

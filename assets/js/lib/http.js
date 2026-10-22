@@ -16,19 +16,20 @@ export class RateLimitError extends Error {
  * Retries a 202 (GitHub stats still computing) up to 5 times.
  */
 export function makeClient(base, opts = {}) {
-  const { headers = {}, minIntervalMs = 0, waitOnLimit = false, onRequest = () => {} } = opts;
+  // tries202 / wait202Ms: GitHub answers 202 while it computes repository statistics.
+  const { headers = {}, minIntervalMs = 0, waitOnLimit = false, onRequest = () => {}, tries202 = 6, wait202Ms = 1500 } = opts;
   let last = 0;
   let count = 0;
   async function api(path, { raw = false, accept } = {}) {
     const url = path.startsWith("http") ? path : base + path;
-    for (let attempt = 0; attempt < 6; attempt++) {
+    for (let attempt = 0; attempt < Math.max(6, tries202); attempt++) {
       const wait = last + minIntervalMs - Date.now();
       if (wait > 0) await sleep(wait);
       last = Date.now();
       count++;
       onRequest(url);
       const res = await fetch(url, { headers: { ...headers, ...(accept ? { Accept: accept } : {}) }, signal: AbortSignal.timeout(30000) });
-      if (res.status === 202) { await sleep(1500 * (attempt + 1)); continue; }
+      if (res.status === 202) { if (attempt + 1 >= tries202) return null; await sleep(wait202Ms * (attempt + 1)); continue; }
       if (res.status === 403 || res.status === 429) {
         const remaining = res.headers.get("x-ratelimit-remaining");
         const reset = Number(res.headers.get("x-ratelimit-reset")) * 1000 || null;

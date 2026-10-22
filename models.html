@@ -5,39 +5,69 @@ permalink: /models/
 description: Small open-weight AI models graded on openness and on tasks a script can verify.
 ---
 {% assign md = site.data.models %}
+{% assign bench = site.data.bench.models %}
+{% assign facts = site.data.model_facts.models %}
 {% assign parts = "weights,code,data" | split: "," %}
 <h1>Open <em>weights</em> aren't the whole story</h1>
-<p class="lede">The Open Source AI Definition asks for three things: the weights, the code, and enough about the training data to rebuild it. Most "open" models share only the first.</p>
+<p class="lede">The Open Source AI Definition asks for three things: the weights, the code, and enough about the training data to rebuild the model. Most "open" models share only the first.</p>
 
-<div class="banner info"><strong>Draft.</strong> These openness ratings come from model cards and our research notes. Before the workshop, each one is being checked against the <a href="https://osai-index.eu/">European Open Source AI Index</a>. The task benchmark runs for the first time once the site is on GitHub.</div>
+<div class="banner info">Openness is rated from each model's own Hugging Face card (read {{ md.updated | date: "%B %-d, %Y" }}), with evidence below. {% if site.data.bench.updated %}Task results come from a run on {{ site.data.bench.updated | date: "%B %-d, %Y" }}.{% else %}The first task run is pending.{% endif %} A cross-check against the <a href="https://osai-index.eu/">European Open Source AI Index</a> is still to do.</div>
 
 <div class="table-wrap">
-<table>
-  <thead><tr><th>Model</th><th>License</th><th class="c">Weights</th><th class="c">Code</th><th class="c">Data</th><th class="num">Openness</th><th class="num">Laptop fit*</th></tr></thead>
+<table class="pm">
+  <thead><tr><th>Model and license</th><th class="c">Weights</th><th class="c">Code</th><th class="c">Data</th><th class="num">Openness</th><th class="num">Tasks</th><th class="num">Laptop*</th></tr></thead>
   <tbody>
   {%- for m in md.models %}
     {%- assign o = m.openness.weights | plus: m.openness.code | plus: m.openness.data | times: 100 | divided_by: 3.0 | round -%}
     {%- assign gb = m.params_b | times: 0.5 | round: 1 -%}
+    {%- assign b = bench[m.slug] -%}
     <tr>
-      <td><a href="{{ m.link }}"><strong>{{ m.name }}</strong></a><br><span class="muted small">{{ m.maker }} · {{ m.params_b }}B parameters</span></td>
-      <td>{% if m.openness.weights == 1 %}<span class="chip good">{{ m.license }}</span>{% else %}<span class="chip warn" title="Open weights with use restrictions">{{ m.license }}</span>{% endif %}</td>
+      <td><a href="#{{ m.slug }}"><strong>{{ m.name }}</strong></a> <span class="muted small">{{ m.maker }} · {{ m.params_b }}B</span><br>{% if m.openness.weights == 1 %}<span class="chip good">{{ m.license }}</span>{% else %}<span class="chip warn" title="Open weights with use restrictions">{{ m.license }}</span>{% endif %}{% if m.gated %} <span class="chip warn" title="{{ m.gated }}">sign-up to download</span>{% endif %}</td>
       {%- for part in parts -%}{%- assign v = m.openness[part] -%}
-      <td class="c"><span class="pip {% if v == 1 %}p2{% elsif v == 0.5 %}p1{% else %}p0{% endif %}" role="img" aria-label="{% if v == 1 %}full{% elsif v == 0.5 %}partial{% else %}closed{% endif %}"></span></td>
+      <td class="c"><span class="pip {% if v == 1 %}p2{% elsif v == 0.5 %}p1{% else %}p0{% endif %}" role="img" aria-label="{% if v == 1 %}open{% elsif v == 0.5 %}partial{% else %}closed{% endif %}" title="{{ m.evidence[part] | escape }}"></span></td>
       {%- endfor %}
       <td class="num"><strong>{{ o }}</strong></td>
-      <td class="num">≈{{ gb }} GB<br><span class="muted small">{% if gb <= 5 %}8 GB laptop{% elsif gb <= 11 %}16 GB laptop{% else %}needs more{% endif %}</span></td>
+      <td class="num">{% if b %}<strong>{{ b.score }}</strong><br><span class="muted small">{{ b.tokens_per_sec }} tok/s</span>{% elsif m.bench == false %}<span class="muted small">too big</span>{% else %}<span class="muted small">pending</span>{% endif %}</td>
+      <td class="num">≈{{ gb }} GB<br><span class="muted small">{% if gb <= 5 %}8 GB{% elsif gb <= 11 %}16 GB{% else %}more{% endif %}</span></td>
     </tr>
   {%- endfor %}
   </tbody>
 </table>
 </div>
-<p class="muted small">* Weights only, at 4-bit (about half a gigabyte per billion parameters). Your app, the conversation, and your operating system need room too. <span class="pip p2"></span> full · <span class="pip p1"></span> partial · <span class="pip p0"></span> closed</p>
+<p class="muted small">* Weights only, at 4-bit (about half a gigabyte per billion parameters). The app, the conversation, and your operating system need room too. <span class="pip p2"></span> open · <span class="pip p1"></span> partial · <span class="pip p0"></span> closed. Hover a dot for the evidence.</p>
 
 <h2>A small test anyone can rerun</h2>
-<p class="prose">We only score tasks a script can check, because AI is most useful where output can be verified. Each model runs on GitHub's free CPU machines (4 cores, 16 GB), so the results reflect what an ordinary laptop can do. Every prompt and answer is published.</p>
+<p class="prose">We only score tasks a script can check, because AI is most useful where its output can be verified. Every model runs the same {{ site.data.bench.tasks_version | default: "1.0" }} question set on GitHub's free machines (4 CPU cores, 16 GB, no graphics card), so speed reflects an ordinary laptop. All questions use invented facts, so no model can have memorized them, and <a href="{{ site.source_repo }}/tree/main/bench">every prompt and answer is published</a>.</p>
 <div class="grid-auto">
 {% for t in md.tasks %}
-  <div class="card"><div class="kicker">Task {{ forloop.index }}</div><h3>{{ t.label }}</h3><p>{{ t.what }}</p></div>
+  <div class="card"><div class="kicker">{{ t.weight }}% · task {{ forloop.index }}</div><h3>{{ t.label }}</h3><p>{{ t.what }}</p></div>
 {% endfor %}
 </div>
-<p class="muted small">This is a small sample, so differences under about 10 points are noise. A model can do well here and still be wrong about things outside the passage you give it.</p>
+<p class="muted small">This is a small sample, so differences under about 10 points are noise. Doing well here doesn't mean a model is right about things outside the text you give it.</p>
+
+<h2>Model by model</h2>
+{% for m in md.models %}
+{%- assign b = bench[m.slug] -%}{%- assign f = facts[m.slug] -%}
+<details class="grade" id="{{ m.slug }}">
+  <summary><span class="gname">{{ m.name }}</span><span class="reason">{{ m.maker }}</span><span class="muted small">{% if b %}tasks {{ b.score }}{% endif %}</span></summary>
+  <div class="why">
+    <ul class="checks">
+    {%- for part in parts %}{% assign v = m.openness[part] %}
+      <li><span class="pip {% if v == 1 %}p2{% elsif v == 0.5 %}p1{% else %}p0{% endif %}" aria-hidden="true"></span><span><strong>{{ part | capitalize }}.</strong> {{ m.evidence[part] }}</span></li>
+    {%- endfor %}
+    {%- if m.gated %}
+      <li><span class="mark unk">!</span><span><strong>Sign-up to download.</strong> {{ m.gated }} Community copies (like the file we test) don't ask, but the license still applies.</span></li>
+    {%- endif %}
+    {%- if b %}
+      <li><span class="mark unk">✓</span><span><strong>Tasks {{ b.score }}/100</strong>: rules {{ b.categories.format.passed }}/{{ b.categories.format.total }}, sticks to the source {{ b.categories.grounded.passed }}/{{ b.categories.grounded.total }}, admits "not in the text" {{ b.categories.unanswerable.passed }}/{{ b.categories.unanswerable.total }}, consistent {{ b.categories.consistency.passed }}/{{ b.categories.consistency.total }}. {{ b.tokens_per_sec }} tokens per second on {{ b.machine }}. <a href="{{ site.source_repo }}/blob/main/bench/results/{{ m.slug }}.json">Every answer</a></span></li>
+    {%- elsif m.bench == false %}
+      <li><span class="mark unk">–</span><span><strong>Not tested.</strong> {{ m.bench_note }}</span></li>
+    {%- endif %}
+    {%- if f %}
+      <li><span class="mark unk">i</span><span class="muted">Hugging Face: license tag <code>{{ f.license }}</code>{% if f.last_modified %}, last updated {{ f.last_modified | date: "%b %-d, %Y" }}{% endif %}{% if f.downloads_30d %}, {% if f.downloads_30d >= 1000000 %}{{ f.downloads_30d | divided_by: 100000.0 | round | divided_by: 10.0 }}M{% elsif f.downloads_30d >= 1000 %}{{ f.downloads_30d | divided_by: 1000 }}k{% else %}{{ f.downloads_30d }}{% endif %} downloads last month (context, not scored){% endif %}.</span></li>
+    {%- endif %}
+    </ul>
+    <p class="small"><a href="https://huggingface.co/{{ m.hf }}">Model card</a>{% if m.gguf %} · tested file: <code>{{ m.gguf.repo }}/{{ m.gguf.file }}</code>{% endif %} · card read {{ m.checked | date: "%b %-d, %Y" }}</p>
+  </div>
+</details>
+{% endfor %}

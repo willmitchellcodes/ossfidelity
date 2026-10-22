@@ -1,0 +1,102 @@
+name: Model benchmark
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 6 1 * *"   # monthly, 06:41 UTC on the 1st
+  push:
+    branches: [main]
+    paths:
+      - "bench/tasks.json"
+      - "scripts/bench.mjs"
+      - "_data/models.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bench
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      models: ${{ steps.list.outputs.models }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: list
+        run: echo "models=$(node scripts/bench.mjs --list)" >> "$GITHUB_OUTPUT"
+
+  run:
+    needs: plan
+    runs-on: ubuntu-latest          # 4 CPU cores, 16 GB RAM, no GPU: roughly a student laptop
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        model: ${{ fromJson(needs.plan.outputs.models) }}
+    name: ${{ matrix.model.slug }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Download the 4-bit model file
+        run: |
+          mkdir -p models
+          curl -fL --retry 3 -o models/model.gguf \
+            "https://huggingface.co/${{ matrix.model.repo }}/resolve/main/${{ matrix.model.file }}"
+          ls -lh models
+      - name: Start llama.cpp (CPU only)
+        run: |
+          docker run -d --name llama -p 8080:8080 -v "$PWD/models:/models" \
+            ghcr.io/ggml-org/llama.cpp:server \
+            -m /models/model.gguf --host 0.0.0.0 --port 8080 -c 4096 -t 4 --reasoning-budget 0
+          for i in $(seq 1 120); do
+            if curl -sf http://localhost:8080/health > /dev/null; then echo "Server ready"; exit 0; fi
+            sleep 5
+          done
+          docker logs llama | tail -40; exit 1
+      - name: Run the verified-task set
+        run: node scripts/bench.mjs --model ${{ matrix.model.slug }} --endpoint http://localhost:8080
+      - name: Server log
+        if: always()
+        run: docker logs llama 2>&1 | tail -30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bench-${{ matrix.model.slug }}
+          path: bench/results/${{ matrix.model.slug }}.json
+
+  collect:
+    needs: run
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bench-*
+          path: bench/results
+          merge-multiple: true
+      - run: node scripts/bench.mjs --collect
+      - name: Commit results
+        run: |
+          git config user.name "ossfidelity-bench"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bench/results _data/bench.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Model benchmark $(date -u +%F)"
+          git pull --rebase origin main
+          git push

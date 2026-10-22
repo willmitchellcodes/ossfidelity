@@ -151,5 +151,35 @@ export function busFactor(counts, total) {
   return sorted.length; // A lower bound: the list was truncated before reaching half.
 }
 
+/**
+ * Per-person and weekly counts from a plain list of commits (newest first), skipping bots.
+ * Used when GitHub's statistics endpoints aren't ready, and by the Forgejo collector.
+ * commits: [{ login, name, email, date }]
+ */
+export function commitListStats(commits, now, since) {
+  const people = new Map();
+  const weekly = new Array(52).fill(0);
+  const dates = [];
+  for (const c of commits) {
+    if (isBot(c.login, c.name)) continue;
+    const t = new Date(c.date);
+    if (t < since) continue;
+    const key = (c.login || c.email || c.name || "?").toLowerCase();
+    people.set(key, (people.get(key) || 0) + 1);
+    dates.push(t);
+    const wk = 51 - Math.floor((now - t) / (7 * DAY));
+    if (wk >= 0 && wk < 52) weekly[wk]++;
+  }
+  return { people, weekly, dates };
+}
+
+/** Longest stretch without a commit, in days, between `since` and `now`. */
+export function exactGapDays(dates, since, now) {
+  const pts = [since.getTime(), ...dates.map((d) => d.getTime()).sort((a, b) => a - b), now.getTime()];
+  let best = 0;
+  for (let i = 1; i < pts.length; i++) best = Math.max(best, pts[i] - pts[i - 1]);
+  return Math.round(best / DAY);
+}
+
 export const daysBetween = (a, b) => Math.max(0, Math.round((new Date(b) - new Date(a)) / DAY));
 export const yearsBetween = (a, b) => (new Date(b) - new Date(a)) / (365.25 * DAY);

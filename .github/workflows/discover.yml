@@ -1,0 +1,23 @@
+name: Project discovery
+on:
+  schedule:
+    - cron: "23 15 2 * *"   # monthly, 15:23 UTC on the 2nd
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: node scripts/discover.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

@@ -56,6 +56,12 @@ A missing measurement is **left out**, not counted as zero. For example, a proje
 - **Moved** projects aren't graded where they left. We point you to the new home. For example, Zig's old GitHub repository now says "Moved to Codeberg."
 - **Hand-verified facts** fill gaps APIs can't see: foundation backing, or licenses GitHub can't read (LLVM's). Each one is listed with its source in [`_data/projects.yml`]({{ site.source_repo }}/blob/main/_data/projects.yml).
 
+**"Maybe finished."** A project with a weak Maintenance grade, a release in the last two years, and little open backlog is labeled *may be finished, not abandoned*. The grade itself doesn't change.
+
+<h2 id="sensitivity">Weight-sensitive grades</h2>
+
+Our weights are judgment calls, so every result page also re-runs the math with every signal in a grade weighted equally, the default the OECD/JRC Handbook on composite indicators recommends when there's no evidence for anything else. If a letter would change, the page says so. That tells you the grade depends on *whose* priorities you use, not only on the facts.
+
 ## Shown, never scored
 
 **Host checks.** Each project page shows four yes/no checks about the platform hosting the code:
@@ -95,6 +101,7 @@ Before publishing weights, we check them against projects whose standing is wide
 ## Limits
 
 - Grades describe **habits you can see from outside**, not code quality. A well-run project can still ship a bug.
+- **Security only sees practices visible on GitHub.** Signal is a good example. It publishes its security contact on its website and ships through app stores, so many of its practices are invisible here, and its Security grade is lower than its reputation.
 - **Live checks are limited.** GitHub allows about 60 requests an hour per network without an account, and code review is only checked in the weekly run.
 - **Low activity can mean "finished."** In one study, 41% of maintainers whose projects looked inactive said the software was simply done ([Coelho et al. 2020](https://arxiv.org/abs/2003.04755)). Read the reasons before judging.
 

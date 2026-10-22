@@ -10,7 +10,7 @@
 | Home `/`: search or paste, demo links, "what we never score" | Built |
 | Check `/check/?r=host/owner/repo`: three grades, Fidelity, "Why?" breakdown, weight sliders, host checks, AI disclosure | Built |
 | Browse `/browse/`: weekly leaderboard with category and host filters | Built |
-| Models `/models/`: openness (OSI's three parts), laptop fit, task-benchmark plan | Built; ratings are drafts, benchmark not yet run |
+| Models `/models/`: openness (OSI's three parts) with evidence from each model card, laptop fit, sign-up flags, verified-task benchmark | Built; openness checked against model cards Oct 21; benchmark runs monthly |
 | AI privacy `/ai-privacy/`: 7-question matrix with sources and red flags | Built; 21 of 63 cells verified |
 | Method `/method/`: every formula, weight, reason, source, and the calibration table | Built |
 
@@ -45,6 +45,10 @@
 | D17 | Hand-verified facts in projects.yml must cite a source (LLVM license, Zig signatures, foundations) | Built |
 | D18 | Relicense watch compares real SPDX ids only between weekly runs | Built |
 | D19 | The site's own license | **Ask Will** |
+| D21 | Model benchmark: 30 script-graded questions on invented facts (rules, sticks to source, admits "not in the text", consistency), llama.cpp on GitHub's free CPU runner; gpt-oss-20b skipped as too big | Built |
+| D22 | Discovery opens a monthly issue of candidates; never auto-adds | Built |
+| D23 | Result pages flag weight-sensitive letters (equal-weight re-run) and label quiet projects "may be finished" | Built |
+| D24 | Signal-style blind spot: Security only sees GitHub-visible practices; documented on Method. Hand-verified evidence vs. relabel still **Ask Will** | Documented |
 | D20 | **v1 is GitHub only** (projects + open-weight models). Codeberg, self-hosted Forgejo, and GitLab are parked; `forges/forgejo.js` stays in the repo, dormant | Decided by Will (Oct 21) |
 
 ## Next
@@ -52,4 +56,4 @@
 1. Push to github.com/willmitchellcodes/ossfidelity. Run **Weekly scoring** once to grade the curated list.
 2. DNS for ossfidelity.com (see README).
 3. Verification pass: the remaining privacy cells, model openness against the OSAI Index, and local-AI app telemetry.
-4. Open-weight models: verify openness and add the benchmark workflow (llama.cpp on the CPU runner). Later: Codeberg and GitLab.
+4. Cross-check model openness against the OSAI Index; verify remaining AI-privacy cells. Later: Codeberg and GitLab.

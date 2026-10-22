@@ -1,80 +1,157 @@
 # Open-weight models small enough for a student laptop.
-# Openness follows the OSI Open Source AI Definition's three required parts (https://opensource.org/ai/open-source-ai-definition):
+#
+# Openness follows the OSI Open Source AI Definition's three required parts
+# (https://opensource.org/ai/open-source-ai-definition), rated from each model's Hugging Face card:
 #   weights: 1 = OSI-approved license · 0.5 = open weights with use restrictions · 0 = research/non-commercial only
-#   code:    1 = training and inference code · 0.5 = inference only · 0 = none
-#   data:    1 = training data released or described in detail · 0.5 = summarized · 0 = undisclosed
-# status: draft = from model cards and research notes, not yet checked against the
-#         European Open Source AI Index (https://osai-index.eu/) and each model card; verified = both checked.
-# params_b: total parameters in billions. RAM estimate at 4-bit ≈ params × 0.5 GB (weights only), plus overhead.
+#   code:    1 = training code released · 0.5 = inference code only · 0 = none
+#   data:    1 = training data released · 0.5 = described or partly released · 0 = not described on the card
+# checked: date the card was read. evidence: short notes, quoting the card where useful.
+# The European Open Source AI Index (https://osai-index.eu/) cross-check is still to do.
+#
+# hf:     original model on Hugging Face (facts refreshed weekly by scripts/models.mjs)
+# gguf:   the 4-bit file the benchmark downloads (repo + file, checked to exist on 2026-10-21)
+# bench:  false when the model is too big for GitHub's free 16 GB runner
+# system_suffix: extra text for the system prompt (turns off "thinking" mode on models that have one)
 updated: 2026-10-21
 models:
-  - name: OLMo 2 7B
+  - slug: olmo-2-7b
+    name: OLMo 2 7B
     maker: Ai2 (nonprofit)
+    hf: allenai/OLMo-2-1124-7B
     params_b: 7
     license: Apache-2.0
     openness: { weights: 1, code: 1, data: 1 }
-    status: draft
-    link: https://huggingface.co/allenai/OLMo-2-1124-7B
-  - name: SmolLM3 3B
+    evidence:
+      weights: '"The code and model are released under Apache 2.0."'
+      code: Links the core repo for "training, inference, fine-tuning".
+      data: Links its training datasets, olmo-mix-1124 and dolmino-mix-1124.
+    checked: 2026-10-21
+    gguf: { repo: allenai/OLMo-2-1124-7B-Instruct-GGUF, file: olmo-2-1124-7B-instruct-Q4_K_M.gguf }
+    bench: true
+
+  - slug: smollm3-3b
+    name: SmolLM3 3B
     maker: Hugging Face
+    hf: HuggingFaceTB/SmolLM3-3B
     params_b: 3
     license: Apache-2.0
-    openness: { weights: 1, code: 1, data: 1 }
-    status: draft
-    link: https://huggingface.co/HuggingFaceTB/SmolLM3-3B
-  - name: Granite 3.3 8B
+    openness: { weights: 1, code: 1, data: 0.5 }
+    evidence:
+      weights: Apache-2.0.
+      code: Training and evaluation code are in the huggingface/smollm repository.
+      data: Pretraining datasets are released; mid- and post-training data "will be uploaded later".
+    checked: 2026-10-21
+    gguf: { repo: ggml-org/SmolLM3-3B-GGUF, file: SmolLM3-Q4_K_M.gguf }
+    bench: true
+    system_suffix: "/no_think"
+
+  - slug: granite-3-3-8b
+    name: Granite 3.3 8B
     maker: IBM
+    hf: ibm-granite/granite-3.3-8b-instruct
     params_b: 8
     license: Apache-2.0
     openness: { weights: 1, code: 0.5, data: 0.5 }
-    status: draft
-    link: https://huggingface.co/ibm-granite/granite-3.3-8b-instruct
-  - name: Qwen3 4B
-    maker: Alibaba
-    params_b: 4
-    license: Apache-2.0
-    openness: { weights: 1, code: 0.5, data: 0 }
-    status: draft
-    link: https://huggingface.co/Qwen/Qwen3-4B
-  - name: Phi-4-mini
+    evidence:
+      weights: Apache-2.0.
+      code: Inference examples only. The card doesn't release training code.
+      data: Described generally as public permissive datasets plus internal synthetic and "select proprietary data".
+    checked: 2026-10-21
+    gguf: { repo: ibm-granite/granite-3.3-8b-instruct-GGUF, file: granite-3.3-8b-instruct-Q4_K_M.gguf }
+    bench: true
+
+  - slug: phi-4-mini
+    name: Phi-4-mini
     maker: Microsoft
+    hf: microsoft/Phi-4-mini-instruct
     params_b: 3.8
     license: MIT
     openness: { weights: 1, code: 0.5, data: 0.5 }
-    status: draft
-    link: https://huggingface.co/microsoft/Phi-4-mini-instruct
-  - name: gpt-oss-20b
+    evidence:
+      weights: MIT.
+      code: A fine-tuning example only. Training code isn't released.
+      data: Described generally as filtered public documents and synthetic "textbook-like" data (5 trillion tokens), with no named datasets.
+    checked: 2026-10-21
+    gguf: { repo: unsloth/Phi-4-mini-instruct-GGUF, file: Phi-4-mini-instruct-Q4_K_M.gguf }
+    bench: true
+
+  - slug: qwen3-4b
+    name: Qwen3 4B
+    maker: Alibaba
+    hf: Qwen/Qwen3-4B
+    params_b: 4
+    license: Apache-2.0
+    openness: { weights: 1, code: 0.5, data: 0 }
+    evidence:
+      weights: Apache-2.0.
+      code: Inference snippets (Transformers, vLLM, SGLang) only.
+      data: The card describes no training data.
+    checked: 2026-10-21
+    gguf: { repo: Qwen/Qwen3-4B-GGUF, file: Qwen3-4B-Q4_K_M.gguf }
+    bench: true
+    system_suffix: "/no_think"
+
+  - slug: gpt-oss-20b
+    name: gpt-oss-20b
     maker: OpenAI
+    hf: openai/gpt-oss-20b
     params_b: 21
     license: Apache-2.0
     openness: { weights: 1, code: 0.5, data: 0 }
-    status: draft
-    link: https://huggingface.co/openai/gpt-oss-20b
-  - name: Llama 3.2 3B
+    evidence:
+      weights: Apache-2.0.
+      code: Inference reference implementations and the harmony prompt format only.
+      data: The card describes no training data.
+    checked: 2026-10-21
+    bench: false
+    bench_note: About 12 GB even at 4-bit, too big for GitHub's free 16 GB test machine alongside the test itself.
+
+  - slug: llama-3-2-3b
+    name: Llama 3.2 3B
     maker: Meta
+    hf: meta-llama/Llama-3.2-3B-Instruct
     params_b: 3
     license: Llama 3.2 Community License
-    openness: { weights: 0.5, code: 0.5, data: 0 }
-    status: draft
-    link: https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct
-  - name: Gemma 3 4B
+    openness: { weights: 0.5, code: 0.5, data: 0.5 }
+    evidence:
+      weights: Custom license with an acceptable-use policy and a 700-million-monthly-user cap.
+      code: Training used "custom training libraries", which aren't released.
+      data: Described only as "up to 9 trillion tokens of data from publicly available sources".
+    gated: Downloading from Meta's page means agreeing to share your Hugging Face information with Meta.
+    checked: 2026-10-21
+    gguf: { repo: bartowski/Llama-3.2-3B-Instruct-GGUF, file: Llama-3.2-3B-Instruct-Q4_K_M.gguf }
+    bench: true
+
+  - slug: gemma-3-4b
+    name: Gemma 3 4B
     maker: Google
+    hf: google/gemma-3-4b-it
     params_b: 4
     license: Gemma Terms of Use
-    openness: { weights: 0.5, code: 0.5, data: 0 }
-    status: draft
-    link: https://huggingface.co/google/gemma-3-4b-it
+    openness: { weights: 0.5, code: 0.5, data: 0.5 }
+    evidence:
+      weights: Custom Gemma terms with a prohibited-use policy.
+      code: Inference snippets only. Training (JAX on TPUs) code isn't linked.
+      data: Described by type (web, code, math, images) and size (4 trillion tokens for 4B), with no named datasets.
+    gated: Downloading from Google's page means logging in and accepting Google's usage terms.
+    checked: 2026-10-21
+    gguf: { repo: ggml-org/gemma-3-4b-it-GGUF, file: gemma-3-4b-it-Q4_K_M.gguf }
+    bench: true
 
 tasks:
   - id: format
     label: Follows the rules
-    what: Word limits, valid JSON, "no commas", all checked by a script (IFEval-style).
+    what: Word limits, valid JSON, "no commas", all checked by a script.
+    weight: 30
   - id: grounded
     label: Sticks to the source
-    what: Answers questions from a passage we provide, scored by exact match.
+    what: Answers questions from a short passage we wrote, checked against the right answer.
+    weight: 30
   - id: unanswerable
     label: Admits "not in the text"
     what: When the passage doesn't contain the answer, the model should say so instead of making one up.
+    weight: 25
   - id: consistency
-    label: Same answer twice
-    what: Each question asked three times. Do the answers agree?
+    label: Same verdict three times
+    what: Ten questions asked three times with some randomness. Does it stay right (or wrong) every time?
+    weight: 15

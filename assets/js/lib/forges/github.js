@@ -6,7 +6,7 @@ import { makeClient } from "../http.js";
 import {
   DAY, isBot, aiDisclosure, AI_POLICY_RE, DEPRECATED_RE, detectLicenseText, scoreLicense, LICENSE_FILES,
   SECURITY_FILES, DEP_UPDATE_FILES, CI_ROOT, MANIFESTS, DOC_DIRS, README, SIG_ASSET, SUM_ASSET, AGENT_FILES,
-  longestGapDays, busFactor, daysBetween, yearsBetween,
+  longestGapDays, busFactor, daysBetween, yearsBetween, commitListStats, exactGapDays,
 } from "../util.js";
 
 const RAW = "application/vnd.github.raw+json";
@@ -14,7 +14,9 @@ const RAW = "application/vnd.github.raw+json";
 export async function collectGitHub(ref, { token, mode = "live", now = new Date(), spdxMap = {}, curated = {}, log = () => {} } = {}) {
   const headers = { Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
   if (token) headers.Authorization = `Bearer ${token}`;
-  const api = makeClient("https://api.github.com", { headers, waitOnLimit: mode === "full", onRequest: log });
+  // The weekly job can afford to wait for GitHub to finish computing statistics.
+  const api = makeClient("https://api.github.com", { headers, waitOnLimit: mode === "full", onRequest: log,
+    tries202: mode === "full" ? 8 : 3, wait202Ms: mode === "full" ? 3000 : 1500 });
   const R = `/repos/${ref.owner}/${ref.repo}`;
   const since = new Date(now - 365 * DAY);
   const sinceISO = since.toISOString();
@@ -82,18 +84,40 @@ export async function collectGitHub(ref, { token, mode = "live", now = new Date(
     const bf = busFactor(yearCounts, yearTotal);
     signals.bus_factor = { value: bf, detail: `${bf}${truncated && bf >= active ? "+" : ""} ${bf === 1 ? "person wrote" : "people wrote"} half of ${fmt(yearTotal ?? sum(yearCounts))} human commits this year` };
     signals.active_contributors = { value: active, detail: `${active}${truncated ? "+" : ""} people committed in the last 12 months` };
-  } else {
-    signals.bus_factor = { value: null, detail: "GitHub was still computing contributor stats. Try again in a minute." };
-    signals.active_contributors = { value: null, detail: "Contributor stats unavailable right now" };
   }
   if (humanWeekly) {
     const recent = humanWeekly.slice(-13).reduce((a, b) => a + b, 0);
     const gap = longestGapDays(humanWeekly);
     signals.recent_commits = { value: recent, detail: `${fmt(recent)} human commits in the last 90 days` };
     signals.longest_gap = { value: gap, detail: gap ? `Longest quiet stretch: about ${gap} days` : "Commits every week this year" };
-  } else {
-    signals.recent_commits = { value: null, detail: "Weekly activity unavailable right now" };
-    signals.longest_gap = { value: null, detail: "Weekly activity unavailable right now" };
+  }
+  // Fallback: GitHub hadn't finished computing statistics, so count a year of commits directly.
+  if (!Array.isArray(contrib) || !humanWeekly) {
+    const maxPages = mode === "full" ? 50 : 3;
+    const list = [];
+    let truncated = false;
+    for (let page = 1; page <= maxPages; page++) {
+      const batch = await api(`${R}/commits?since=${sinceISO}&per_page=100&page=${page}`);
+      if (!batch || !batch.length) break;
+      for (const c of batch) list.push({ login: c.author?.login || "", name: c.commit?.author?.name || "", email: c.commit?.author?.email || "", date: c.commit?.author?.date });
+      if (batch.length < 100) break;
+      if (page === maxPages) truncated = true;
+    }
+    const { people, dates } = commitListStats(list, now, since);
+    const total = [...people.values()].reduce((a, b) => a + b, 0);
+    const plus = truncated ? "+" : "";
+    const via = " (counted from the commit list)";
+    if (!Array.isArray(contrib)) {
+      const bf = busFactor([...people.values()], total);
+      signals.bus_factor = { value: bf, detail: `${bf} ${bf === 1 ? "person wrote" : "people wrote"} half of ${fmt(total)}${plus} human commits this year${via}` };
+      signals.active_contributors = { value: people.size, detail: `${people.size}${plus} people committed in the last 12 months${via}` };
+    }
+    if (!humanWeekly) {
+      const recent = dates.filter((d) => now - d <= 90 * DAY).length;
+      signals.recent_commits = { value: recent, detail: `${fmt(recent)}${truncated && recent === total ? "+" : ""} human commits in the last 90 days${via}` };
+      const gap = exactGapDays(dates, truncated ? new Date(Math.min(...dates.map(Number))) : since, now);
+      signals.longest_gap = { value: gap, detail: (gap ? `Longest quiet stretch: ${gap} days` : "Commits throughout the year") + via };
+    }
   }
 
   // 5. Total commits and the first commit's date (Link header trick)

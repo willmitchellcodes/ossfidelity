@@ -11,6 +11,21 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
   const custom = {};
   let computed = computeGrades(record, weights, custom);
 
+  // Sensitivity check (OECD/JRC practice): would any letter change if every signal counted equally?
+  const equalW = {};
+  for (const g of weights.grades) {
+    const avg = g.signals.reduce((a, s) => a + s.weight, 0) / g.signals.length;
+    for (const s of g.signals) equalW[s.id] = avg;
+  }
+  const equal = computeGrades(record, weights, equalW);
+  const flips = weights.grades.filter((g) => equal.grades[g.id].letter !== computed.grades[g.id].letter && computed.grades[g.id].score !== null)
+    .map((g) => `${g.label} would be ${equal.grades[g.id].letter} instead of ${computed.grades[g.id].letter}`);
+
+  // "Finished, not abandoned": quiet, but with a recent-ish release and little open backlog (Coelho et al. 2020).
+  const sg = record.signals || {};
+  const maybeFinished = (m) => m.score !== null && m.score < 55 && sg.release_freshness?.value != null && sg.release_freshness.value <= 730
+    && (record.context?.open_issues ?? 0) < 25 && (sg.follow_through?.value == null || sg.follow_through.value >= 0.8);
+
   // ----- moved / pending: nothing to grade here -----
   if (record.status?.moved_to) {
     const m = record.status.moved_to;
@@ -57,6 +72,7 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
       </div>
       <div class="fidelity" id="fid"></div>
     </div>
+    ${flips.length ? `<p class="banner info small"><strong>Weight-sensitive.</strong> With every signal weighted equally: ${flips.map(esc).join("; ")}. <a href="${url("/method/")}#sensitivity">Why we show this</a></p>` : ""}
     <div class="grades" id="grades">
       ${weights.grades.map((g) => gradeShell(g)).join("")}
     </div>
@@ -104,7 +120,8 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
       box.querySelector(".letter").className = `letter g-${c.letter}`;
       box.querySelector(".letter").textContent = c.letter;
       box.querySelector(".score").innerHTML = `${c.score ?? "–"}<small>${c.confidence < 1 ? `${pct(c.confidence)} of weight measured` : "all signals measured"}</small>`;
-      box.querySelector(".reason").textContent = reason(c);
+      const finished = g.id === "maintenance" && maybeFinished(c);
+      box.querySelector(".reason").textContent = reason(c) + (finished ? " · may be finished, not abandoned" : "");
       for (const p of c.parts) {
         const row = box.querySelector(`[data-row="${p.id}"]`);
         row.classList.toggle("na", !!p.na);
@@ -112,7 +129,8 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
         row.querySelector(".pts").textContent = p.na ? "–" : `+${p.share.toFixed(1)}`;
         row.querySelector(".detail").textContent = p.detail || "";
       }
-      box.querySelector(".notes").innerHTML = c.notes.map((n) => `<div class="banner bad">${esc(n)}</div>`).join("");
+      box.querySelector(".notes").innerHTML = c.notes.map((n) => `<div class="banner bad">${esc(n)}</div>`).join("")
+        + (finished ? `<div class="banner info">Quiet, but maybe <strong>finished</strong>: it has a release from the last two years and little open backlog. In one study, 41% of maintainers of "inactive" projects said the software was simply done.</div>` : "");
     }
   }
 }

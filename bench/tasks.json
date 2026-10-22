@@ -1,0 +1,49 @@
+{
+  "name": "OSS Fidelity verified-task set",
+  "version": "1.0",
+  "license": "CC-BY-4.0",
+  "note": "Written for OSS Fidelity in October 2026. Every passage describes invented places and projects, so no model can have memorized the answers, and every item is graded by a script.",
+  "system": "You are a careful assistant. Follow the instructions exactly and keep answers short.",
+  "grounded_instruction": "Answer using only the text below. Keep the answer short. If the text does not contain the answer, reply exactly: Not in the text.",
+  "passages": {
+    "repair": "The Riverbend Repair Café opened in March 2019 in the basement of the Riverbend Public Library. Volunteers fix bicycles, lamps, and small electronics every second Saturday. In its first year, the café repaired 412 items. The café is run by a nonprofit called Fix It Forward, which was founded by Dana Okafor.",
+    "lumen": "Lumen is a free note-taking app released under the GPL-3.0 license. Version 4.2 added end-to-end encrypted sync and a dark theme. Lumen runs on Windows, macOS, and Linux. A mobile version is planned. The project has 31 regular contributors.",
+    "fountains": "The town of Elmsford installed 18 public water fountains in 2022. Each fountain cost $2,300. The project was paid for by a state grant. Fountains are cleaned twice a week by city staff. The most-used fountain is at Harper Park.",
+    "study": "Mira's study group meets on Tuesdays at 6 p.m. in Room 204 of the science building. The group has seven members. They are preparing for a physics exam on November 14. Snacks are provided by whoever hosts that week.",
+    "garden": "The Northside Community Garden has 40 plots. Plots are assigned by lottery each February. Gardeners must volunteer four hours per season."
+  },
+  "items": [
+    { "id": "f1", "type": "format", "prompt": "List exactly three fruits, one per line, each line starting with \"- \". Write nothing else.", "checks": [{ "kind": "bullets", "n": 3 }] },
+    { "id": "f2", "type": "format", "prompt": "Reply with a JSON object with exactly two keys, \"city\" and \"country\", for the capital of Japan. Reply with JSON only.", "checks": [{ "kind": "json_keys", "keys": ["city", "country"] }, { "kind": "contains_any", "options": ["tokyo"] }] },
+    { "id": "f3", "type": "format", "prompt": "Describe a library in exactly five words. Reply with only those five words.", "checks": [{ "kind": "word_count", "min": 5, "max": 5 }] },
+    { "id": "f4", "type": "format", "prompt": "Write one sentence about the ocean without using any commas.", "checks": [{ "kind": "no_char", "char": "," }, { "kind": "word_count", "min": 5, "max": 40 }] },
+    { "id": "f5", "type": "format", "prompt": "Is 17 a prime number? Answer with only Yes or No.", "checks": [{ "kind": "equals", "options": ["yes"] }] },
+    { "id": "f6", "type": "format", "prompt": "Write the word \"privacy\" in all capital letters and nothing else.", "checks": [{ "kind": "equals_case", "value": "PRIVACY" }] },
+    { "id": "f7", "type": "format", "prompt": "Write a short greeting in all lowercase letters, no more than ten words.", "checks": [{ "kind": "lowercase" }, { "kind": "word_count", "min": 1, "max": 10 }] },
+    { "id": "f8", "type": "format", "prompt": "Give a title for a blog post about recycling. The title must end with a question mark and be fewer than eight words. Reply with only the title.", "checks": [{ "kind": "ends_with", "value": "?" }, { "kind": "word_count", "min": 1, "max": 7 }] },
+    { "id": "f9", "type": "format", "prompt": "Return a JSON array of the first four even numbers greater than zero. Reply with JSON only.", "checks": [{ "kind": "json_equals", "value": [2, 4, 6, 8] }] },
+    { "id": "f10", "type": "format", "prompt": "Repeat this sentence exactly, with no changes: The quick brown fox jumps over the lazy dog.", "checks": [{ "kind": "equals_case", "value": "The quick brown fox jumps over the lazy dog." }] },
+
+    { "id": "g1", "type": "grounded", "passage": "repair", "question": "How many items did the café repair in its first year?", "answers": ["412"], "consistency": true },
+    { "id": "g2", "type": "grounded", "passage": "repair", "question": "Who founded Fix It Forward?", "answers": ["dana okafor", "okafor"], "consistency": true },
+    { "id": "g3", "type": "grounded", "passage": "repair", "question": "On which Saturdays does the café fix things?", "answers": ["second"] },
+    { "id": "g4", "type": "grounded", "passage": "lumen", "question": "Which license does Lumen use?", "answers": ["gpl"], "consistency": true },
+    { "id": "g5", "type": "grounded", "passage": "lumen", "question": "Which version added encrypted sync?", "answers": ["4.2"], "consistency": true },
+    { "id": "g6", "type": "grounded", "passage": "lumen", "question": "How many regular contributors does the project have?", "answers": ["31", "thirty-one", "thirty one"] },
+    { "id": "g7", "type": "grounded", "passage": "fountains", "question": "How many fountains were installed?", "answers": ["18", "eighteen"], "consistency": true },
+    { "id": "g8", "type": "grounded", "passage": "fountains", "question": "How often are the fountains cleaned?", "answers": ["twice", "two times"] },
+    { "id": "g9", "type": "grounded", "passage": "fountains", "question": "Where is the most-used fountain?", "answers": ["harper park"] },
+    { "id": "g10", "type": "grounded", "passage": "study", "question": "What room does the group meet in?", "answers": ["204"], "consistency": true },
+    { "id": "g11", "type": "grounded", "passage": "study", "question": "When is the physics exam?", "answers": ["november 14", "nov 14", "nov. 14", "14 november", "14th of november", "november 14th"] },
+    { "id": "g12", "type": "grounded", "passage": "study", "question": "How many members does the group have?", "answers": ["seven", "7"] },
+
+    { "id": "u1", "type": "unanswerable", "passage": "repair", "question": "How much does a repair cost?", "consistency": true },
+    { "id": "u2", "type": "unanswerable", "passage": "repair", "question": "In what year was Fix It Forward founded?", "consistency": true },
+    { "id": "u3", "type": "unanswerable", "passage": "lumen", "question": "Who created Lumen?" },
+    { "id": "u4", "type": "unanswerable", "passage": "fountains", "question": "How many people use the fountains each day?", "consistency": true },
+    { "id": "u5", "type": "unanswerable", "passage": "study", "question": "What is Mira's major?", "consistency": true },
+    { "id": "u6", "type": "unanswerable", "passage": "study", "question": "Who is hosting next week?" },
+    { "id": "u7", "type": "unanswerable", "passage": "garden", "question": "How much does a plot cost per year?" },
+    { "id": "u8", "type": "unanswerable", "passage": "garden", "question": "Who runs the lottery?" }
+  ]
+}
