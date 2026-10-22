@@ -79,6 +79,7 @@ const LICENSE_TEXT = [
   ["AGPL-3.0-or-later", /GNU AFFERO GENERAL PUBLIC LICENSE,?\s+Version 3/i],
   ["LGPL-3.0-or-later", /GNU LESSER GENERAL PUBLIC LICENSE,?\s+Version 3/i],
   ["LGPL-2.1-or-later", /GNU LESSER GENERAL PUBLIC LICENSE,?\s+Version 2\.1/i],
+  ["LGPL-2.0-or-later", /GNU LIBRARY GENERAL PUBLIC LICENSE,?\s+Version 2/i],
   ["GPL-3.0-or-later", /GNU GENERAL PUBLIC LICENSE,?\s+Version 3/i],
   ["GPL-2.0-or-later", /GNU GENERAL PUBLIC LICENSE,?\s+Version 2/i],
   ["MPL-2.0", /Mozilla Public License,?\s+(Version|v\.?)\s*2\.0/i],
@@ -86,7 +87,11 @@ const LICENSE_TEXT = [
   ["Apache-2.0", /Apache License[\s,]+Version 2\.0/i],
   ["BSD-3-Clause", /Neither the name of[\s\S]{0,300}endorse or promote/i],
   ["BSD-2-Clause", /Redistribution and use in source and binary forms/i],
+  ["BSL-1.0", /Boost Software License\s*-?\s*Version 1\.0/i],
   ["MIT", /Permission is hereby granted, free of charge/i],
+  ["Zlib", /Permission is granted to anyone to use this software for any purpose,? including commercial applications/i],
+  ["Artistic-2.0", /The Artistic License 2\.0/i],
+  ["CC0-1.0", /CC0 1\.0 Universal/i],
   ["0BSD", /Zero-Clause BSD|for any purpose with or without fee is hereby granted\. THE SOFTWARE IS PROVIDED/i],
   ["ISC", /for any purpose with or without fee is hereby granted, provided that the above copyright notice/i],
   ["Unlicense", /This is free and unencumbered software released into the public domain/i],
@@ -94,7 +99,8 @@ const LICENSE_TEXT = [
 
 // Phrases that offer the reader a choice between licenses ("A OR B"). A file that only says
 // different parts are under different licenses (Bitwarden's) is not a choice.
-const CHOICE_RE = /\b(your choice of|at your (option|choice)|choose (one|either) of|one of the following licen[cs]es|dual[- ]licen[cs]ed|tri[- ]licen[cs]ed)\b/i;
+// "(at your option) any later version" is the usual GNU wording for one license, not a choice.
+const CHOICE_RE = /\b(your choice of|at your (option|choice)(?![^.]{0,40}any later version)|choose (one|either) of|one of the following licen[cs]es|dual[- ]licen[cs]ed|tri[- ]licen[cs]ed)\b/i;
 // The short notice many GNU-licensed projects put in LICENSE or COPYING instead of the full text.
 const GNU_EITHER_RE = /GNU (?:(Lesser|Library|Affero) )?General Public License,? as published by the Free Software Foundation[,;]? either version (\d(?:\.\d)?) or (?:\(at your option\) )?version (\d(?:\.\d)?)/i;
 const GNU_LATER_RE = /GNU (?:(Lesser|Library|Affero) )?General Public License,? as published by the Free Software Foundation[,;]? (?:either )?version (\d(?:\.\d)?)(?: of the License)?,? or \(at your option\) any later version/i;
@@ -112,7 +118,9 @@ const gnuId = (family, v, suffix) => {
  */
 export function detectLicenseText(text, spdxIds = []) {
   if (!text) return null;
-  const header = /SPDX-License-Identifier:\s*([^\n*]+?)\s*(?:\*\/|-->|$)/im.exec(text);
+  // An SPDX header counts only at the top of the file and at the start of a line, so an id quoted
+  // in a third-party notice further down (Node's LICENSE has dozens) isn't mistaken for the project's.
+  const header = /^[\s#*/;<!-]*SPDX-License-Identifier:\s*([^\n*]+?)\s*(?:\*\/|-->|$)/im.exec(text.slice(0, 2000));
   if (header) return header[1].trim();
   const flat = text.replace(/\s+/g, " "); // license files are hard-wrapped at different widths
   const head = flat.slice(0, HEAD);
@@ -136,16 +144,19 @@ export function detectLicenseText(text, spdxIds = []) {
   return null;
 }
 
+// A license name counts only right after wording that says the project is under it
+// ("licensed under the AGPL-3.0-or-later License"). Many SPDX ids are also product names
+// (OpenSSL, curl, Ruby, Vim), so a bare mention like "found in the OpenSSL library" doesn't count.
 const idPatterns = new Map();
 function spdxIdIn(text, ids) {
   const all = [...new Set([...ids, ...SOURCE_AVAILABLE, ...LICENSE_TEXT.map(([id]) => id).filter((id) => !id.includes(" "))])];
   const key = all.length;
   if (!idPatterns.has(key)) {
     const alts = all.sort((a, b) => b.length - a.length).map((id) => id.replace(/[.+]/g, "\\$&"));
-    idPatterns.set(key, new RegExp(`(?<![\\w.-])(${alts.join("|")})(?![\\w.+-])`));
+    idPatterns.set(key, new RegExp(`(?:licen[cs]ed under|released under|available under|licen[cs]e:)\\s+(?:the\\s+)?(?:terms of the\\s+)?(${alts.join("|")})(?![\\w.+-])`, "i"));
   }
   const m = idPatterns.get(key).exec(text);
-  return m ? m[1] : null;
+  return m ? all.find((id) => id.toLowerCase() === m[1].toLowerCase()) : null;
 }
 
 // Files that set a repo up for AI coding agents. Their presence is disclosed, never scored.

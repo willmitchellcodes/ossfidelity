@@ -22,6 +22,7 @@ const FRESH_SECONDS = 3600; // serve a cached answer for an hour, then revalidat
 const MISS_SECONDS = 600;   // remember "not found" for 10 minutes
 const MEMORY_BYTES = 32 * 1024 * 1024; // in-memory cache budget per Worker instance (limit is ~128 MB)
 const PER_VISITOR_PER_MINUTE = 600; // generous: a whole classroom can share one address
+const SEARCHES_PER_VISITOR_PER_MINUTE = 20; // GitHub allows the App only 30 searches a minute in total
 
 const OWNER = "[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})";
 const REPO = "[A-Za-z0-9._-]{1,100}";
@@ -36,7 +37,7 @@ export default {
     if (!cors) return reply(403, { message: "This proxy only answers OSS Fidelity's own pages." });
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
 
-    if (!(await allowVisitor(request, env))) {
+    if (!(await allowVisitor(request, env, "all", PER_VISITOR_PER_MINUTE))) {
       return reply(429, { message: "Too many requests from your network. Try again in a minute." }, { ...cors, "Retry-After": "60" });
     }
 
@@ -44,7 +45,7 @@ export default {
     const path = url.pathname.replace(/\/{2,}/g, "/");
     try {
       if (request.method === "GET" && allowedGet(path, url.searchParams)) {
-        return await cachedGet(`${GITHUB}${path}${url.search}`, request.headers.get("Accept"), env, ctx, cors, url.origin);
+        return await cachedGet(`${GITHUB}${path}${url.search}`, request.headers.get("Accept"), env, ctx, cors, url.origin, request);
       }
       if (request.method === "POST" && path === "/graphql") {
         const body = await request.json().catch(() => null);
@@ -88,20 +89,24 @@ export function corsHeaders(origin, env) {
   };
 }
 
-// Per-visitor limit. Uses Cloudflare's rate-limit binding when configured; otherwise a simple
-// counter inside this Worker instance. The address is only used as a counter key, never stored.
+// Per-visitor limits. The overall limit uses Cloudflare's rate-limit binding when configured
+// (recommended: it holds across Worker instances); otherwise, and for searches, a simple counter
+// inside this instance. The address is only used as a counter key, never stored or logged.
+// The Origin check stops other websites, not scripts, so these limits are what protect the budget.
+// If it's used up anyway, the site falls back to GitHub directly (see assets/js/lib/http.js).
 const visitors = new Map();
-async function allowVisitor(request, env) {
-  const key = request.headers.get("CF-Connecting-IP") || "unknown";
-  if (env.RATE_LIMITER) return (await env.RATE_LIMITER.limit({ key })).success;
+async function allowVisitor(request, env, bucket, limit) {
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  if (bucket === "all" && env.RATE_LIMITER) return (await env.RATE_LIMITER.limit({ key: ip })).success;
+  const key = `${bucket}:${ip}`;
   const minute = Math.floor(Date.now() / 60000);
   const v = visitors.get(key);
   if (!v || v.minute !== minute) {
-    if (visitors.size > 10000) visitors.clear();
+    if (visitors.size > 20000) visitors.clear();
     visitors.set(key, { minute, n: 1 });
     return true;
   }
-  return ++v.n <= PER_VISITOR_PER_MINUTE;
+  return ++v.n <= limit;
 }
 
 // ---------- caching ----------
@@ -123,11 +128,16 @@ function remember(key, entry) {
   }
 }
 
-async function cachedGet(upstream, accept, env, ctx, cors, origin) {
+async function cachedGet(upstream, accept, env, ctx, cors, origin, request) {
   const acceptHeader = accept && /^application\/vnd\.github[\w.+-]*$/.test(accept) ? accept : "application/vnd.github+json";
   const key = `${upstream}#${acceptHeader}`;
   const hit = await lookup(key, origin);
   if (hit && hit.expires > Date.now()) return toResponse(hit, cors);
+  // Searches have their own small budget at GitHub, so uncached ones get a tighter limit here.
+  if (/^https:\/\/api\.github\.com\/search\//.test(upstream) && !(await allowVisitor(request, env, "search", SEARCHES_PER_VISITOR_PER_MINUTE))) {
+    if (hit) return toResponse(hit, cors);
+    return reply(429, { message: "Too many searches from your network. Try again in a minute." }, { ...cors, "Retry-After": "60" });
+  }
 
   const headers = { Accept: acceptHeader, "X-GitHub-Api-Version": "2022-11-28", Authorization: `Bearer ${await installationToken(env)}`, "User-Agent": "ossfidelity-proxy" };
   if (hit?.etag) headers["If-None-Match"] = hit.etag;

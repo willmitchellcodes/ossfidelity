@@ -29,7 +29,11 @@ export function makeClient(base, opts = {}) {
     const url = path.startsWith("http") ? path : active + path;
     try {
       const res = await fetch(url, init);
-      if (fallbackBase && active !== fallbackBase && method === "GET" && PROXY_DOWN.has(res.status)) throw new TypeError("proxy unavailable");
+      const proxied = fallbackBase && active !== fallbackBase && method === "GET";
+      // Proxy down, or out of budget (busy, or someone is overusing it): use GitHub directly instead,
+      // which still gives each visitor their own 60 requests an hour.
+      const outOfBudget = res.status === 429 || (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0");
+      if (proxied && (PROXY_DOWN.has(res.status) || outOfBudget)) throw new TypeError("proxy unavailable");
       return res;
     } catch (e) {
       if (!(e instanceof TypeError) || !fallbackBase || active === fallbackBase || method !== "GET" || path.startsWith("http")) throw e;

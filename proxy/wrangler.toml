@@ -15,8 +15,10 @@ GITHUB_APP_CLIENT_ID = ""
 [observability]
 enabled = false
 
-# Optional: Cloudflare's per-visitor rate limiter (Wrangler 4.36+). Without it, the Worker uses
-# a simpler per-instance counter. Uncomment if your plan includes rate-limit bindings.
+# Recommended: Cloudflare's per-visitor rate limiter (Wrangler 4.36+). It holds across Worker
+# instances, which the built-in fallback counter doesn't, so it's what stops one script from
+# using up the App's budget. Uncomment it; if deploy says your plan doesn't include it, comment it
+# out again. If the budget does run out, the site falls back to GitHub directly.
 # [[ratelimits]]
 # name = "RATE_LIMITER"
 # namespace_id = "1001"

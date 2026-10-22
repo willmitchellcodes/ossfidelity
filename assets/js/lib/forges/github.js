@@ -134,7 +134,9 @@ export async function collectGitHub(ref, { token, proxy, mode = "live", now = ne
     signals.history = { value: total, detail: `${fmt(total)} commits in total` };
     let firstDate = meta.created_at;
     if (lastLink) {
-      const oldest = await api(lastLink[1].replace("https://api.github.com", ""));
+      // GitHub's Link header points at /repositories/{id}/...; ask for the same page under /repos/
+      // so it stays within the paths the proxy forwards (and shares its cache).
+      const oldest = await api(`${R}/commits?per_page=1&page=${total}`);
       firstDate = oldest?.[0]?.commit?.author?.date || firstDate;
     } else {
       const only = await firstPage.json();
@@ -146,11 +148,18 @@ export async function collectGitHub(ref, { token, proxy, mode = "live", now = ne
 
   // 6. Follow-through: issues and pull requests opened vs closed, last 12 months (search API).
   // Bot pull requests and stale-bot closures are left out (see followThroughQueries).
-  const q = (s) => api(`/search/issues?per_page=1&q=${encodeURIComponent(`repo:${ref.owner}/${ref.repo} ${s}`)}`).then((r) => r?.total_count ?? null);
+  // GitHub's search has its own, smaller limit (30 a minute with a token, 10 without). If it runs
+  // out, follow-through is left unmeasured for this check instead of failing the whole check.
+  let searchLimited = false;
+  const q = (s) => api(`/search/issues?per_page=1&q=${encodeURIComponent(`repo:${ref.owner}/${ref.repo} ${s}`)}`)
+    .then((r) => r?.total_count ?? null)
+    .catch((e) => { if (e instanceof RateLimitError && mode !== "full") { searchLimited = true; return null; } throw e; });
   const ft = followThroughQueries(sinceDay);
   const [io, ic, po, pc] = [await q(ft.issuesOpened), await q(ft.issuesClosed), await q(ft.prsOpened), await q(ft.prsClosed)];
   const opened = (io || 0) + (po || 0), closed = (ic || 0) + (pc || 0);
-  signals.follow_through = opened
+  signals.follow_through = searchLimited
+    ? { value: null, detail: "GitHub's search limit was reached, so this wasn't measured this time" }
+    : opened
     ? { value: Math.min(1, closed / opened), detail: `${fmt(closed)} closed vs ${fmt(opened)} opened (issues ${fmt(ic)}/${fmt(io)}, pull requests ${fmt(pc)}/${fmt(po)}; bots and stale-bot closures left out)` }
     : { value: null, detail: "No issues or pull requests opened in the last year" };
 

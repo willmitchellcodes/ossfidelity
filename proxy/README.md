@@ -13,7 +13,9 @@ The site works without it: if `github_proxy` in `_config.yml` is blank, or the p
 | `GET /search/repositories` (the search box) | |
 | `POST /graphql`, only for the queries in `assets/js/lib/queries.js`, word for word | Any other GraphQL query |
 
-It answers only pages listed in `ALLOWED_ORIGINS`, limits each visitor's address to 600 requests a minute, writes no logs, and sets no cookies. Visitors' requests do pass through Cloudflare's network, so mention that wherever the site describes its privacy.
+It answers only pages listed in `ALLOWED_ORIGINS`, limits each visitor's address to 600 requests a minute and 20 uncached searches a minute, writes no logs, and sets no cookies. Visitors' requests do pass through Cloudflare's network, so mention that wherever the site describes its privacy.
+
+The origin check stops other websites, not scripts, so the per-visitor limits are what protect the App's budget (5,000 requests an hour, and 30 searches a minute). Turn on the `RATE_LIMITER` binding in `wrangler.toml`: it holds across Worker instances, which the built-in counter doesn't. If the budget runs out anyway, pages notice and go straight to GitHub, which is how the site works today.
 
 ## Set it up (about 15 minutes)
 
