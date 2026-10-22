@@ -299,3 +299,12 @@ export function followThroughQueries(sinceDay) {
     prsClosed: `is:pr closed:>=${sinceDay} ${NOT_BOTS} ${NOT_STALE}`,
   };
 }
+/** The same four counts without the bot filters, used if GitHub refuses the filtered ones. */
+export function followThroughPlainQueries(sinceDay) {
+  return {
+    issuesOpened: `is:issue created:>=${sinceDay}`,
+    issuesClosed: `is:issue closed:>=${sinceDay}`,
+    prsOpened: `is:pr created:>=${sinceDay}`,
+    prsClosed: `is:pr closed:>=${sinceDay}`,
+  };
+}
