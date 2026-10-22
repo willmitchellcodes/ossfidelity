@@ -56,6 +56,8 @@ export default {
       }
       return reply(request.method === "GET" || request.method === "POST" ? 403 : 405, { message: "Not something this proxy forwards." }, cors);
     } catch (e) {
+      // Setup problems say what's missing (never a secret's value); 503 also sends pages to GitHub directly.
+      if (e instanceof SetupError) return reply(503, { message: `The proxy isn't set up correctly: ${e.message}` }, cors);
       return reply(502, { message: "The proxy couldn't reach GitHub." }, cors);
     }
   },
@@ -214,18 +216,29 @@ async function digest(text) {
 let token = null; // { value, expires }
 let installationId = null;
 
+/** A setup mistake the person deploying can fix. Messages name the problem, never a secret's value. */
+export class SetupError extends Error {}
+
 export async function installationToken(env, fetcher = fetch) {
   if (token && token.expires - Date.now() > 5 * 60000) return token.value;
-  const jwt = await appJwt(env);
+  if (!String(env.GITHUB_APP_CLIENT_ID || "").trim()) throw new SetupError("GITHUB_APP_CLIENT_ID is empty. Set it in proxy/wrangler.toml, then run deploy again.");
+  if (!String(env.GITHUB_APP_PRIVATE_KEY || "").trim()) throw new SetupError("the GITHUB_APP_PRIVATE_KEY secret isn't set. Run: npx wrangler@4 secret put GITHUB_APP_PRIVATE_KEY < your-key.pem");
+  let jwt;
+  try { jwt = await appJwt(env); } catch {
+    throw new SetupError("the private key couldn't be read. Put the whole .pem file in the secret, BEGIN and END lines included.");
+  }
   const headers = { Authorization: `Bearer ${jwt}`, Accept: "application/vnd.github+json", "User-Agent": "ossfidelity-proxy" };
   installationId ??= env.GITHUB_APP_INSTALLATION_ID || null;
   if (!installationId) {
-    const list = await (await fetcher(`${GITHUB}/app/installations`, { headers })).json();
-    if (!Array.isArray(list) || !list.length) throw new Error("The GitHub App isn't installed anywhere yet.");
+    const res = await fetcher(`${GITHUB}/app/installations`, { headers });
+    if (res.status === 401) throw new SetupError("GitHub didn't accept the App's credentials (HTTP 401). Check that the Client ID and the private key belong to the same App, and that the key hasn't been deleted.");
+    if (!res.ok) throw new SetupError(`GitHub answered HTTP ${res.status} when listing the App's installations.`);
+    const list = await res.json();
+    if (!Array.isArray(list) || !list.length) throw new SetupError("the GitHub App isn't installed yet. On the App's settings page: Install App, then Install next to your account.");
     installationId = list[0].id;
   }
   const res = await fetcher(`${GITHUB}/app/installations/${installationId}/access_tokens`, { method: "POST", headers });
-  if (!res.ok) throw new Error(`GitHub refused an installation token (HTTP ${res.status}).`);
+  if (!res.ok) throw new SetupError(`GitHub refused an installation token (HTTP ${res.status}).`);
   const j = await res.json();
   token = { value: j.token, expires: Date.parse(j.expires_at) };
   return token.value;
