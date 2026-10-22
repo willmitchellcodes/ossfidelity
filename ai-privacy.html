@@ -18,16 +18,16 @@ description: Seven questions to ask any AI service, answered from each company's
 
 <div class="table-wrap">
 <table class="pm">
-  <thead><tr><th>Service</th>{% for q in pv.questions %}<th class="num" title="{{ q.ask }}">{{ q.label }}</th>{% endfor %}<th>Flags</th></tr></thead>
+  <thead><tr><th>Service</th>{% for q in pv.questions %}<th class="num" title="{{ q.ask }}">{{ q.label }}</th>{% endfor %}<th>Flags</th><th class="c">Score</th></tr></thead>
   <tbody>
   {%- for s in pv.services %}
-    {%- assign reds = 0 -%}{%- assign verified = 0 -%}
+    {%- assign reds = 0 -%}{%- assign verified = 0 -%}{%- assign points = 0 -%}
     <tr>
       <td><strong>{{ s.name }}</strong><br><span class="muted small">{{ s.maker }}</span></td>
       {%- for q in pv.questions -%}
         {%- assign c = s.cells[q.id] -%}
         {%- if c.red -%}{%- assign reds = reds | plus: 1 -%}{%- endif -%}
-        {%- if c.rating != nil -%}{%- assign verified = verified | plus: 1 -%}{%- endif -%}
+        {%- if c.rating != nil -%}{%- assign verified = verified | plus: 1 -%}{%- assign points = points | plus: c.rating -%}{%- endif -%}
         <td class="cell" title="{{ q.label }}: {{ c.note | default: 'Not verified yet' | escape }}">
           {%- if c.rating == 2 -%}<span class="pip p2" role="img" aria-label="protective by default"></span>
           {%- elsif c.rating == 1 -%}<span class="pip p1" role="img" aria-label="only if you change a setting"></span>
@@ -35,7 +35,15 @@ description: Seven questions to ask any AI service, answered from each company's
           {%- else -%}<span class="pip pn" role="img" aria-label="not verified yet"></span>{%- endif -%}
         </td>
       {%- endfor %}
-      <td class="small">{% if reds > 0 %}<span class="chip bad">⚑ {{ reds }}</span>{% else %}<span class="muted">none</span>{% endif %}<br><span class="muted">{{ verified }}/7 checked</span></td>
+      <td class="small">{% if reds > 0 %}<span class="chip bad">⚑ {{ reds }}</span>{% else %}<span class="muted">none</span>{% endif %}{% if verified < 7 %}<br><span class="muted">{{ verified }}/7 checked</span>{% endif %}</td>
+      {%- if verified == 7 -%}
+        {%- assign score = points | times: 100.0 | divided_by: 14 | round -%}
+        {%- if reds > 0 and score > 40 -%}{%- assign score = 40 -%}{%- endif -%}
+        {%- assign letter = "F" -%}{%- for l in site.data.weights.letters -%}{%- if score >= l.min -%}{%- assign letter = l.letter -%}{%- break -%}{%- endif -%}{%- endfor %}
+      <td class="c"><span class="letter g-{{ letter }}" title="{{ points }} of 14 points{% if reds > 0 %}, capped at 40 by a red flag{% endif %}">{{ letter }}</span><br><span class="muted small">{{ score }}</span></td>
+      {%- else %}
+      <td class="c muted small">in review</td>
+      {%- endif %}
     </tr>
   {%- endfor %}
   </tbody>
