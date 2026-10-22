@@ -15,7 +15,7 @@ Every number on this site comes from public data and the formulas on this page. 
 - **Fidelity** is the plain average of the three.
 - **Letters:** {% assign prev = 0 %}{% for l in site.data.weights.letters %}{% if l.min > 0 %}{{ l.letter }} {{ l.min }}+{% else %}{{ l.letter }} below {{ prev }}{% endif %}{% assign prev = l.min %}{% unless forloop.last %} · {% endunless %}{% endfor %}.
 - **GitHub projects, for now.** The collectors are built so other hosts, like Codeberg and GitLab, can be added later using the same test.
-- **Never scored:** stars, downloads, where the code is hosted, and whether AI helped write it. These are shown separately.
+- **Never scored:** stars, downloads, and whether AI helped write the code. AI help is shown separately.
 
 ## Three building blocks
 
@@ -63,14 +63,6 @@ A missing measurement is **left out**, not counted as zero. For example, a proje
 Our weights are judgment calls, so every result page also re-runs the math with every signal in a grade weighted equally, the default the OECD/JRC Handbook on composite indicators recommends when there's no evidence for anything else. If a letter would change, the page says so. That tells you the grade depends on *whose* priorities you use, not only on the facts.
 
 ## Shown, never scored
-
-**Host checks.** Each project page shows four yes/no checks about the platform hosting the code:
-1. Is it run by a nonprofit?
-2. Does it promise not to train AI on hosted code?
-3. Is the platform itself open source?
-4. Does it defend against AI scrapers?
-
-These checks say a lot about where *your* contributions go, but they're not the project's fault, so they stay out of the grades. We don't score uptime because we found no comparable public data.
 
 **AI disclosure.** We count how many recent commits say an AI tool helped, using `Co-authored-by` and `Assisted-by` trailers and agent bot accounts. We also note files that set a repository up for AI agents, like `AGENTS.md`. We don't score any of this:
 - Agent pull requests get merged often (62–78% depending on the tool, in [Pinna et al., MSR '26](https://arxiv.org/abs/2602.08915)), but nobody has measured yet whether they make projects easier or harder to maintain.

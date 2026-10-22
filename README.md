@@ -13,7 +13,7 @@ Built for the oSTEM 2026 workshop on open source software and digital autonomy. 
 | Signal collector for GitHub (a Forgejo/Codeberg collector is parked for later) | `assets/js/lib/forges/` |
 | Curated project list and hand-verified facts | `_data/projects.yml` |
 | Weekly grades (generated) | `_data/scores.json` |
-| Host checks, AI privacy matrix, open models | `_data/hosts.yml`, `_data/privacy.yml`, `_data/models.yml` |
+| AI privacy matrix, open models | `_data/privacy.yml`, `_data/models.yml` |
 | Model benchmark questions (CC BY 4.0) and every answer | `bench/tasks.json`, `bench/results/` |
 
 ## Automations (GitHub Actions)

@@ -7,7 +7,7 @@ const num = (n) => Number(n).toLocaleString("en-US");
 
 export function renderRecord(el, record, data, { source = "weekly", onLive } = {}) {
   const weights = data.weights;
-  const host = data.hosts?.[record.host];
+  const hostName = { "github.com": "GitHub", "codeberg.org": "Codeberg", "gitlab.com": "GitLab" }[record.host] || record.host;
   const custom = {};
   let computed = computeGrades(record, weights, custom);
 
@@ -32,7 +32,7 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
     // We can grade the new home only if it's on GitHub; otherwise link out to it.
     const onGitHub = m.url && /^https?:\/\/github\.com\//i.test(m.url) ? m.url.replace(/^https?:\/\//, "") : null;
     el.innerHTML = `
-      <div class="kicker">${esc(host?.name || record.host)}</div>
+      <div class="kicker">${esc(hostName)}</div>
       <h1>${esc(record.name)}</h1>
       <div class="banner info"><strong>This project moved${m.named ? ` to ${esc(m.named)}` : ""}.</strong> The repository here says: “${esc(m.text)}”
       ${onGitHub ? `<p><a class="btn" href="${checkUrl(onGitHub)}">Check ${esc(onGitHub)} →</a></p>` : m.url ? `<p><a class="btn ghost" href="${esc(m.url)}">Visit the new home ↗</a> <span class="muted small">We don't grade projects outside GitHub yet.</span></p>` : ""}
@@ -62,7 +62,7 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
     ${banners.map(([k, h]) => `<div class="banner ${k}">${h}</div>`).join("")}
     <div class="result-head">
       <div>
-        <div class="kicker">Hosted on ${esc(host?.name || record.host)}</div>
+        <div class="kicker">Hosted on ${esc(hostName)}</div>
         <h1>${esc(record.name)}</h1>
         ${record.description ? `<p class="muted prose">${esc(record.description)}</p>` : ""}
         <div class="meta">
@@ -77,7 +77,6 @@ export function renderRecord(el, record, data, { source = "weekly", onLive } = {
       ${weights.grades.map((g) => gradeShell(g)).join("")}
     </div>
     <div class="side">
-      ${hostCard(record, host, data.hosts?.labels || {})}
       ${contextCard(record)}
     </div>
     <div class="stamp">
@@ -166,18 +165,6 @@ function reason(c) {
   const missing = c.parts.filter((p) => p.na).length;
   const base = weak.length ? `Held back by ${weak.slice(0, 2).map((p) => p.label.toLowerCase()).join(" and ")}` : "No weak spots in what we measured";
   return missing ? `${base} · ${missing} not measured` : base;
-}
-
-function hostCard(record, host, labels) {
-  if (!host) return `<div class="card"><h3>Host: ${esc(record.host)}</h3><p class="muted small">We haven't reviewed this host yet. These checks cover the platform, not the project.</p></div>`;
-  const passed = host.checks.filter((c) => c.pass === true).length;
-  return `<div class="card">
-    <h3>Host: ${esc(host.name)} · ${passed} of ${host.checks.length} checks</h3>
-    <p class="muted small">This is about the platform, not the project, so it never affects the grades. ${esc(host.operator)}.</p>
-    <ul class="checks">${host.checks.map((c) => `
-      <li><span class="mark ${c.pass === true ? "yes" : c.pass === false ? "no" : "unk"}" aria-label="${c.pass === true ? "yes" : c.pass === false ? "no" : "unknown"}">${c.pass === true ? "✓" : c.pass === false ? "✕" : "?"}</span>
-      <span><strong>${esc(labels[c.id] || c.id)}.</strong> <span class="muted">${esc(c.detail)}</span>${c.source ? ` <a href="${esc(c.source)}">source</a>` : ""}</span></li>`).join("")}
-    </ul></div>`;
 }
 
 function contextCard(record) {
