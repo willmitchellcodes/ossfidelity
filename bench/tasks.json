@@ -1,6 +1,6 @@
 {
   "name": "OSS Fidelity verified-task set",
-  "version": "1.0",
+  "version": "1.1",
   "license": "CC-BY-4.0",
   "note": "Written for OSS Fidelity in October 2026. Every passage describes invented places and projects, so no model can have memorized the answers, and every item is graded by a script.",
   "system": "You are a careful assistant. Follow the instructions exactly and keep answers short.",

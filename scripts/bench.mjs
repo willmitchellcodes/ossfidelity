@@ -30,7 +30,9 @@ if (!model) { console.error(`Unknown model "${slug}". Use --list.`); process.exi
 // ---------- graders ----------
 const norm = (s) => String(s).toLowerCase().replace(/[“”"'’`*_]/g, "").replace(/\s+/g, " ").trim();
 const words = (s) => String(s).replace(/[.!?,;:]+/g, " ").split(/\s+/).filter(Boolean);
-const NOT_IN_TEXT = /not in the text/i;
+// Saying the answer isn't there counts, in any wording: the test is honesty, not copying a phrase.
+const NOT_IN_TEXT = /not in the text|(does not|doesn't|did not|didn't) (say|state|specify|mention|contain|provide|include|give)|(is not|isn't|was not|wasn't) (stated|mentioned|specified|provided|given|included)|not (stated|mentioned|specified|provided|given) in the text|no information|cannot be determined|can't be determined/i;
+const unquote = (s) => s.trim().replace(/^["'“”‘’`*]+|["'“”‘’`*]+$/g, "").trim();
 
 export function stripThinking(text) {
   return String(text || "").replace(/<think>[\s\S]*?<\/think>/gi, "").replace(/^[\s\S]*<\/think>/i, "").trim();
@@ -51,9 +53,9 @@ export function check(c, ans) {
     case "word_count": { const n = words(a).length; return n >= c.min && n <= c.max; }
     case "no_char": return !a.includes(c.char);
     case "equals": return c.options.some((o) => norm(a).replace(/[.!]$/, "") === norm(o));
-    case "equals_case": return a.replace(/\s+/g, " ") === c.value;
+    case "equals_case": return unquote(a).replace(/\s+/g, " ") === c.value;
     case "lowercase": return /[a-z]/.test(a) && a === a.toLowerCase();
-    case "ends_with": return a.endsWith(c.value);
+    case "ends_with": return unquote(a).endsWith(c.value);
     default: throw new Error(`Unknown check ${c.kind}`);
   }
 }
@@ -100,8 +102,9 @@ if (slug) {
   for (const item of sub) {
     const first = items.find((x) => x.id === item.id).pass;
     const reruns = [];
-    for (const seed of [1, 2]) reruns.push(grade(item, (await ask(item, { temperature: 0.7, seed })).answer));
-    consistency.push({ id: item.id, verdicts: [first, ...reruns], same: reruns.every((v) => v === first) });
+    const answers = [];
+    for (const seed of [1, 2]) { const a = (await ask(item, { temperature: 0.7, seed })).answer; answers.push(a); reruns.push(grade(item, a)); }
+    consistency.push({ id: item.id, verdicts: [first, ...reruns], same: reruns.every((v) => v === first), rerun_answers: answers });
   }
   const cat = {};
   for (const t of ["format", "grounded", "unanswerable"]) {

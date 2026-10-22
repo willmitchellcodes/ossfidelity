@@ -149,7 +149,7 @@ tasks:
     weight: 30
   - id: unanswerable
     label: Admits "not in the text"
-    what: When the passage doesn't contain the answer, the model should say so instead of making one up.
+    what: When the passage doesn't contain the answer, the model should say so (in any words) instead of making one up.
     weight: 25
   - id: consistency
     label: Same verdict three times
