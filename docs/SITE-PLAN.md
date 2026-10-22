@@ -48,13 +48,20 @@
 | D21 | Model benchmark: 30 script-graded questions on invented facts (rules, sticks to source, admits "not in the text", consistency), llama.cpp on GitHub's free CPU runner; gpt-oss-20b skipped as too big | Built |
 | D22 | Discovery opens a monthly issue of candidates; never auto-adds | Built |
 | D23 | Result pages flag weight-sensitive letters (equal-weight re-run) and label quiet projects "may be finished" | Built |
-| D24 | Signal-style blind spot: Security only sees GitHub-visible practices; documented on Method. Hand-verified evidence vs. relabel still **Ask Will** | Documented |
+| D24 | Signal-style blind spot: Security only sees GitHub-visible practices; documented on Method | Relabeled as "Visible security" (D27) |
 | D25 | Host card removed from result pages ("Hosted on GitHub" now sits in the page kicker); every expandable card shows a chevron | Asked by Will (Oct 21) |
+| D26 | License caps (non-compensatory): no license caps Reliability at 39 (F), source-available at 54 (D). A choice that includes an open license ("RSALv2 OR SSPL OR AGPL") counts as open | Built (outside review, Oct 21) |
+| D27 | Security grade renamed **Visible security**; the question says practices kept elsewhere don't show | Built (outside review) |
+| D28 | Code review checks the latest 30 default-branch changes, Scorecard's method: direct pushes count as unreviewed, bots and AI reviewers don't count. Follow-through leaves out bot PRs and stale-bot closures. Prereleases count only when there's no stable release. AI disclosure uses a fixed 90-day window | Built (outside review) |
+| D29 | Letters come from the rounded number shown (Jan's "85" was showing a B) | Built |
+| D30 | **GitHub App** for the weekly job, and an optional **Cloudflare Worker proxy** for live checks and search: read-only allowlist, only queries in `queries.js`, cached, no logs. The site falls back to GitHub directly when it's unset or down | Built; **Will** creates the App and deploys the Worker (`proxy/README.md`) |
+| D31 | Joplin flagged NonFreeAdd: Joplin Server is under a non-open Personal Use License | Built |
 | D20 | **v1 is GitHub only** (projects + open-weight models). Codeberg, self-hosted Forgejo, and GitLab are parked; `forges/forgejo.js` stays in the repo, dormant | Decided by Will (Oct 21) |
 
 ## Next
 
-1. DNS for ossfidelity.com (see README), then re-add the custom domain.
-2. Local-AI app telemetry (Jan, Ollama, PocketPal AI) for the "Local isn't automatically private" section.
-3. Cross-check model openness against the OSAI Index. Later: Codeberg and GitLab.
-4. Re-check privacy cells before the workshop; Copilot's Aug. 2026 app change and Meta's Incognito Chat rollout are the likeliest to move.
+1. Create the GitHub App, run `node proxy/check-token.mjs`, then deploy the proxy and set `github_proxy` (see `proxy/README.md`). Before the workshop, add every project the deck mentions to `projects.yml`.
+2. DNS for ossfidelity.com (see README), then re-add the custom domain.
+3. Local-AI app telemetry (Jan, Ollama, PocketPal AI) for the "Local isn't automatically private" section.
+4. Cross-check model openness against the OSAI Index. Later: Codeberg and GitLab.
+5. Re-check privacy cells before the workshop; Copilot's Aug. 2026 app change and Meta's Incognito Chat rollout are the likeliest to move.

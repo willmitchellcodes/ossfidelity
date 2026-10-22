@@ -26,11 +26,20 @@ export function letterFor(score, letters) {
   return letters[letters.length - 1].letter;
 }
 
-// Status rules that override the math. They're shown on the Method page.
+// Rules that override the math. They're shown on the Method page.
+// A weighted average lets strengths elsewhere hide a dealbreaker, so these cap a grade instead.
 export const OVERRIDES = {
   archived: { grade: "maintenance", cap: 0, note: "The owners archived this repository (read-only)." },
   deprecated: { grade: "maintenance", cap: 10, note: "The README says this project is deprecated or unmaintained." },
+  no_license: { grade: "reliability", cap: 39, note: "No license, so all rights are reserved: nobody else may legally keep this code alive." },
+  source_available: { grade: "reliability", cap: 54, note: "Source-available license: you can read the code, but not freely reuse or fork it." },
 };
+
+/** The override flags that apply to a record: its status, plus what its license allows. */
+export function overrideFlags(record) {
+  const kind = record.license?.kind;
+  return { ...(record.status || {}), no_license: kind === "none", source_available: kind === "source-available" };
+}
 
 /**
  * record.signals: { [id]: { value: number|null, detail?: string } }
@@ -41,7 +50,7 @@ export const OVERRIDES = {
  */
 export function computeGrades(record, weights, custom = {}) {
   const out = { grades: {}, fidelity: null };
-  const status = record.status || {};
+  const status = overrideFlags(record);
   for (const g of weights.grades) {
     let total = 0, have = 0, sum = 0;
     const parts = g.signals.map((s) => {
@@ -69,11 +78,12 @@ export function computeGrades(record, weights, custom = {}) {
     // Points as a share of 100, so the breakdown adds up to the grade.
     for (const p of parts) if (!p.na) p.share = have ? (100 * p.points) / have : 0;
     const enough = confidence >= weights.min_confidence && score !== null;
+    // The letter comes from the number people see, so "85" is never shown with a B.
     out.grades[g.id] = {
       id: g.id,
       label: g.label,
       score: enough ? Math.round(score) : null,
-      letter: enough ? letterFor(score, weights.letters) : "?",
+      letter: enough ? letterFor(Math.round(score), weights.letters) : "?",
       confidence,
       parts,
       notes,
@@ -82,7 +92,7 @@ export function computeGrades(record, weights, custom = {}) {
   const scored = Object.values(out.grades).filter((g) => g.score !== null);
   if (scored.length === weights.grades.length) {
     const f = scored.reduce((a, g) => a + g.score, 0) / scored.length;
-    out.fidelity = { score: Math.round(f), letter: letterFor(f, weights.letters) };
+    out.fidelity = { score: Math.round(f), letter: letterFor(Math.round(f), weights.letters) };
   }
   return out;
 }

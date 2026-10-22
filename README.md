@@ -11,6 +11,9 @@ Built for the oSTEM 2026 workshop on open source software and digital autonomy. 
 | The formula (pure function, no network) | `assets/js/lib/formula.js` |
 | Weights, reasons, and sources (single source of truth) | `_data/weights.json` |
 | Signal collector for GitHub (a Forgejo/Codeberg collector is parked for later) | `assets/js/lib/forges/` |
+| GraphQL queries (the proxy forwards only these) | `assets/js/lib/queries.js` |
+| Optional GitHub proxy for live checks (Cloudflare Worker) | `proxy/` |
+| Tests | `scripts/test.mjs` (`npm test`) |
 | Curated project list and hand-verified facts | `_data/projects.yml` |
 | Weekly grades (generated) | `_data/scores.json` |
 | AI privacy matrix, open models | `_data/privacy.yml`, `_data/models.yml` |
@@ -24,13 +27,15 @@ Built for the oSTEM 2026 workshop on open source software and digital autonomy. 
 | **Weekly scoring** | Mondays, and when the project list, weights, or formula change | Regrades every project in `_data/projects.yml` and refreshes model facts from Hugging Face |
 | **Model benchmark** | monthly, and when the questions or model list change | Runs each small model with llama.cpp on a 4-core, 16 GB machine and grades every answer with a script |
 | **Project discovery** | monthly | Opens one issue listing candidate projects by category. Nothing is added without a human. |
+| **Tests** | every pull request, and pushes that touch code or weights | Runs `npm test`: formula rules, license detection, code review, the proxy, and the GraphQL query against GitHub's schema |
 
-The browser and the weekly GitHub Action share the same JavaScript, so live and cached grades always agree. The method is written up for everyone at [/method/](https://ossfidelity.com/method/).
+The browser and the weekly GitHub Action share the same JavaScript, so live and cached grades use the same formula. Code review needs a GitHub token, so live checks get it from the proxy, or reuse the weekly result when there is no proxy. The method is written up for everyone at [/method/](https://ossfidelity.com/method/).
 
 ## Run it locally
 
 ```sh
 npm install
+npm test                                                           # formula, collectors, proxy
 GITHUB_TOKEN=ghp_yourReadOnlyToken node scripts/score.mjs        # regrade everything
 node scripts/score.mjs --only github.com/llvm/llvm-project       # just one project
 bundle install && bundle exec jekyll serve                         # preview at localhost:4000
@@ -52,7 +57,14 @@ node scripts/bench.mjs --model qwen3-4b --endpoint http://localhost:8080
 4. In the repository's **Settings → Pages → Custom domain**, enter `ossfidelity.com` and save. Tick **Enforce HTTPS** once it becomes available, which can take up to 24 hours.
 5. In **Actions**, run **Weekly scoring** once by hand. It grades every project and redeploys the site.
 
-Optional: save a read-only fine-grained token as the repository secret `SCORER_TOKEN` to raise the API limit from 1,000 to 5,000 requests per hour.
+## Raise GitHub's API limits (optional)
+
+| Where | Without setup | With setup |
+|---|---|---|
+| Weekly scoring job | 1,000 requests/hour (the default Actions token) | 5,000/hour from a GitHub App (`SCORER_APP_CLIENT_ID` variable + `SCORER_APP_PRIVATE_KEY` secret), or a read-only fine-grained token saved as `SCORER_TOKEN` |
+| Live checks and search in the browser | 60 requests/hour per network, shared by everyone on the same Wi-Fi | 5,000/hour shared by all visitors, plus caching, through the proxy in `proxy/` |
+
+The same GitHub App serves both. Step-by-step setup is in [`proxy/README.md`](proxy/README.md). Until it's set up, everything keeps working as before. Live checks through the proxy pass through Cloudflare's network; the Worker itself keeps no logs.
 
 ## Contribute
 

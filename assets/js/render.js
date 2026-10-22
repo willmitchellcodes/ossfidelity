@@ -172,7 +172,10 @@ function contextCard(record) {
   const items = [];
   if (ai) {
     const tools = Object.entries(ai.tools || {}).sort((a, b) => b[1] - a[1]).map(([t, n]) => `${esc(t)} ${n}`).join(", ");
-    items.push(`<li><span class="mark unk">AI</span><span><strong>${ai.disclosed} of the last ${ai.checked} commits disclose AI help</strong>${tools ? ` <span class="muted">(${tools})</span>` : ""}. <span class="muted">This counts disclosed use only and isn't scored either way.</span>${ai.policy ? ` <a href="${esc(ai.policy)}">AI policy</a>` : ""}${ai.agent_files?.length ? ` <span class="muted">· Set up for AI agents: ${ai.agent_files.map(esc).join(", ")}</span>` : ""}</span></li>`);
+    const aiLine = ai.window_days
+      ? (ai.checked ? `${ai.disclosed} of the ${ai.truncated ? `latest ${num(ai.checked)}` : num(ai.checked)} commits from the last ${ai.window_days} days disclose AI help` : `No commits in the last ${ai.window_days} days`)
+      : `${ai.disclosed} of the last ${ai.checked} commits disclose AI help`; // records from before the 90-day window
+    items.push(`<li><span class="mark unk">AI</span><span><strong>${aiLine}</strong>${tools ? ` <span class="muted">(${tools})</span>` : ""}. <span class="muted">This counts disclosed use only and isn't scored either way.</span>${ai.policy ? ` <a href="${esc(ai.policy)}">AI policy</a>` : ""}${ai.agent_files?.length ? ` <span class="muted">· Set up for AI agents: ${ai.agent_files.map(esc).join(", ")}</span>` : ""}</span></li>`);
   }
   if (record.context?.stars !== undefined) items.push(`<li><span class="mark unk">★</span><span><strong>${num(record.context.stars)} stars</strong> <span class="muted">· not scored, because stars are easy to fake.</span></span></li>`);
   if (record.scorecard) items.push(`<li><span class="mark unk">◎</span><span><strong>OpenSSF Scorecard ${record.scorecard.score}/10</strong> <a href="${esc(record.scorecard.url)}">details</a> <span class="muted">· shown for comparison, not mixed in.</span></span></li>`);

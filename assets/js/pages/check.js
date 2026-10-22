@@ -37,15 +37,23 @@ async function live(ref, data) {
   try {
     const spdx = (await (await fetch(url("/assets/data/spdx.json"))).json()).licenses;
     const curatedEntry = (data.projects || []).find((p) => parseRepoUrl(p.repo)?.id.toLowerCase() === ref.id.toLowerCase());
-    const record = await collect(ref, { mode: "live", spdxMap: spdx, curated: curatedEntry?.curated || {}, log: counter });
+    const record = await collect(ref, { mode: "live", proxy: data.proxy || undefined, spdxMap: spdx, curated: curatedEntry?.curated || {}, log: counter });
     record.name = curatedEntry?.name || record.name || ref.repo;
+    // Without the proxy, a live check can't run the code-review query. Reuse the weekly
+    // result when there is one, so the same project never shows two different letters.
+    const weekly = (data.scores?.projects || []).find((p) => p.id.toLowerCase() === ref.id.toLowerCase());
+    const weeklyReview = weekly?.signals?.code_review;
+    if (record.signals && record.signals.code_review?.value == null && weeklyReview?.value != null) {
+      record.signals.code_review = { ...weeklyReview, detail: `${weeklyReview.detail} (from the weekly check, ${new Date(weekly.scored_at).toLocaleDateString()})` };
+    }
     record.anti_features = curatedEntry?.anti_features || [];
     record.computed = computeGrades(record, data.weights);
     renderRecord(out, record, data, { source: "live" });
   } catch (e) {
     const cached = (data.scores?.projects || []).find((p) => p.id.toLowerCase() === ref.id.toLowerCase());
     if (e instanceof RateLimitError) {
-      out.innerHTML = `<div class="banner"><strong>${esc(ref.host)} needs a breather.</strong> Without an account, GitHub allows about 60 requests an hour per network, which is only a few live checks${e.resetAt ? `. It resets at ${esc(e.resetAt.toLocaleTimeString())}` : ""}.
+      const viaProxy = data.proxy && e.host && !/github\.com$/.test(e.host);
+      out.innerHTML = `<div class="banner"><strong>${esc(ref.host)} needs a breather.</strong> ${viaProxy ? "Our GitHub connection is busy right now" : "Without an account, GitHub allows about 60 requests an hour per network, which is only a few live checks"}${e.resetAt ? `. It resets at ${esc(e.resetAt.toLocaleTimeString())}` : ""}.
         ${cached ? `<p><a href="${checkUrl(ref.id)}">Show the weekly grade instead</a></p>` : `<p>Meanwhile, <a href="${url("/browse/")}">browse pre-graded projects</a>.</p>`}</div>`;
     } else if (e instanceof TypeError) {
       const listed = (data.projects || []).find((p) => parseRepoUrl(p.repo)?.id.toLowerCase() === ref.id.toLowerCase());

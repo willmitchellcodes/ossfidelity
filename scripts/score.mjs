@@ -58,9 +58,11 @@ for (const p of projects) {
     const old = prevById.get(ref.id);
     // Relicense watch: record any change of license between runs.
     rec.license_changes = old?.license_changes || [];
-    // Only real license ids count. A better detection (NOASSERTION → MIT) is not a relicense.
+    // Only real license ids count. A better detection (NOASSERTION → MIT) is not a relicense, and
+    // neither is a change in how we detect licenses, so runs of different scorer versions aren't compared.
     const real = (x) => x && !["NOASSERTION", "OTHER"].includes(x);
-    if (real(old?.license?.spdx) && real(rec.license?.spdx) && old.license.spdx !== rec.license.spdx)
+    const sameScorer = prev.weights_version === weights.version;
+    if (sameScorer && real(old?.license?.spdx) && real(rec.license?.spdx) && old.license.spdx !== rec.license.spdx)
       rec.license_changes.push({ from: old.license.spdx, to: rec.license.spdx, seen: now.toISOString().slice(0, 10) });
     rec.computed = computeGrades(rec, weights);
     results.set(ref.id, rec);

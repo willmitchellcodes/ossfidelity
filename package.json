@@ -4,12 +4,17 @@
   "type": "module",
   "description": "Scoring scripts for ossfidelity.com. The site itself is plain Jekyll.",
   "scripts": {
-    "score": "node scripts/score.mjs"
+    "score": "node scripts/score.mjs",
+    "test": "node --test scripts/test.mjs"
   },
   "dependencies": {
     "js-yaml": "^4.1.0"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "@octokit/graphql-schema": "^15.26.1",
+    "graphql": "^16.14.2"
   }
 }

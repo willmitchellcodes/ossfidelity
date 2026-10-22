@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "updated": "2026-10-21",
+  "version": "1.1",
+  "updated": "2026-10-22",
   "letters": [
     { "min": 85, "letter": "A" },
     { "min": 70, "letter": "B" },
@@ -97,7 +97,7 @@
         {
           "id": "follow_through",
           "label": "Follow-through",
-          "measure": "Issues and pull requests closed, divided by those opened, over the last 12 months",
+          "measure": "Issues and pull requests closed, divided by those opened, over the last 12 months. Bot pull requests and stale-bot closures are left out",
           "norm": { "type": "unit" },
           "weight": 25,
           "why": "Shows whether bug reports and contributions get answered.",
@@ -106,7 +106,7 @@
         {
           "id": "release_freshness",
           "label": "Release freshness",
-          "measure": "Days since the latest release (half credit after one year)",
+          "measure": "Days since the latest stable release (half credit after one year). Release candidates and betas count only if there is nothing else",
           "norm": { "type": "fresh", "h": 365 },
           "weight": 10,
           "why": "This is gentle on purpose. A quiet year can mean a project is finished, not abandoned.",
@@ -115,7 +115,7 @@
         {
           "id": "release_cadence",
           "label": "Release cadence",
-          "measure": "Releases in the last 12 months (full credit at 6)",
+          "measure": "Stable releases in the last 12 months (full credit at 6)",
           "norm": { "type": "sat", "T": 6 },
           "weight": 5,
           "why": "Public releases give people a stable version to install.",
@@ -134,13 +134,13 @@
     },
     {
       "id": "security",
-      "label": "Security",
-      "question": "Does it follow security practices you can see from outside?",
+      "label": "Visible security",
+      "question": "Does it follow the security practices you can see on GitHub? Practices kept elsewhere, like app-store signing, don't show up here.",
       "signals": [
         {
           "id": "release_integrity",
           "label": "Release integrity",
-          "measure": "Signatures (1) or checksums (0.5) published with the latest release",
+          "measure": "Signatures (1) or checksums (0.5) published with the latest stable release",
           "norm": { "type": "unit" },
           "weight": 7.5,
           "why": "Lets you confirm a download wasn't tampered with. This weight matches OpenSSF Scorecard's High-risk Signed-Releases check.",
@@ -158,10 +158,10 @@
         {
           "id": "code_review",
           "label": "Code review",
-          "measure": "Share of the last 20 merged changes that someone other than the author approved or merged",
+          "measure": "Share of the last 30 human changes on the main branch that arrived through a pull request someone else approved or merged. A change pushed straight to the branch counts as unreviewed; bots and AI reviewers don't count as reviewers",
           "norm": { "type": "unit" },
           "weight": 7.5,
-          "why": "A second pair of eyes catches mistakes and sabotage. Scorecard rates this check High risk. It runs only in our weekly job, not in live checks.",
+          "why": "A second pair of eyes catches mistakes and sabotage. Scorecard rates this check High risk and checks it the same way. It needs a GitHub token, so live checks run it only through the site's proxy.",
           "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#code-review" }
         },
         {

@@ -35,12 +35,22 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Optional: a GitHub App token (5,000 requests/hour, separate from anyone's personal
+      # budget, expires after an hour). Skipped until the App is set up; see README.
+      - name: Get a GitHub App token
+        id: app
+        if: ${{ vars.SCORER_APP_CLIENT_ID != '' }}
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.SCORER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.SCORER_APP_PRIVATE_KEY }}
       - name: Score projects
         run: node scripts/score.mjs ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
         env:
-          # The default token allows 1,000 GitHub API requests/hour. A read-only
-          # fine-grained token saved as SCORER_TOKEN raises that to 5,000.
-          GITHUB_TOKEN: ${{ secrets.SCORER_TOKEN || github.token }}
+          # First available of: the App token, a read-only fine-grained token saved as
+          # SCORER_TOKEN (5,000/hour), or the default token (1,000/hour). Only scoring uses it;
+          # checkout and the commit below keep the default token.
+          GITHUB_TOKEN: ${{ steps.app.outputs.token || secrets.SCORER_TOKEN || github.token }}
       - name: Refresh open-model facts from Hugging Face
         run: node scripts/models.mjs
         continue-on-error: true
