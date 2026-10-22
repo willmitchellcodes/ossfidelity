@@ -1,0 +1,197 @@
+{
+  "version": "1.0",
+  "updated": "2026-10-21",
+  "letters": [
+    { "min": 85, "letter": "A" },
+    { "min": 70, "letter": "B" },
+    { "min": 55, "letter": "C" },
+    { "min": 40, "letter": "D" },
+    { "min": 0, "letter": "F" }
+  ],
+  "min_confidence": 0.6,
+  "grades": [
+    {
+      "id": "reliability",
+      "label": "Reliability",
+      "question": "Will it still be here, and still be open, if a key person leaves?",
+      "signals": [
+        {
+          "id": "bus_factor",
+          "label": "Bus factor",
+          "measure": "Fewest people who wrote half of the last year's human commits",
+          "norm": { "type": "sat", "T": 5 },
+          "weight": 25,
+          "why": "When one person writes most of the code, the project stalls if they step away. The top contributor's share was one of the strongest predictors of whether a project stayed maintained.",
+          "source": { "name": "Coelho et al. 2020", "url": "https://arxiv.org/abs/2003.04755" }
+        },
+        {
+          "id": "active_contributors",
+          "label": "Active contributors",
+          "measure": "People (not bots) with a commit in the last 12 months",
+          "norm": { "type": "sat", "T": 25 },
+          "weight": 15,
+          "why": "With more people involved, fixes keep coming when someone gets busy.",
+          "source": { "name": "CHAOSS: Contributors", "url": "https://chaoss.community/kb/metric-contributors/" }
+        },
+        {
+          "id": "backing",
+          "label": "Backing",
+          "measure": "Owner is a foundation or nonprofit (1), an organization (0.6), or a personal account (0.3)",
+          "norm": { "type": "unit" },
+          "weight": 15,
+          "why": "In one study, 63% of projects that became unmaintained belonged to personal accounts, while 74% of active ones belonged to organizations. We verify foundation status by hand.",
+          "source": { "name": "Coelho et al. 2020", "url": "https://arxiv.org/abs/2003.04755" }
+        },
+        {
+          "id": "license",
+          "label": "License",
+          "measure": "OSI and FSF approved (1), one of the two (0.9), unrecognized (0.5), source-available (0.25), none (0)",
+          "norm": { "type": "unit" },
+          "weight": 15,
+          "why": "An open license lets anyone keep the code alive if the original team walks away. A repo being public doesn't make it open.",
+          "source": { "name": "SPDX License List", "url": "https://spdx.org/licenses/" }
+        },
+        {
+          "id": "age",
+          "label": "Age",
+          "measure": "Years since the first commit (full credit at 5)",
+          "norm": { "type": "linear", "max": 5 },
+          "weight": 15,
+          "why": "A project that has lasted years has survived real use.",
+          "source": { "name": "OpenSSF Criticality Score (created_since)", "url": "https://github.com/ossf/criticality_score" }
+        },
+        {
+          "id": "history",
+          "label": "Track record",
+          "measure": "Total commits (full credit at 2,000)",
+          "norm": { "type": "sat", "T": 2000 },
+          "weight": 15,
+          "why": "A deep history shows sustained work. Past 2,000 commits, more adds little.",
+          "source": { "name": "OpenSSF Criticality Score (log scaling)", "url": "https://github.com/ossf/criticality_score" }
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "question": "Is someone actively fixing, releasing, and documenting it?",
+      "signals": [
+        {
+          "id": "recent_commits",
+          "label": "Recent activity",
+          "measure": "Human commits in the last 90 days (full credit at 50)",
+          "norm": { "type": "sat", "T": 50 },
+          "weight": 25,
+          "why": "Commits in the most recent three months were the strongest single predictor of whether a project is maintained.",
+          "source": { "name": "Coelho et al. 2020", "url": "https://arxiv.org/abs/2003.04755" }
+        },
+        {
+          "id": "longest_gap",
+          "label": "Steadiness",
+          "measure": "Longest stretch without commits in the last 12 months (0 days earns full credit, 180 or more earns none)",
+          "norm": { "type": "gap", "max": 180 },
+          "weight": 20,
+          "why": "Long silences were the next-strongest warning sign.",
+          "source": { "name": "Coelho et al. 2020", "url": "https://arxiv.org/abs/2003.04755" }
+        },
+        {
+          "id": "follow_through",
+          "label": "Follow-through",
+          "measure": "Issues and pull requests closed, divided by those opened, over the last 12 months",
+          "norm": { "type": "unit" },
+          "weight": 25,
+          "why": "Shows whether bug reports and contributions get answered.",
+          "source": { "name": "CHAOSS: Change Request Closure Ratio", "url": "https://chaoss.community/kb/metric-change-request-closure-ratio/" }
+        },
+        {
+          "id": "release_freshness",
+          "label": "Release freshness",
+          "measure": "Days since the latest release (half credit after one year)",
+          "norm": { "type": "fresh", "h": 365 },
+          "weight": 10,
+          "why": "This is gentle on purpose. A quiet year can mean a project is finished, not abandoned.",
+          "source": { "name": "Coelho et al. 2020 (\"finished\" projects)", "url": "https://arxiv.org/abs/2003.04755" }
+        },
+        {
+          "id": "release_cadence",
+          "label": "Release cadence",
+          "measure": "Releases in the last 12 months (full credit at 6)",
+          "norm": { "type": "sat", "T": 6 },
+          "weight": 5,
+          "why": "Public releases give people a stable version to install.",
+          "source": { "name": "CHAOSS: Release Frequency", "url": "https://chaoss.community/kb/metric-release-frequency/" }
+        },
+        {
+          "id": "docs",
+          "label": "Documentation",
+          "measure": "README (1/3), plus a docs site or folder (1/3), plus docs edited in the last year (1/3)",
+          "norm": { "type": "unit" },
+          "weight": 15,
+          "why": "If nobody can learn how to use it, nobody can help maintain it.",
+          "source": { "name": "CHAOSS: Documentation Usability", "url": "https://chaoss.community/kb/metric-documentation-usability/" }
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "question": "Does it follow security practices you can see from outside?",
+      "signals": [
+        {
+          "id": "release_integrity",
+          "label": "Release integrity",
+          "measure": "Signatures (1) or checksums (0.5) published with the latest release",
+          "norm": { "type": "unit" },
+          "weight": 7.5,
+          "why": "Lets you confirm a download wasn't tampered with. This weight matches OpenSSF Scorecard's High-risk Signed-Releases check.",
+          "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#signed-releases" }
+        },
+        {
+          "id": "dependency_updates",
+          "label": "Dependency updates",
+          "measure": "Dependabot or Renovate is configured to keep dependencies patched",
+          "norm": { "type": "unit" },
+          "weight": 7.5,
+          "why": "Most security holes arrive through outdated dependencies. Scorecard rates this check High risk.",
+          "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#dependency-update-tool" }
+        },
+        {
+          "id": "code_review",
+          "label": "Code review",
+          "measure": "Share of the last 20 merged changes that someone other than the author approved or merged",
+          "norm": { "type": "unit" },
+          "weight": 7.5,
+          "why": "A second pair of eyes catches mistakes and sabotage. Scorecard rates this check High risk. It runs only in our weekly job, not in live checks.",
+          "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#code-review" }
+        },
+        {
+          "id": "security_policy",
+          "label": "Security policy",
+          "measure": "A SECURITY file explains how to report a vulnerability privately",
+          "norm": { "type": "unit" },
+          "weight": 5,
+          "why": "Gives people a safe way to report problems before attackers find them. Scorecard rates this check Medium risk.",
+          "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#security-policy" }
+        },
+        {
+          "id": "ci",
+          "label": "Automated tests",
+          "measure": "CI workflows run automatically on changes",
+          "norm": { "type": "unit" },
+          "weight": 2.5,
+          "why": "Catches breakage before release. Scorecard rates this check Low risk.",
+          "source": { "name": "OpenSSF Scorecard", "url": "https://github.com/ossf/scorecard/blob/main/docs/checks.md#ci-tests" }
+        },
+        {
+          "id": "best_practices",
+          "label": "Best-practices badge",
+          "measure": "OpenSSF Best Practices badge: passing (0.5), silver or gold (1)",
+          "norm": { "type": "unit" },
+          "weight": 2.5,
+          "why": "A self-certified checklist reviewed by OpenSSF. Scorecard rates this check Low risk.",
+          "source": { "name": "OpenSSF Best Practices", "url": "https://www.bestpractices.dev/" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+---
+layout: default
+title: Open models
+permalink: /models/
+description: Small open-weight AI models graded on openness and on tasks a script can verify.
+---
+{% assign md = site.data.models %}
+{% assign parts = "weights,code,data" | split: "," %}
+<h1>Open <em>weights</em> aren't the whole story</h1>
+<p class="lede">The Open Source AI Definition asks for three things: the weights, the code, and enough about the training data to rebuild it. Most "open" models share only the first.</p>
+
+<div class="banner info"><strong>Draft.</strong> These openness ratings come from model cards and our research notes. Before the workshop, each one is being checked against the <a href="https://osai-index.eu/">European Open Source AI Index</a>. The task benchmark runs for the first time once the site is on GitHub.</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Model</th><th>License</th><th class="c">Weights</th><th class="c">Code</th><th class="c">Data</th><th class="num">Openness</th><th class="num">Laptop fit*</th></tr></thead>
+  <tbody>
+  {%- for m in md.models %}
+    {%- assign o = m.openness.weights | plus: m.openness.code | plus: m.openness.data | times: 100 | divided_by: 3.0 | round -%}
+    {%- assign gb = m.params_b | times: 0.5 | round: 1 -%}
+    <tr>
+      <td><a href="{{ m.link }}"><strong>{{ m.name }}</strong></a><br><span class="muted small">{{ m.maker }} · {{ m.params_b }}B parameters</span></td>
+      <td>{% if m.openness.weights == 1 %}<span class="chip good">{{ m.license }}</span>{% else %}<span class="chip warn" title="Open weights with use restrictions">{{ m.license }}</span>{% endif %}</td>
+      {%- for part in parts -%}{%- assign v = m.openness[part] -%}
+      <td class="c"><span class="pip {% if v == 1 %}p2{% elsif v == 0.5 %}p1{% else %}p0{% endif %}" role="img" aria-label="{% if v == 1 %}full{% elsif v == 0.5 %}partial{% else %}closed{% endif %}"></span></td>
+      {%- endfor %}
+      <td class="num"><strong>{{ o }}</strong></td>
+      <td class="num">≈{{ gb }} GB<br><span class="muted small">{% if gb <= 5 %}8 GB laptop{% elsif gb <= 11 %}16 GB laptop{% else %}needs more{% endif %}</span></td>
+    </tr>
+  {%- endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted small">* Weights only, at 4-bit (about half a gigabyte per billion parameters). Your app, the conversation, and your operating system need room too. <span class="pip p2"></span> full · <span class="pip p1"></span> partial · <span class="pip p0"></span> closed</p>
+
+<h2>A small test anyone can rerun</h2>
+<p class="prose">We only score tasks a script can check, because AI is most useful where output can be verified. Each model runs on GitHub's free CPU machines (4 cores, 16 GB), so the results reflect what an ordinary laptop can do. Every prompt and answer is published.</p>
+<div class="grid-auto">
+{% for t in md.tasks %}
+  <div class="card"><div class="kicker">Task {{ forloop.index }}</div><h3>{{ t.label }}</h3><p>{{ t.what }}</p></div>
+{% endfor %}
+</div>
+<p class="muted small">This is a small sample, so differences under about 10 points are noise. A model can do well here and still be wrong about things outside the passage you give it.</p>

@@ -1,0 +1,41 @@
+name: Weekly scoring
+on:
+  schedule:
+    - cron: "17 9 * * 1"   # Mondays 09:17 UTC
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Score just one project, e.g. github.com/llvm/llvm-project (leave blank for all)"
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scoring
+
+jobs:
+  score:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Score projects
+        run: node scripts/score.mjs ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
+        env:
+          # The default token allows 1,000 GitHub API requests/hour. A read-only
+          # fine-grained token saved as SCORER_TOKEN raises that to 5,000.
+          GITHUB_TOKEN: ${{ secrets.SCORER_TOKEN || github.token }}
+      - name: Commit new scores
+        run: |
+          git config user.name "ossfidelity-scorer"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/scores.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Weekly scores $(date -u +%F)"
+          git push

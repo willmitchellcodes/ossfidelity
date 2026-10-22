@@ -1,0 +1,17 @@
+---
+layout: default
+title: Check a project
+permalink: /check/
+nav: Check
+scripts: [/assets/js/pages/check.js]
+---
+<form class="search" id="check-form" role="search" action="{{ '/check/' | relative_url }}" method="get" autocomplete="off">
+  <label for="q" class="visually-hidden">Repository link or project name</label>
+  <input id="q" name="r" type="text" placeholder="Paste a GitHub link" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false" spellcheck="false">
+  <button class="btn" type="submit">Check</button>
+  <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+</form>
+<div id="result" aria-live="polite">
+  <p class="skeleton">Paste a link above, or <a href="{{ '/browse/' | relative_url }}">browse graded projects</a>.</p>
+</div>
+<noscript><p class="banner">Live checks need JavaScript. Pre-graded projects are listed on the <a href="{{ '/browse/' | relative_url }}">Browse</a> page.</p></noscript>

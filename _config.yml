@@ -1,0 +1,28 @@
+title: OSS Fidelity
+tagline: Check open source before you trust it.
+description: >-
+  Paste a link or search for an open source project and get plain-English grades
+  for reliability, maintenance, and security, plus every reason behind them.
+url: https://ossfidelity.com
+baseurl: ""
+lang: en
+source_repo: https://github.com/willmitchellcodes/ossfidelity
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+permalink: pretty
+
+exclude:
+  - docs/
+  - scripts/
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - vendor/

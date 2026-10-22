@@ -1,0 +1,47 @@
+---
+layout: default
+title: Browse
+permalink: /browse/
+description: Hand-picked open source projects, graded every week.
+scripts: [/assets/js/pages/browse.js]
+---
+{% assign scores = site.data.scores.projects %}
+{% assign gids = "reliability,maintenance,security" | split: "," %}
+{% assign cats = "coding|Coding tools,local-ai|Local AI,communication|Communication,art|Art & media,notes|Notes,office|Office,everyday|Everyday" | split: "," %}
+<h1>Browse</h1>
+<p class="lede">Hand-picked projects, regraded every week. Only projects with an open source license are listed.</p>
+
+<div class="filters" role="group" aria-label="Filter by category">
+  <button type="button" data-cat="all" aria-pressed="true">All</button>
+  {% for c in cats %}{% assign kv = c | split: "|" %}<button type="button" data-cat="{{ kv[0] }}" aria-pressed="false">{{ kv[1] }}</button>{% endfor %}
+</div>
+
+<div class="table-wrap">
+<table id="board">
+  <thead><tr><th>Project</th><th class="c">Fidelity</th><th class="c" title="Reliability">Rel.</th><th class="c" title="Maintenance">Maint.</th><th class="c" title="Security">Sec.</th></tr></thead>
+  <tbody>
+  {% for s in scores %}{% if s.computed %}
+    {% assign p = site.data.projects | where: "repo", s.url | first %}
+    <tr data-cat="{{ s.category }}" data-host="{{ s.host }}">
+      <td><a href="{{ '/check/' | relative_url }}?r={{ s.id }}"><strong>{{ s.name }}</strong></a><br><span class="muted small">{{ s.blurb }}</span></td>
+      {% assign f = s.computed.fidelity %}
+      <td class="c">{% if f %}<span class="letter g-{{ f.letter }}">{{ f.letter }}</span> {{ f.score }}{% else %}<span class="letter g-?">?</span>{% endif %}</td>
+      {% for gid in gids %}{% assign g = s.computed.grades[gid] %}
+      <td class="c"><span class="letter g-{{ g.letter }}" title="{{ g.label }} {{ g.score }}">{{ g.letter }}</span></td>
+      {% endfor %}
+    </tr>
+  {% endif %}{% endfor %}
+  {% for p in site.data.projects %}
+    {% assign s = scores | where: "url", p.repo | first %}
+    {% unless s.computed %}
+    {% assign host = p.repo | split: "/" %}
+    <tr class="pending" data-cat="{{ p.category }}" data-host="{{ host[2] }}">
+      <td><strong>{{ p.name }}</strong><br><span class="small">{{ p.blurb }}</span></td>
+      <td colspan="4" class="small">{% if p.pending %}Waiting on {{ p.pending }}{% else %}Graded on the next weekly run{% endif %}</td>
+    </tr>
+    {% endunless %}
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<p class="muted small">Last regraded {% if site.data.scores.generated_at %}{{ site.data.scores.generated_at | date: "%B %-d, %Y" }}{% else %}never{% endif %}. Missing something? <a href="{{ site.source_repo }}/issues/new?title=Suggest+a+project">Suggest a project</a>.</p>

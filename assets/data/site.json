@@ -1,0 +1,5 @@
+---
+layout: null
+permalink: /assets/data/site.json
+---
+{"weights": {{ site.data.weights | jsonify }}, "scores": {{ site.data.scores | jsonify }}, "hosts": {{ site.data.hosts | jsonify }}, "projects": {{ site.data.projects | jsonify }}}

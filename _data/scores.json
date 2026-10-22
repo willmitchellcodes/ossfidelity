@@ -1,0 +1,667 @@
+{
+ "generated_at": "2026-10-22T01:41:32.525Z",
+ "weights_version": "1.0",
+ "projects": [
+  {
+   "id": "github.com/llvm/llvm-project",
+   "forge": "github",
+   "host": "github.com",
+   "owner": "llvm",
+   "repo": "llvm-project",
+   "url": "https://github.com/llvm/llvm-project",
+   "name": "LLVM",
+   "description": "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies.",
+   "homepage": "http://llvm.org",
+   "scored_at": "2026-10-22T01:31:17.779Z",
+   "mode": "full",
+   "status": {
+    "archived": false,
+    "fork": false,
+    "mirror": null,
+    "moved_to": null,
+    "deprecated": false
+   },
+   "license": {
+    "spdx": "Apache-2.0 WITH LLVM-exception",
+    "kind": "open",
+    "label": "Apache-2.0 WITH LLVM-exception: OSI and FSF approved",
+    "source": "verified by hand"
+   },
+   "ai": {
+    "checked": 100,
+    "disclosed": 37,
+    "tools": {
+     "Assisted-by tag": 29,
+     "Claude": 8
+    }
+   },
+   "context": {
+    "stars": 41148,
+    "forks": 19227,
+    "open_issues": 40870
+   },
+   "scorecard": null,
+   "signals": {
+    "license": {
+     "value": 1,
+     "detail": "Apache-2.0 WITH LLVM-exception: OSI and FSF approved (verified by hand)"
+    },
+    "bus_factor": {
+     "value": 90,
+     "detail": "90 people wrote half of 48,518 human commits this year"
+    },
+    "active_contributors": {
+     "value": 332,
+     "detail": "332+ people committed in the last 12 months"
+    },
+    "recent_commits": {
+     "value": 14371,
+     "detail": "14,371 human commits in the last 90 days"
+    },
+    "longest_gap": {
+     "value": 0,
+     "detail": "Commits every week this year"
+    },
+    "history": {
+     "value": 603918,
+     "detail": "603,918 commits in total"
+    },
+    "age": {
+     "value": 25.37497581498593,
+     "detail": "First commit 2001-06-06 (25.4 years ago)"
+    },
+    "follow_through": {
+     "value": 0.8716533499010273,
+     "detail": "60,328 closed vs 69,211 opened (issues 9,238/12,401, pull requests 51,090/56,810)"
+    },
+    "release_freshness": {
+     "value": 2,
+     "detail": "Latest release llvmorg-23.1.4: 2026-10-20 (2 days ago)"
+    },
+    "release_cadence": {
+     "value": 23,
+     "detail": "23 releases in the last 12 months"
+    },
+    "release_integrity": {
+     "value": 1,
+     "detail": "Signature files attached to the latest release"
+    },
+    "docs": {
+     "value": 1,
+     "detail": "README \u2713 \u00b7 docs site/folder \u2713 \u00b7 updated this year \u2713"
+    },
+    "security_policy": {
+     "value": 1,
+     "detail": "Security policy found in the repository"
+    },
+    "dependency_updates": {
+     "value": 1,
+     "detail": "Dependabot or Renovate configured"
+    },
+    "ci": {
+     "value": 1,
+     "detail": "CI found: GitHub Actions"
+    },
+    "best_practices": {
+     "value": null,
+     "detail": "Couldn't reach bestpractices.dev"
+    },
+    "code_review": {
+     "value": null,
+     "detail": "Needs a token (weekly job only)"
+    },
+    "backing": {
+     "value": 1,
+     "detail": "LLVM Foundation (foundation or nonprofit, verified by hand)"
+    }
+   },
+   "notes": [],
+   "calls": 16,
+   "category": "coding",
+   "blurb": "Compiler toolchain behind Clang, Rust, Swift, and more.",
+   "anti_features": [],
+   "license_changes": [],
+   "computed": {
+    "grades": {
+     "reliability": {
+      "id": "reliability",
+      "label": "Reliability",
+      "score": 100,
+      "letter": "A",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "bus_factor",
+        "label": "Bus factor",
+        "weight": 25,
+        "raw": 90,
+        "norm": 1,
+        "points": 25,
+        "detail": "90 people wrote half of 48,518 human commits this year",
+        "share": 25
+       },
+       {
+        "id": "active_contributors",
+        "label": "Active contributors",
+        "weight": 15,
+        "raw": 332,
+        "norm": 1,
+        "points": 15,
+        "detail": "332+ people committed in the last 12 months",
+        "share": 15
+       },
+       {
+        "id": "backing",
+        "label": "Backing",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "LLVM Foundation (foundation or nonprofit, verified by hand)",
+        "share": 15
+       },
+       {
+        "id": "license",
+        "label": "License",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "Apache-2.0 WITH LLVM-exception: OSI and FSF approved (verified by hand)",
+        "share": 15
+       },
+       {
+        "id": "age",
+        "label": "Age",
+        "weight": 15,
+        "raw": 25.37497581498593,
+        "norm": 1,
+        "points": 15,
+        "detail": "First commit 2001-06-06 (25.4 years ago)",
+        "share": 15
+       },
+       {
+        "id": "history",
+        "label": "Track record",
+        "weight": 15,
+        "raw": 603918,
+        "norm": 1,
+        "points": 15,
+        "detail": "603,918 commits in total",
+        "share": 15
+       }
+      ],
+      "notes": []
+     },
+     "maintenance": {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "score": 97,
+      "letter": "A",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "recent_commits",
+        "label": "Recent activity",
+        "weight": 25,
+        "raw": 14371,
+        "norm": 1,
+        "points": 25,
+        "detail": "14,371 human commits in the last 90 days",
+        "share": 25
+       },
+       {
+        "id": "longest_gap",
+        "label": "Steadiness",
+        "weight": 20,
+        "raw": 0,
+        "norm": 1,
+        "points": 20,
+        "detail": "Commits every week this year",
+        "share": 20
+       },
+       {
+        "id": "follow_through",
+        "label": "Follow-through",
+        "weight": 25,
+        "raw": 0.8716533499010273,
+        "norm": 0.8716533499010273,
+        "points": 21.79133374752568,
+        "detail": "60,328 closed vs 69,211 opened (issues 9,238/12,401, pull requests 51,090/56,810)",
+        "share": 21.791333747525684
+       },
+       {
+        "id": "release_freshness",
+        "label": "Release freshness",
+        "weight": 10,
+        "raw": 2,
+        "norm": 0.9962091367899787,
+        "points": 9.962091367899786,
+        "detail": "Latest release llvmorg-23.1.4: 2026-10-20 (2 days ago)",
+        "share": 9.962091367899786
+       },
+       {
+        "id": "release_cadence",
+        "label": "Release cadence",
+        "weight": 5,
+        "raw": 23,
+        "norm": 1,
+        "points": 5,
+        "detail": "23 releases in the last 12 months",
+        "share": 5
+       },
+       {
+        "id": "docs",
+        "label": "Documentation",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "README \u2713 \u00b7 docs site/folder \u2713 \u00b7 updated this year \u2713",
+        "share": 15
+       }
+      ],
+      "notes": []
+     },
+     "security": {
+      "id": "security",
+      "label": "Security",
+      "score": 100,
+      "letter": "A",
+      "confidence": 0.6923076923076923,
+      "parts": [
+       {
+        "id": "release_integrity",
+        "label": "Release integrity",
+        "weight": 7.5,
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "Signature files attached to the latest release",
+        "share": 33.333333333333336
+       },
+       {
+        "id": "dependency_updates",
+        "label": "Dependency updates",
+        "weight": 7.5,
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "Dependabot or Renovate configured",
+        "share": 33.333333333333336
+       },
+       {
+        "id": "code_review",
+        "label": "Code review",
+        "weight": 7.5,
+        "na": true,
+        "detail": "Needs a token (weekly job only)"
+       },
+       {
+        "id": "security_policy",
+        "label": "Security policy",
+        "weight": 5,
+        "raw": 1,
+        "norm": 1,
+        "points": 5,
+        "detail": "Security policy found in the repository",
+        "share": 22.22222222222222
+       },
+       {
+        "id": "ci",
+        "label": "Automated tests",
+        "weight": 2.5,
+        "raw": 1,
+        "norm": 1,
+        "points": 2.5,
+        "detail": "CI found: GitHub Actions",
+        "share": 11.11111111111111
+       },
+       {
+        "id": "best_practices",
+        "label": "Best-practices badge",
+        "weight": 2.5,
+        "na": true,
+        "detail": "Couldn't reach bestpractices.dev"
+       }
+      ],
+      "notes": []
+     }
+    },
+    "fidelity": {
+     "score": 99,
+     "letter": "A"
+    }
+   }
+  },
+  {
+   "id": "github.com/msu/pika-orm",
+   "forge": "github",
+   "host": "github.com",
+   "owner": "msu",
+   "repo": "pika-orm",
+   "url": "https://github.com/msu/pika-orm",
+   "name": "Pika ORM",
+   "description": "Pika ORM for Java",
+   "homepage": "",
+   "scored_at": "2026-10-22T01:41:32.525Z",
+   "mode": "full",
+   "status": {
+    "archived": false,
+    "fork": false,
+    "mirror": null,
+    "moved_to": null,
+    "deprecated": false
+   },
+   "license": {
+    "spdx": "0BSD",
+    "kind": "open",
+    "label": "0BSD: OSI approved",
+    "source": "detected from LICENSE.txt"
+   },
+   "ai": {
+    "checked": 100,
+    "disclosed": 0,
+    "tools": {},
+    "agent_files": [
+     "AGENTS.md"
+    ]
+   },
+   "context": {
+    "stars": 3,
+    "forks": 0,
+    "open_issues": 0
+   },
+   "scorecard": null,
+   "signals": {
+    "license": {
+     "value": 0.9,
+     "detail": "0BSD: OSI approved (detected from LICENSE.txt)"
+    },
+    "bus_factor": {
+     "value": 1,
+     "detail": "1 person wrote half of 88 human commits this year"
+    },
+    "active_contributors": {
+     "value": 4,
+     "detail": "4 people committed in the last 12 months"
+    },
+    "recent_commits": {
+     "value": 16,
+     "detail": "16 human commits in the last 90 days"
+    },
+    "longest_gap": {
+     "value": 91,
+     "detail": "Longest quiet stretch: about 91 days"
+    },
+    "history": {
+     "value": 276,
+     "detail": "276 commits in total"
+    },
+    "age": {
+     "value": 1.3835127362346946,
+     "detail": "First commit 2025-06-03 (1.4 years ago)"
+    },
+    "follow_through": {
+     "value": null,
+     "detail": "No issues or pull requests opened in the last year"
+    },
+    "release_freshness": {
+     "value": 3,
+     "detail": "Latest tag v0.1.4: 2026-10-18 (3 days ago)"
+    },
+    "release_cadence": {
+     "value": 4,
+     "detail": "4 tags in the last 12 months"
+    },
+    "release_integrity": {
+     "value": 0,
+     "detail": "Tags only, with no signed files attached on the forge"
+    },
+    "docs": {
+     "value": 1,
+     "detail": "README \u2713 \u00b7 docs site/folder \u2713 \u00b7 updated this year \u2713"
+    },
+    "security_policy": {
+     "value": 0,
+     "detail": "No SECURITY file found"
+    },
+    "dependency_updates": {
+     "value": 0,
+     "detail": "Has dependencies but no Dependabot or Renovate config found"
+    },
+    "ci": {
+     "value": 0,
+     "detail": "No CI configuration found"
+    },
+    "best_practices": {
+     "value": null,
+     "detail": "Couldn't reach bestpractices.dev"
+    },
+    "code_review": {
+     "value": null,
+     "detail": "Needs a token (weekly job only)"
+    },
+    "backing": {
+     "value": 0.6,
+     "detail": "Owned by the organization \"msu\""
+    }
+   },
+   "notes": [],
+   "calls": 22,
+   "category": "coding",
+   "blurb": "A young Java ORM, our \"middle of the road\" example.",
+   "anti_features": [],
+   "license_changes": [],
+   "computed": {
+    "grades": {
+     "reliability": {
+      "id": "reliability",
+      "label": "Reliability",
+      "score": 55,
+      "letter": "D",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "bus_factor",
+        "label": "Bus factor",
+        "weight": 25,
+        "raw": 1,
+        "norm": 0.3868528072345416,
+        "points": 9.671320180863539,
+        "detail": "1 person wrote half of 88 human commits this year",
+        "share": 9.671320180863539
+       },
+       {
+        "id": "active_contributors",
+        "label": "Active contributors",
+        "weight": 15,
+        "raw": 4,
+        "norm": 0.49398103882196526,
+        "points": 7.409715582329479,
+        "detail": "4 people committed in the last 12 months",
+        "share": 7.409715582329479
+       },
+       {
+        "id": "backing",
+        "label": "Backing",
+        "weight": 15,
+        "raw": 0.6,
+        "norm": 0.6,
+        "points": 9,
+        "detail": "Owned by the organization \"msu\"",
+        "share": 9
+       },
+       {
+        "id": "license",
+        "label": "License",
+        "weight": 15,
+        "raw": 0.9,
+        "norm": 0.9,
+        "points": 13.5,
+        "detail": "0BSD: OSI approved (detected from LICENSE.txt)",
+        "share": 13.5
+       },
+       {
+        "id": "age",
+        "label": "Age",
+        "weight": 15,
+        "raw": 1.3835127362346946,
+        "norm": 0.27670254724693893,
+        "points": 4.150538208704084,
+        "detail": "First commit 2025-06-03 (1.4 years ago)",
+        "share": 4.150538208704084
+       },
+       {
+        "id": "history",
+        "label": "Track record",
+        "weight": 15,
+        "raw": 276,
+        "norm": 0.7398657851065213,
+        "points": 11.09798677659782,
+        "detail": "276 commits in total",
+        "share": 11.09798677659782
+       }
+      ],
+      "notes": []
+     },
+     "maintenance": {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "score": 76,
+      "letter": "B",
+      "confidence": 0.75,
+      "parts": [
+       {
+        "id": "recent_commits",
+        "label": "Recent activity",
+        "weight": 25,
+        "raw": 16,
+        "norm": 0.7205846872952778,
+        "points": 18.014617182381944,
+        "detail": "16 human commits in the last 90 days",
+        "share": 24.019489576509258
+       },
+       {
+        "id": "longest_gap",
+        "label": "Steadiness",
+        "weight": 20,
+        "raw": 91,
+        "norm": 0.49444444444444446,
+        "points": 9.88888888888889,
+        "detail": "Longest quiet stretch: about 91 days",
+        "share": 13.185185185185185
+       },
+       {
+        "id": "follow_through",
+        "label": "Follow-through",
+        "weight": 25,
+        "na": true,
+        "detail": "No issues or pull requests opened in the last year"
+       },
+       {
+        "id": "release_freshness",
+        "label": "Release freshness",
+        "weight": 10,
+        "raw": 3,
+        "norm": 0.9943190975860928,
+        "points": 9.943190975860928,
+        "detail": "Latest tag v0.1.4: 2026-10-18 (3 days ago)",
+        "share": 13.25758796781457
+       },
+       {
+        "id": "release_cadence",
+        "label": "Release cadence",
+        "weight": 5,
+        "raw": 4,
+        "norm": 0.8270874753469162,
+        "points": 4.135437376734581,
+        "detail": "4 tags in the last 12 months",
+        "share": 5.5139165023127745
+       },
+       {
+        "id": "docs",
+        "label": "Documentation",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "README \u2713 \u00b7 docs site/folder \u2713 \u00b7 updated this year \u2713",
+        "share": 20
+       }
+      ],
+      "notes": []
+     },
+     "security": {
+      "id": "security",
+      "label": "Security",
+      "score": 0,
+      "letter": "F",
+      "confidence": 0.6923076923076923,
+      "parts": [
+       {
+        "id": "release_integrity",
+        "label": "Release integrity",
+        "weight": 7.5,
+        "raw": 0,
+        "norm": 0,
+        "points": 0,
+        "detail": "Tags only, with no signed files attached on the forge",
+        "share": 0
+       },
+       {
+        "id": "dependency_updates",
+        "label": "Dependency updates",
+        "weight": 7.5,
+        "raw": 0,
+        "norm": 0,
+        "points": 0,
+        "detail": "Has dependencies but no Dependabot or Renovate config found",
+        "share": 0
+       },
+       {
+        "id": "code_review",
+        "label": "Code review",
+        "weight": 7.5,
+        "na": true,
+        "detail": "Needs a token (weekly job only)"
+       },
+       {
+        "id": "security_policy",
+        "label": "Security policy",
+        "weight": 5,
+        "raw": 0,
+        "norm": 0,
+        "points": 0,
+        "detail": "No SECURITY file found",
+        "share": 0
+       },
+       {
+        "id": "ci",
+        "label": "Automated tests",
+        "weight": 2.5,
+        "raw": 0,
+        "norm": 0,
+        "points": 0,
+        "detail": "No CI configuration found",
+        "share": 0
+       },
+       {
+        "id": "best_practices",
+        "label": "Best-practices badge",
+        "weight": 2.5,
+        "na": true,
+        "detail": "Couldn't reach bestpractices.dev"
+       }
+      ],
+      "notes": []
+     }
+    },
+    "fidelity": {
+     "score": 44,
+     "letter": "D"
+    }
+   }
+  }
+ ]
+}

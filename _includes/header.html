@@ -1,0 +1,11 @@
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="{{ '/' | relative_url }}">oss<span>fidelity</span></a>
+    <nav class="nav" aria-label="Main">
+      {% assign nav = "/|Check,/browse/|Browse,/models/|Models,/ai-privacy/|AI privacy,/method/|Method" | split: "," %}
+      {% for item in nav %}{% assign parts = item | split: "|" %}
+      <a href="{{ parts[0] | relative_url }}"{% if page.url == parts[0] or page.nav == parts[1] %} aria-current="page"{% endif %}>{{ parts[1] }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>

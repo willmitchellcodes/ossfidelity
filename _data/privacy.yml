@@ -1,0 +1,167 @@
+# AI privacy matrix: consumer and free tiers only. School and work accounts often have different terms.
+# Rating per question:
+#   2 = protective by default
+#   1 = protective only after you change a setting (or with documented exceptions)
+#   0 = not protective, or the company doesn't say
+#   null = we haven't verified this cell yet (shown as "·" and never scored)
+# red: true marks a red flag. Any red flag caps a service's score at 40.
+# A service gets a score only once all 7 cells are verified.
+checked: 2026-10-21
+status: >-
+  In review. Each cell below comes from the company's own pages or reporting retrieved October 2026.
+  Cells marked "·" are still being verified, and the remaining cells are being checked before the workshop.
+
+questions:
+  - id: training
+    label: Training
+    ask: Are your chats used to train models?
+  - id: processing
+    label: Processing
+    ask: Where does the AI actually run?
+  - id: retention
+    label: Retention
+    ask: How long are chats and logs kept?
+  - id: human
+    label: Human access
+    ask: Can staff or contractors read your chats?
+  - id: connected
+    label: Connected services
+    ask: What do web search, plugins, memory, or integrations send out?
+  - id: deletion
+    label: Deletion
+    ask: What does "delete" really remove?
+  - id: sharing
+    label: Sharing
+    ask: Who can see a chat you share?
+
+services:
+  - name: ChatGPT
+    maker: OpenAI
+    cells:
+      retention:
+        rating: 1
+        note: Deleted chats and Temporary Chats are removed within 30 days. Other chats stay until you delete them.
+        source: https://openai.com/index/response-to-nyt-data-demands/
+      deletion:
+        rating: 1
+        note: Removed within 30 days, but some April–September 2025 data was preserved for the New York Times lawsuit.
+        source: https://openai.com/index/response-to-nyt-data-demands/
+
+  - name: Claude
+    maker: Anthropic
+    cells:
+      training:
+        rating: 1
+        note: Since August 2025 you're asked to choose. The setting was on unless you switched it off.
+        source: https://www.anthropic.com/news/updates-to-our-consumer-terms
+      retention:
+        rating: 1
+        note: Up to 5 years if you allow training, 30 days if you don't.
+        source: https://www.anthropic.com/news/updates-to-our-consumer-terms
+
+  - name: Gemini
+    maker: Google
+    cells:
+      training:
+        rating: 1
+        note: Keep Activity is on by default for adults. Turn it off to stop chats from improving models.
+        source: https://support.google.com/gemini/answer/13594961
+      retention:
+        rating: 1
+        note: Auto-deleted after 18 months by default. With Activity off, chats are still kept up to 72 hours.
+        source: https://support.google.com/gemini/answer/13594961
+      human:
+        rating: 1
+        note: Human reviewers, including service providers, may read chats while Keep Activity is on.
+        source: https://support.google.com/gemini/answer/13594961
+      deletion:
+        rating: 0
+        red: true
+        note: Chats that humans reviewed are kept up to 3 years, separately from your account, even after you delete them.
+        source: https://support.google.com/gemini/answer/13594961
+      sharing:
+        rating: 1
+        note: Shared chats are public links that anyone with the link can open.
+        source: https://support.google.com/gemini/answer/13594961
+
+  - name: Copilot
+    maker: Microsoft
+    cells:
+      training:
+        rating: 1
+        note: On by default for eligible adults. Opting out stops future training, not use for ads or safety.
+        source: https://support.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-privacy-controls
+      retention:
+        rating: 1
+        note: Conversation history is kept 18 months by default, and you can delete it.
+        source: https://support.microsoft.com/en-us/microsoft-copilot/privacy-faq-for-microsoft-copilot
+      human:
+        rating: 0
+        note: Microsoft says "an opt-out of human review is not available."
+        source: https://support.microsoft.com/en-us/microsoft-copilot/privacy-faq-for-microsoft-copilot
+
+  - name: Meta AI
+    maker: Meta
+    cells:
+      sharing:
+        rating: 0
+        red: true
+        note: “Share” then “Post to feed” publishes a prompt to a public Discover feed, and posts may be suggested on other Meta apps.
+        source: https://www.cpomagazine.com/data-privacy/meta-ai-adds-warning-that-all-prompts-including-those-with-personal-information-could-be-made-public/
+
+  - name: Perplexity
+    maker: Perplexity AI
+    cells:
+      training:
+        rating: 1
+        note: “AI Data Retention” is on by default for Free, Pro, and Max. Turning it off only applies going forward.
+        source: https://www.perplexity.ai/help-center/en/articles/11564572-data-collection-at-perplexity
+
+  - name: Grok
+    maker: xAI
+    cells:
+      training:
+        rating: 1
+        note: Trains on chats by default, and you can opt out under “Improve the model.” Signed-out users in some regions can't opt out.
+        source: https://x.ai/legal/faq
+      human:
+        rating: 0
+        note: xAI says authorized personnel may review conversations.
+        source: https://x.ai/legal/faq
+      sharing:
+        rating: 0
+        red: true
+        note: In August 2025 about 370,000 shared Grok chats showed up in Google results. The FAQ now warns that shared links can be indexed.
+        source: https://x.ai/legal/faq
+        source2: https://tech.yahoo.com/cybersecurity/articles/groks-share-button-privacy-disaster-165832807.html
+
+  - name: DeepSeek
+    maker: DeepSeek
+    cells:
+      training:
+        rating: 0
+        red: true
+        note: Trains on your data. The only opt-out is emailing privacy@deepseek.com.
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+      processing:
+        rating: 1
+        note: Stored on servers in the People's Republic of China, as the policy discloses.
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+      retention:
+        rating: 0
+        note: Kept as long as you have an account.
+        source: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+
+  - name: Le Chat
+    maker: Mistral AI
+    cells:
+      training:
+        rating: 1
+        note: Inputs and outputs train models by default unless you opt out.
+        source: https://help.mistral.ai/en/articles/323757-do-you-use-my-user-data-to-train-your-artificial-intelligence-models
+
+local:
+  note: >-
+    Running a model on your own device keeps prompts off a company's servers, but "local" isn't automatically private.
+    Apps can still send telemetry, check for updates, download models, or offer cloud features.
+    We're checking Jan, Ollama, and PocketPal AI for these next.

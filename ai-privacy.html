@@ -1,0 +1,72 @@
+---
+layout: default
+title: AI privacy
+permalink: /ai-privacy/
+description: Seven questions to ask any AI service, answered from each company's own pages.
+---
+{% assign pv = site.data.privacy %}
+<h1>Seven questions for <em>any</em> AI</h1>
+<p class="lede">"We don't train on your data" answers one question out of seven. Here's what the rest look like for consumer accounts.</p>
+<div class="banner info">{{ pv.status }} Last checked {{ pv.checked | date: "%B %-d, %Y" }}.</div>
+
+<div class="legend" aria-label="Legend">
+  <span><span class="pip p2"></span> protective by default</span>
+  <span><span class="pip p1"></span> only if you change a setting</span>
+  <span><span class="pip p0"></span> not protective, or not disclosed</span>
+  <span><span class="pip pn"></span> not verified yet</span>
+</div>
+
+<div class="table-wrap">
+<table class="pm">
+  <thead><tr><th>Service</th>{% for q in pv.questions %}<th class="num" title="{{ q.ask }}">{{ q.label }}</th>{% endfor %}<th>Flags</th></tr></thead>
+  <tbody>
+  {%- for s in pv.services %}
+    {%- assign reds = 0 -%}{%- assign verified = 0 -%}
+    <tr>
+      <td><strong>{{ s.name }}</strong><br><span class="muted small">{{ s.maker }}</span></td>
+      {%- for q in pv.questions -%}
+        {%- assign c = s.cells[q.id] -%}
+        {%- if c.red -%}{%- assign reds = reds | plus: 1 -%}{%- endif -%}
+        {%- if c.rating != nil -%}{%- assign verified = verified | plus: 1 -%}{%- endif -%}
+        <td class="cell" title="{{ q.label }}: {{ c.note | default: 'Not verified yet' | escape }}">
+          {%- if c.rating == 2 -%}<span class="pip p2" role="img" aria-label="protective by default"></span>
+          {%- elsif c.rating == 1 -%}<span class="pip p1" role="img" aria-label="only if you change a setting"></span>
+          {%- elsif c.rating == 0 -%}<span class="pip p0" role="img" aria-label="not protective"></span>
+          {%- else -%}<span class="pip pn" role="img" aria-label="not verified yet"></span>{%- endif -%}
+        </td>
+      {%- endfor %}
+      <td class="small">{% if reds > 0 %}<span class="chip bad">⚑ {{ reds }}</span>{% else %}<span class="muted">none</span>{% endif %}<br><span class="muted">{{ verified }}/7 checked</span></td>
+    </tr>
+  {%- endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>The details, with sources</h2>
+{% for s in pv.services %}
+<details class="grade">
+  <summary><span class="gname">{{ s.name }}</span><span></span><span class="muted small">{{ s.maker }}</span></summary>
+  <div class="why">
+    <ul class="checks">
+    {%- for q in pv.questions %}{% assign c = s.cells[q.id] %}
+      <li><span class="pip {% if c.rating == 2 %}p2{% elsif c.rating == 1 %}p1{% elsif c.rating == 0 %}p0{% else %}pn{% endif %}" aria-hidden="true"></span>
+        <span><strong>{{ q.label }}.</strong> <span class="muted">{{ q.ask }}</span><br>{% if c %}{{ c.note }}{% if c.red %} <span class="chip bad">red flag</span>{% endif %} <a href="{{ c.source }}">source</a>{% if c.source2 %} · <a href="{{ c.source2 }}">report</a>{% endif %}{% else %}<span class="muted">Not verified yet.</span>{% endif %}</span></li>
+    {%- endfor %}
+    </ul>
+  </div>
+</details>
+{% endfor %}
+
+<h2>"Local" isn't automatically <em>private</em></h2>
+<p class="prose">{{ pv.local.note }}</p>
+
+<h2>How this will be scored</h2>
+<div class="prose">
+  <p>Each question gets 2, 1, or 0 points, all weighted equally, because there's no evidence that one matters more for everyone. A service gets a score only once all seven answers are verified. <strong>Red flags cap the score at 40</strong> no matter how the rest look:</p>
+  <ul>
+    <li>Chats can become public by default, or with one tap</li>
+    <li>Human-reviewed chats are kept more than a year after you delete them</li>
+    <li>There's no self-serve way to opt out of training</li>
+  </ul>
+  <p class="muted small">This covers consumer accounts only. A school or work account (for example, Microsoft 365 Copilot through your university) may have very different terms, so check with your IT office.</p>
+</div>

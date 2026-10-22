@@ -1,0 +1,15 @@
+{
+  "name": "ossfidelity",
+  "private": true,
+  "type": "module",
+  "description": "Scoring scripts for ossfidelity.com. The site itself is plain Jekyll.",
+  "scripts": {
+    "score": "node scripts/score.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

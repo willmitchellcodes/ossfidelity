@@ -1,0 +1,36 @@
+---
+layout: default
+description: Paste a link or search for an open source project. Get grades for reliability, maintenance, and security, with every reason shown.
+scripts: [/assets/js/pages/home.js]
+---
+<h1>Check open source <em>before</em> you trust it.</h1>
+<p class="lede">Paste a link or search for a project. You get three grades and the reasons behind each one.</p>
+
+<form class="search" id="check-form" role="search" action="{{ '/check/' | relative_url }}" method="get" autocomplete="off">
+  <label for="q" class="visually-hidden">Repository link or project name</label>
+  <input id="q" name="r" type="text" placeholder="github.com/owner/project, or try “password manager”" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false" spellcheck="false">
+  <button class="btn" type="submit">Check</button>
+  <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+</form>
+<p class="try">Try:
+  <a href="{{ '/check/' | relative_url }}?r=github.com/llvm/llvm-project">LLVM</a> ·
+  <a href="{{ '/check/' | relative_url }}?r=github.com/keepassxreboot/keepassxc">KeePassXC</a> ·
+  <a href="{{ '/check/' | relative_url }}?r=github.com/msu/pika-orm">pika-orm</a>
+</p>
+
+<div class="grid3">
+  {% for g in site.data.weights.grades %}
+  <div class="card">
+    <div class="kicker">{{ forloop.index }} · {{ g.label }}</div>
+    <h3>{{ g.question }}</h3>
+    <p>{% for s in g.signals limit: 3 %}{{ s.label }}{% unless forloop.last %}, {% endunless %}{% endfor %}, and more.</p>
+  </div>
+  {% endfor %}
+</div>
+
+<h2>What we <em>never</em> score</h2>
+<div class="prose">
+  <p><strong>Stars.</strong> In July 2024, 16.66% of popular GitHub repositories had fake-star campaigns (<a href="https://arxiv.org/abs/2412.13459">He et al., ICSE 2026</a>). Popularity is easy to buy and tells you little about whether software is well kept.</p>
+  <p><strong>The host, mixed into the project.</strong> Where code lives matters (for example, whether the host trains AI on it), so we show it separately. It's not the project's fault.</p>
+  <p><strong>AI use, either way.</strong> We show how many recent commits disclose AI help, but there isn't enough evidence yet to say whether that makes a project better or worse.</p>
+</div>

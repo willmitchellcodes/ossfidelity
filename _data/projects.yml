@@ -1,0 +1,89 @@
+# Curated projects scored every week by .github/workflows/score.yml.
+#
+# repo:          canonical GitHub home, not a mirror (v1 checks GitHub only)
+# category:      coding | local-ai | communication | art | notes | office | everyday
+# curated:       facts we verified by hand that APIs can't see. Each one needs a source.
+#   backing:          foundation or nonprofit that owns the project
+#   license:          SPDX id when automatic detection fails
+#   signed_releases:  where signatures live if they aren't attached to forge releases
+#   security_policy:  where the policy lives if it isn't a SECURITY file
+# anti_features: F-Droid-style flags (https://f-droid.org/docs/Anti-Features/), each with a reason
+# pending:       why it isn't scored yet
+
+# ---------- Workshop demo set ----------
+- name: LLVM
+  repo: https://github.com/llvm/llvm-project
+  category: coding
+  blurb: Compiler toolchain behind Clang, Rust, Swift, and more.
+  curated:
+    backing: LLVM Foundation            # https://foundation.llvm.org/
+    license: Apache-2.0 WITH LLVM-exception   # https://llvm.org/LICENSE.txt (GitHub reports NOASSERTION)
+
+
+- name: Pika ORM
+  repo: https://github.com/msu/pika-orm
+  category: coding
+  blurb: A young Java ORM, our "middle of the road" example.
+
+# ---------- Local AI ----------
+- name: Ollama
+  repo: https://github.com/ollama/ollama
+  category: local-ai
+  blurb: Runs open-weight models on your own computer.
+- name: Jan
+  repo: https://github.com/janhq/jan
+  category: local-ai
+  blurb: Desktop chat app for local models.
+- name: PocketPal AI
+  repo: https://github.com/a-ghorbani/pocketpal-ai
+  category: local-ai
+  blurb: Runs small models on your phone.
+
+# ---------- Communication ----------
+- name: Signal (Android)
+  repo: https://github.com/signalapp/Signal-Android
+  category: communication
+  blurb: End-to-end encrypted messaging.
+  curated:
+    backing: Signal Technology Foundation   # https://signalfoundation.org/
+- name: Element (web)
+  repo: https://github.com/element-hq/element-web
+  category: communication
+  blurb: Matrix chat client for groups and communities.
+- name: SimpleX Chat
+  repo: https://github.com/simplex-chat/simplex-chat
+  category: communication
+  blurb: Messaging without phone numbers or user IDs.
+
+# ---------- Art & media ----------
+- name: OBS Studio
+  repo: https://github.com/obsproject/obs-studio
+  category: art
+  blurb: Screen recording and live streaming.
+- name: Audacity
+  repo: https://github.com/audacity/audacity
+  category: art
+  blurb: Audio recording and editing.
+- name: Penpot
+  repo: https://github.com/penpot/penpot
+  category: art
+  blurb: Design and prototyping, an alternative to Figma.
+
+# ---------- Notes & organization ----------
+- name: Joplin
+  repo: https://github.com/laurent22/joplin
+  category: notes
+  blurb: Notes and to-dos with end-to-end encrypted sync.
+
+# ---------- Everyday ----------
+- name: KeePassXC
+  repo: https://github.com/keepassxreboot/keepassxc
+  category: everyday
+  blurb: Password manager that keeps your vault on your device.
+- name: Bitwarden (apps)
+  repo: https://github.com/bitwarden/clients
+  category: everyday
+  blurb: Password manager with sync.
+  anti_features:
+    - flag: NonFreeAdd
+      reason: Some paid features live in a bitwarden_license/ folder under a proprietary license (open core).
