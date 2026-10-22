@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-10-22T03:20:52.791Z",
- "weights_version": "1.0",
+ "generated_at": "2026-10-22T05:46:31.501Z",
+ "weights_version": "1.1",
  "projects": [
   {
    "id": "github.com/llvm/llvm-project",
@@ -344,7 +344,9 @@
      "score": 96,
      "letter": "A"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Allvm%2Fllvm-project%20is%3Apr%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/element-hq/element-web",
@@ -684,7 +686,9 @@
      "score": 92,
      "letter": "A"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Aelement-hq%2Felement-web%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/janhq/jan",
@@ -1023,7 +1027,9 @@
      "score": 85,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Ajanhq%2Fjan%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/penpot/penpot",
@@ -1368,7 +1374,9 @@
      "score": 84,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Apenpot%2Fpenpot%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/bitwarden/clients",
@@ -1709,7 +1717,9 @@
      "score": 84,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Abitwarden%2Fclients%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/audacity/audacity",
@@ -2052,7 +2062,9 @@
      "score": 82,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Aaudacity%2Faudacity%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/laurent22/joplin",
@@ -2177,7 +2189,12 @@
    "calls": 17,
    "category": "notes",
    "blurb": "Notes and to-dos with end-to-end encrypted sync.",
-   "anti_features": [],
+   "anti_features": [
+    {
+     "flag": "NonFreeAdd",
+     "reason": "The apps are AGPL-3.0-or-later, but Joplin Server (packages/server) is under a non-open \"Personal Use License\" (open core)."
+    }
+   ],
    "license_changes": [],
    "computed": {
     "grades": {
@@ -2396,7 +2413,9 @@
      "score": 82,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Alaurent22%2Fjoplin%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/keepassxreboot/keepassxc",
@@ -2743,7 +2762,9 @@
      "score": 79,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Akeepassxreboot%2Fkeepassxc%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/ollama/ollama",
@@ -3083,7 +3104,9 @@
      "score": 77,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Aollama%2Follama%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/obsproject/obs-studio",
@@ -3424,7 +3447,9 @@
      "score": 76,
      "letter": "B"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Aobsproject%2Fobs-studio%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/simplex-chat/simplex-chat",
@@ -3762,7 +3787,9 @@
      "score": 67,
      "letter": "C"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Asimplex-chat%2Fsimplex-chat%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/signalapp/Signal-Android",
@@ -4102,7 +4129,9 @@
      "score": 66,
      "letter": "C"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Asignalapp%2FSignal-Android%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/a-ghorbani/pocketpal-ai",
@@ -4440,7 +4469,9 @@
      "score": 63,
      "letter": "C"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Aa-ghorbani%2Fpocketpal-ai%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   },
   {
    "id": "github.com/msu/pika-orm",
@@ -4772,7 +4803,9 @@
      "score": 44,
      "letter": "D"
     }
-   }
+   },
+   "stale": true,
+   "error": "HTTP 403 for /search/issues?per_page=1&q=repo%3Amsu%2Fpika-orm%20is%3Aissue%20created%3A%3E%3D2025-10-22%20-author%3Aapp%2Fdependabot%20-author%3Aapp%2Frenovate%20-author%3Aapp%2Fgithub-actions"
   }
  ]
 }
