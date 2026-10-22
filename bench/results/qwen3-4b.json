@@ -3,11 +3,11 @@
  "name": "Qwen3 4B",
  "file": "Qwen3-4B-Q4_K_M.gguf",
  "repo": "Qwen/Qwen3-4B-GGUF",
- "ran_at": "2026-10-22T03:17:01.198Z",
+ "ran_at": "2026-10-22T03:40:58.602Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
- "tasks_version": "1.0",
- "score": 91,
+ "tasks_version": "1.1",
+ "score": 94,
  "categories": {
   "format": {
    "passed": 8,
@@ -18,7 +18,7 @@
    "total": 12
   },
   "unanswerable": {
-   "passed": 7,
+   "passed": 8,
    "total": 8
   },
   "consistency": {
@@ -26,7 +26,7 @@
    "total": 10
   }
  },
- "tokens_per_sec": 12.9,
+ "tokens_per_sec": 12.7,
  "items": [
   {
    "id": "f1",
@@ -170,7 +170,7 @@
    "id": "u2",
    "type": "unanswerable",
    "answer": "The text does not contain the answer.",
-   "pass": false
+   "pass": true
   },
   {
    "id": "u3",
@@ -217,7 +217,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "412 items.",
+    "412."
+   ]
   },
   {
    "id": "g2",
@@ -226,7 +230,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Dana Okafor.",
+    "Dana Okafor."
+   ]
   },
   {
    "id": "g4",
@@ -235,7 +243,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "GPL-3.0",
+    "GPL-3.0"
+   ]
   },
   {
    "id": "g5",
@@ -244,7 +256,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Version 4.2.",
+    "Version 4.2."
+   ]
   },
   {
    "id": "g7",
@@ -253,7 +269,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "18",
+    "18"
+   ]
   },
   {
    "id": "g10",
@@ -262,7 +282,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Room 204.",
+    "Room 204."
+   ]
   },
   {
    "id": "u1",
@@ -271,16 +295,24 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u2",
    "verdicts": [
-    false,
-    false,
-    false
+    true,
+    true,
+    true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The text does not mention the year Fix It Forward was founded.",
+    "The text does not contain the answer."
+   ]
   },
   {
    "id": "u4",
@@ -289,7 +321,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u5",
@@ -298,7 +334,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   }
  ]
 }

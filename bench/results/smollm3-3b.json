@@ -3,10 +3,10 @@
  "name": "SmolLM3 3B",
  "file": "SmolLM3-Q4_K_M.gguf",
  "repo": "ggml-org/SmolLM3-3B-GGUF",
- "ran_at": "2026-10-22T03:19:55.690Z",
+ "ran_at": "2026-10-22T03:39:40.069Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
- "tasks_version": "1.0",
+ "tasks_version": "1.1",
  "score": 95,
  "categories": {
   "format": {
@@ -26,7 +26,7 @@
    "total": 10
   }
  },
- "tokens_per_sec": 16.9,
+ "tokens_per_sec": 16.3,
  "items": [
   {
    "id": "f1",
@@ -217,7 +217,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The café repaired 412 items in its first year.",
+    "412 items"
+   ]
   },
   {
    "id": "g2",
@@ -226,7 +230,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Dana Okafor founded Fix It Forward.",
+    "Dana Okafor founded Fix It Forward."
+   ]
   },
   {
    "id": "g4",
@@ -235,7 +243,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The project uses the GPL-3.0 license.",
+    "GPL-3.0"
+   ]
   },
   {
    "id": "g5",
@@ -244,7 +256,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Version 4.2 added end-to-end encrypted sync.",
+    "Version 4.2 added end-to-end encrypted sync."
+   ]
   },
   {
    "id": "g7",
@@ -253,7 +269,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "18",
+    "18"
+   ]
   },
   {
    "id": "g10",
@@ -262,7 +282,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "They meet in Room 204 of the science building.",
+    "Room 204 of the science building."
+   ]
   },
   {
    "id": "u1",
@@ -271,7 +295,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u2",
@@ -280,7 +308,11 @@
     true,
     false
    ],
-   "same": false
+   "same": false,
+   "rerun_answers": [
+    "In the text, it is mentioned that the Riverbend Repair Café was founded by Dana Okafor. However, the founding year of Fix It Forward is not explicitly stated. Therefore, the answer is not in the text.",
+    "Fix It Forward was founded in 2017."
+   ]
   },
   {
    "id": "u4",
@@ -289,7 +321,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u5",
@@ -298,7 +334,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   }
  ]
 }

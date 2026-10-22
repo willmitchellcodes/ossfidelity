@@ -3,10 +3,10 @@
  "name": "OLMo 2 7B",
  "file": "olmo-2-1124-7B-instruct-Q4_K_M.gguf",
  "repo": "allenai/OLMo-2-1124-7B-Instruct-GGUF",
- "ran_at": "2026-10-22T03:18:57.558Z",
+ "ran_at": "2026-10-22T03:39:23.103Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
- "tasks_version": "1.0",
+ "tasks_version": "1.1",
  "score": 83,
  "categories": {
   "format": {
@@ -26,7 +26,7 @@
    "total": 10
   }
  },
- "tokens_per_sec": 7.7,
+ "tokens_per_sec": 10.4,
  "items": [
   {
    "id": "f1",
@@ -43,13 +43,13 @@
   {
    "id": "f3",
    "type": "format",
-   "answer": "Quiet space.",
+   "answer": "Quiet space. Books. Study. Quiet. Information.",
    "pass": false
   },
   {
    "id": "f4",
    "type": "format",
-   "answer": "The ocean is vast and blue.",
+   "answer": "The ocean is vast and full of life.",
    "pass": true
   },
   {
@@ -217,7 +217,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "412",
+    "412"
+   ]
   },
   {
    "id": "g2",
@@ -226,7 +230,11 @@
     true,
     false
    ],
-   "same": false
+   "same": false,
+   "rerun_answers": [
+    "Dana Okafor.",
+    "Not in the text."
+   ]
   },
   {
    "id": "g4",
@@ -235,7 +243,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "GPL-3.0",
+    "Lumen uses the GPL-3.0 license."
+   ]
   },
   {
    "id": "g5",
@@ -244,7 +256,11 @@
     false,
     true
    ],
-   "same": false
+   "same": false,
+   "rerun_answers": [
+    "Not in the text.",
+    "Version 4.2 added end-to-end encrypted sync."
+   ]
   },
   {
    "id": "g7",
@@ -253,7 +269,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "18 fountains",
+    "18 fountains were installed."
+   ]
   },
   {
    "id": "g10",
@@ -262,7 +282,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Room 204.",
+    "Room 204"
+   ]
   },
   {
    "id": "u1",
@@ -271,7 +295,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u2",
@@ -280,7 +308,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u4",
@@ -289,7 +321,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u5",
@@ -298,7 +334,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   }
  ]
 }

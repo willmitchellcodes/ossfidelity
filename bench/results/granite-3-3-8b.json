@@ -3,11 +3,11 @@
  "name": "Granite 3.3 8B",
  "file": "granite-3.3-8b-instruct-Q4_K_M.gguf",
  "repo": "ibm-granite/granite-3.3-8b-instruct-GGUF",
- "ran_at": "2026-10-22T03:14:43.232Z",
+ "ran_at": "2026-10-22T03:40:44.451Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
  "server": "b11783-339f3242c",
- "tasks_version": "1.0",
- "score": 96,
+ "tasks_version": "1.1",
+ "score": 97,
  "categories": {
   "format": {
    "passed": 9,
@@ -22,11 +22,11 @@
    "total": 8
   },
   "consistency": {
-   "passed": 9,
+   "passed": 10,
    "total": 10
   }
  },
- "tokens_per_sec": 6.1,
+ "tokens_per_sec": 8.7,
  "items": [
   {
    "id": "f1",
@@ -73,7 +73,7 @@
   {
    "id": "f8",
    "type": "format",
-   "answer": "\"Recycling: Your Daily Eco-Friendly Action?\"",
+   "answer": "\"Recycling Saves Earth: Are You Doing Enough?\"",
    "pass": false
   },
   {
@@ -217,7 +217,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The café repaired 412 items in its first year.",
+    "412 items"
+   ]
   },
   {
    "id": "g2",
@@ -226,7 +230,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Dana Okafor",
+    "Dana Okafor"
+   ]
   },
   {
    "id": "g4",
@@ -235,7 +243,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The license Lumen uses is GPL-3.0.",
+    "GPL-3.0"
+   ]
   },
   {
    "id": "g5",
@@ -244,7 +256,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "4.2 version added encrypted sync.",
+    "Version 4.2 added end-to-end encrypted sync."
+   ]
   },
   {
    "id": "g7",
@@ -253,7 +269,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "18 fountains were installed.",
+    "18 fountains were installed."
+   ]
   },
   {
    "id": "g10",
@@ -262,7 +282,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "The group meets in Room 204 of the science building.",
+    "Room 204 of the science building."
+   ]
   },
   {
    "id": "u1",
@@ -271,16 +295,24 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u2",
    "verdicts": [
     true,
-    false,
+    true,
     true
    ],
-   "same": false
+   "same": true,
+   "rerun_answers": [
+    "The text does not provide the year Fix It Forward was founded.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u4",
@@ -289,7 +321,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   },
   {
    "id": "u5",
@@ -298,7 +334,11 @@
     true,
     true
    ],
-   "same": true
+   "same": true,
+   "rerun_answers": [
+    "Not in the text.",
+    "Not in the text."
+   ]
   }
  ]
 }
