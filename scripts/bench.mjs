@@ -3,6 +3,7 @@
 //   node scripts/bench.mjs --list                                   # models to run (JSON for the Actions matrix)
 //   node scripts/bench.mjs --model qwen3-4b --endpoint http://localhost:8080
 //   node scripts/bench.mjs --collect                                # merge bench/results/*.json into _data/bench.json
+//   node scripts/bench.mjs --regrade                                # re-grade saved answers after a grader fix (no model needed)
 import { readFile, writeFile, readdir, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -25,11 +26,12 @@ if (args.includes("--collect")) { await collect(); process.exit(0); }
 const slug = arg("--model");
 const endpoint = (arg("--endpoint") || "http://localhost:8080").replace(/\/$/, "");
 const model = models.models.find((m) => m.slug === slug);
-if (!model) { console.error(`Unknown model "${slug}". Use --list.`); process.exit(1); }
+if (!model && !args.includes("--regrade")) { console.error(`Unknown model "${slug}". Use --list.`); process.exit(1); }
 
 // ---------- graders ----------
 const norm = (s) => String(s).toLowerCase().replace(/[“”"'’`*_]/g, "").replace(/\s+/g, " ").trim();
-const words = (s) => String(s).replace(/[.!?,;:]+/g, " ").split(/\s+/).filter(Boolean);
+// A word needs a letter or digit, so a stray quote mark or dash isn't counted.
+const words = (s) => String(s).replace(/[.!?,;:]+/g, " ").split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w));
 // Saying the answer isn't there counts, in any wording: the test is honesty, not copying a phrase.
 const NOT_IN_TEXT = /not in the text|(does not|doesn't|did not|didn't) (say|state|specify|mention|contain|provide|include|give)|(is not|isn't|was not|wasn't) (stated|mentioned|specified|provided|given|included)|not (stated|mentioned|specified|provided|given) in the text|no information|cannot be determined|can't be determined/i;
 const unquote = (s) => s.trim().replace(/^["'“”‘’`*]+|["'“”‘’`*]+$/g, "").trim();
@@ -65,10 +67,22 @@ export function grade(item, ans) {
   // grounded: must contain a right answer and must not claim it isn't there
   return !NOT_IN_TEXT.test(ans) && item.answers.some((o) => norm(ans).includes(norm(o)));
 }
+function categories(items, consistency) {
+  const cat = {};
+  for (const t of ["format", "grounded", "unanswerable"]) {
+    const xs = items.filter((i) => i.type === t);
+    cat[t] = { passed: xs.filter((i) => i.pass).length, total: xs.length };
+  }
+  cat.consistency = { passed: consistency.filter((c) => c.same).length, total: consistency.length };
+  return cat;
+}
+const scoreOf = (cat) => Math.round(Object.entries(cat).reduce((a, [k, v]) => a + WEIGHTS[k] * (v.passed / v.total), 0) / Object.values(WEIGHTS).reduce((a, b) => a + b, 0) * 100);
 function promptFor(item) {
   if (item.type === "format") return item.prompt;
   return `${tasks.grounded_instruction}\n\nText: ${tasks.passages[item.passage]}\n\nQuestion: ${item.question}`;
 }
+
+if (args.includes("--regrade")) { await regrade(); await collect(); process.exit(0); }
 
 // ---------- run ----------
 async function ask(item, { temperature = 0, seed = 42 } = {}) {
@@ -106,13 +120,8 @@ if (slug) {
     for (const seed of [1, 2]) { const a = (await ask(item, { temperature: 0.7, seed })).answer; answers.push(a); reruns.push(grade(item, a)); }
     consistency.push({ id: item.id, verdicts: [first, ...reruns], same: reruns.every((v) => v === first), rerun_answers: answers });
   }
-  const cat = {};
-  for (const t of ["format", "grounded", "unanswerable"]) {
-    const xs = items.filter((i) => i.type === t);
-    cat[t] = { passed: xs.filter((i) => i.pass).length, total: xs.length };
-  }
-  cat.consistency = { passed: consistency.filter((c) => c.same).length, total: consistency.length };
-  const score = Math.round(Object.entries(cat).reduce((a, [k, v]) => a + WEIGHTS[k] * (v.passed / v.total), 0) / Object.values(WEIGHTS).reduce((a, b) => a + b, 0) * 100);
+  const cat = categories(items, consistency);
+  const score = scoreOf(cat);
   const median = (xs) => { const s = [...xs].sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)] : null; };
   const props = await fetch(`${endpoint}/props`).then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
   const out = {
@@ -126,6 +135,27 @@ if (slug) {
   await mkdir(join(ROOT, "bench/results"), { recursive: true });
   await writeFile(join(ROOT, `bench/results/${slug}.json`), JSON.stringify(out, null, 1) + "\n");
   console.log(`\n${model.name}: ${score}/100 · ${JSON.stringify(cat)} · ${out.tokens_per_sec} tokens/s`);
+}
+
+// Re-apply the graders to answers already saved, so a grader fix doesn't need a new model run.
+async function regrade() {
+  const dir = join(ROOT, "bench/results");
+  const byId = Object.fromEntries(tasks.items.map((i) => [i.id, i]));
+  for (const f of (await readdir(dir).catch(() => [])).filter((f) => f.endsWith(".json"))) {
+    const r = JSON.parse(await readFile(join(dir, f), "utf8"));
+    if (r.tasks_version !== tasks.version) { console.log(`Skipped ${f}: answers are for tasks v${r.tasks_version}`); continue; }
+    if (r.consistency.some((c) => !c.rerun_answers)) { console.log(`Skipped ${f}: no saved re-run answers`); continue; }
+    for (const it of r.items) it.pass = grade(byId[it.id], it.answer);
+    for (const c of r.consistency) {
+      const first = r.items.find((x) => x.id === c.id).pass;
+      const reruns = c.rerun_answers.map((a) => grade(byId[c.id], a));
+      c.verdicts = [first, ...reruns]; c.same = reruns.every((v) => v === first);
+    }
+    const before = r.score;
+    r.categories = categories(r.items, r.consistency); r.score = scoreOf(r.categories); r.regraded_at = new Date().toISOString();
+    await writeFile(join(dir, f), JSON.stringify(r, null, 1) + "\n");
+    console.log(`${r.slug}: ${before} → ${r.score}`);
+  }
 }
 
 async function collect() {
