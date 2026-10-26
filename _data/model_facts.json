@@ -1,11 +1,11 @@
 {
- "updated": "2026-10-22T07:14:11.328Z",
+ "updated": "2026-10-26T16:54:03.814Z",
  "source": "https://huggingface.co/docs/hub/api",
  "models": {
   "olmo-2-7b": {
    "license": "apache-2.0",
    "gated": false,
-   "downloads_30d": 73995,
+   "downloads_30d": 64032,
    "likes": 72,
    "last_modified": "2025-01-06T19:46:53.000Z",
    "params": 7298617344,
@@ -18,8 +18,8 @@
   "smollm3-3b": {
    "license": "apache-2.0",
    "gated": false,
-   "downloads_30d": 743150,
-   "likes": 1068,
+   "downloads_30d": 702895,
+   "likes": 1070,
    "last_modified": "2025-09-10T12:28:11.000Z",
    "params": 3075098624,
    "datasets": [],
@@ -30,7 +30,7 @@
   "granite-3-3-8b": {
    "license": "apache-2.0",
    "gated": false,
-   "downloads_30d": 87471,
+   "downloads_30d": 68824,
    "likes": 161,
    "last_modified": "2025-05-12T06:39:42.000Z",
    "params": 8170864640,
@@ -42,8 +42,8 @@
   "phi-4-mini": {
    "license": "mit",
    "gated": false,
-   "downloads_30d": 366357,
-   "likes": 864,
+   "downloads_30d": 346389,
+   "likes": 871,
    "last_modified": "2025-12-10T20:24:40.000Z",
    "params": 3836021760,
    "datasets": [],
@@ -52,8 +52,8 @@
   "qwen3-4b": {
    "license": "apache-2.0",
    "gated": false,
-   "downloads_30d": 11600540,
-   "likes": 767,
+   "downloads_30d": 11250177,
+   "likes": 772,
    "last_modified": "2025-07-26T03:46:39.000Z",
    "params": 4022468096,
    "datasets": [],
@@ -64,8 +64,8 @@
   "gpt-oss-20b": {
    "license": "apache-2.0",
    "gated": false,
-   "downloads_30d": 5892118,
-   "likes": 5199,
+   "downloads_30d": 5783154,
+   "likes": 5222,
    "last_modified": "2025-08-26T17:25:47.000Z",
    "params": 20914757184,
    "datasets": [],
@@ -74,8 +74,8 @@
   "llama-3-2-3b": {
    "license": "llama3.2",
    "gated": "manual",
-   "downloads_30d": 1110545,
-   "likes": 2847,
+   "downloads_30d": 1099783,
+   "likes": 2882,
    "last_modified": "2024-10-24T15:07:29.000Z",
    "params": 3212749824,
    "datasets": [],
@@ -84,8 +84,8 @@
   "gemma-3-4b": {
    "license": "gemma",
    "gated": "manual",
-   "downloads_30d": 1059693,
-   "likes": 1592,
+   "downloads_30d": 959740,
+   "likes": 1597,
    "last_modified": "2025-03-21T20:20:53.000Z",
    "params": 4300079472,
    "datasets": [],
