@@ -3,9 +3,9 @@
  "name": "Gemma 3 4B",
  "file": "gemma-3-4b-it-Q4_K_M.gguf",
  "repo": "ggml-org/gemma-3-4b-it-GGUF",
- "ran_at": "2026-10-22T03:51:59.054Z",
+ "ran_at": "2026-11-01T13:54:54.160Z",
  "machine": "GitHub Actions ubuntu-latest (4 CPU cores, 16 GB, no GPU)",
- "server": "b11783-339f3242c",
+ "server": "b12030-a91eab67d",
  "tasks_version": "1.1",
  "score": 97,
  "categories": {
@@ -26,7 +26,7 @@
    "total": 10
   }
  },
- "tokens_per_sec": 13.3,
+ "tokens_per_sec": 12.9,
  "items": [
   {
    "id": "f1",
@@ -220,7 +220,7 @@
    "same": true,
    "rerun_answers": [
     "412 items.",
-    "412 items."
+    "412"
    ]
   },
   {
