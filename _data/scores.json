@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-09T19:46:20.840Z",
+ "generated_at": "2026-11-16T19:33:44.751Z",
  "weights_version": "1.1",
  "projects": [
   {
@@ -12,7 +12,7 @@
    "name": "LLVM",
    "description": "The LLVM Project is a collection of modular and reusable compiler and toolchain technologies.",
    "homepage": "http://llvm.org",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -29,24 +29,25 @@
    },
    "ai": {
     "checked": 1000,
-    "disclosed": 309,
+    "disclosed": 339,
     "tools": {
-     "Assisted-by tag": 187,
-     "GitHub Copilot": 11,
-     "Claude": 111
+     "Claude": 104,
+     "Assisted-by tag": 232,
+     "OpenAI Codex": 1,
+     "Cursor": 2
     },
     "window_days": 90,
     "truncated": true,
     "agent_files": []
    },
    "context": {
-    "stars": 41376,
-    "forks": 19559,
-    "open_issues": 42119
+    "stars": 41468,
+    "forks": 19653,
+    "open_issues": 42668
    },
    "scorecard": {
-    "score": 7,
-    "date": "2026-11-08T20:41:48Z",
+    "score": 7.3,
+    "date": "2026-11-15T20:41:41Z",
     "url": "https://scorecard.dev/viewer/?uri=github.com/llvm/llvm-project"
    },
    "signals": {
@@ -56,35 +57,35 @@
     },
     "bus_factor": {
      "value": 89,
-     "detail": "89 people wrote half of 49,698 human commits this year"
+     "detail": "89 people wrote half of 50,631 human commits this year"
     },
     "active_contributors": {
      "value": 333,
      "detail": "333+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 14961,
-     "detail": "14,961 human commits in the last 90 days"
+     "value": 15548,
+     "detail": "15,548 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 607405,
-     "detail": "607,405 commits in total"
+     "value": 608948,
+     "detail": "608,948 commits in total"
     },
     "age": {
-     "value": 25.426339133520926,
+     "value": 25.445480130016225,
      "detail": "First commit 2001-06-06 (25.4 years ago)"
     },
     "follow_through": {
-     "value": 0.8625086242583138,
-     "detail": "62,506 closed vs 72,470 opened (issues 9,592/13,094, pull requests 52,914/59,376; bots and stale-bot closures left out)"
+     "value": 0.8567528852131139,
+     "detail": "63,398 closed vs 73,998 opened (issues 9,708/13,327, pull requests 53,690/60,671; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 6,
-     "detail": "Latest release llvmorg-23.1.5: 2026-11-03 (6 days ago)"
+     "value": 13,
+     "detail": "Latest release llvmorg-23.1.5: 2026-11-03 (13 days ago)"
     },
     "release_cadence": {
      "value": 18,
@@ -116,8 +117,8 @@
      "url": "https://www.bestpractices.dev/projects/8273"
     },
     "code_review": {
-     "value": 0.7666666666666667,
-     "detail": "23 of the last 30 human changes on main were approved or merged by someone else · 2 pushed straight to the branch"
+     "value": 0.8666666666666667,
+     "detail": "26 of the last 30 human changes on main were approved or merged by someone else"
     },
     "backing": {
      "value": 1,
@@ -146,7 +147,7 @@
         "raw": 89,
         "norm": 1,
         "points": 25,
-        "detail": "89 people wrote half of 49,698 human commits this year",
+        "detail": "89 people wrote half of 50,631 human commits this year",
         "share": 25
        },
        {
@@ -183,7 +184,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 25.426339133520926,
+        "raw": 25.445480130016225,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2001-06-06 (25.4 years ago)",
@@ -193,10 +194,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 607405,
+        "raw": 608948,
         "norm": 1,
         "points": 15,
-        "detail": "607,405 commits in total",
+        "detail": "608,948 commits in total",
         "share": 15
        }
       ],
@@ -213,10 +214,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 14961,
+        "raw": 15548,
         "norm": 1,
         "points": 25,
-        "detail": "14,961 human commits in the last 90 days",
+        "detail": "15,548 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -233,21 +234,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.8625086242583138,
-        "norm": 0.8625086242583138,
-        "points": 21.562715606457843,
-        "detail": "62,506 closed vs 72,470 opened (issues 9,592/13,094, pull requests 52,914/59,376; bots and stale-bot closures left out)",
-        "share": 21.562715606457843
+        "raw": 0.8567528852131139,
+        "norm": 0.8567528852131139,
+        "points": 21.418822130327847,
+        "detail": "63,398 closed vs 73,998 opened (issues 9,708/13,327, pull requests 53,690/60,671; bots and stale-bot closures left out)",
+        "share": 21.41882213032785
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 6,
-        "norm": 0.988670467824422,
-        "points": 9.88670467824422,
-        "detail": "Latest release llvmorg-23.1.5: 2026-11-03 (6 days ago)",
-        "share": 9.88670467824422
+        "raw": 13,
+        "norm": 0.9756148085615793,
+        "points": 9.756148085615793,
+        "detail": "Latest release llvmorg-23.1.5: 2026-11-03 (13 days ago)",
+        "share": 9.756148085615793
        },
        {
         "id": "release_cadence",
@@ -275,7 +276,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 91,
+      "score": 93,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -303,11 +304,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.7666666666666667,
-        "norm": 0.7666666666666667,
-        "points": 5.75,
-        "detail": "23 of the last 30 human changes on main were approved or merged by someone else · 2 pushed straight to the branch",
-        "share": 17.692307692307693
+        "raw": 0.8666666666666667,
+        "norm": 0.8666666666666667,
+        "points": 6.5,
+        "detail": "26 of the last 30 human changes on main were approved or merged by someone else",
+        "share": 20
        },
        {
         "id": "security_policy",
@@ -359,7 +360,7 @@
    "name": "Element (web)",
    "description": "A glossy Matrix collaboration client for the web.",
    "homepage": "https://element.io",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -375,10 +376,10 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 715,
-    "disclosed": 22,
+    "checked": 697,
+    "disclosed": 23,
     "tools": {
-     "Claude": 21,
+     "Claude": 22,
      "Assisted-by tag": 1
     },
     "window_days": 90,
@@ -388,9 +389,9 @@
     ]
    },
    "context": {
-    "stars": 13642,
-    "forks": 2818,
-    "open_issues": 3682
+    "stars": 13663,
+    "forks": 2837,
+    "open_issues": 3712
    },
    "scorecard": null,
    "signals": {
@@ -399,40 +400,40 @@
      "detail": "AGPL-3.0: OSI and FSF approved (GitHub license detection)"
     },
     "bus_factor": {
-     "value": 2,
-     "detail": "2 people wrote half of 2,666 human commits this year"
+     "value": 3,
+     "detail": "3 people wrote half of 2,690 human commits this year"
     },
     "active_contributors": {
-     "value": 52,
-     "detail": "52+ people committed in the last 12 months"
+     "value": 53,
+     "detail": "53+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 561,
-     "detail": "561 human commits in the last 90 days"
+     "value": 582,
+     "detail": "582 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 70969,
-     "detail": "70,969 commits in total"
+     "value": 71030,
+     "detail": "71,030 commits in total"
     },
     "age": {
-     "value": 11.419928601668062,
+     "value": 11.439069598163359,
      "detail": "First commit 2015-06-09 (11.4 years ago)"
     },
     "follow_through": {
-     "value": 0.9598641556035814,
-     "detail": "3,109 closed vs 3,239 opened (issues 1,100/1,131, pull requests 2,009/2,108; bots and stale-bot closures left out)"
+     "value": 0.9457667972280808,
+     "detail": "3,139 closed vs 3,319 opened (issues 1,094/1,147, pull requests 2,045/2,172; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 13,
-     "detail": "Latest release v1.12.33: 2026-10-27 (13 days ago)"
+     "value": 4,
+     "detail": "Latest release v1.12.35: 2026-11-12 (4 days ago)"
     },
     "release_cadence": {
-     "value": 40,
-     "detail": "40 releases in the last 12 months"
+     "value": 42,
+     "detail": "42 releases in the last 12 months"
     },
     "release_integrity": {
      "value": 1,
@@ -459,8 +460,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 1,
-     "detail": "23 of the last 23 human changes on develop were approved or merged by someone else"
+     "value": 0.9629629629629629,
+     "detail": "26 of the last 27 human changes on develop were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -468,7 +469,7 @@
     }
    },
    "notes": [],
-   "calls": 28,
+   "calls": 27,
    "category": "communication",
    "blurb": "Matrix chat client for groups and communities.",
    "anti_features": [],
@@ -478,28 +479,28 @@
      "reliability": {
       "id": "reliability",
       "label": "Reliability",
-      "score": 84,
-      "letter": "B",
+      "score": 88,
+      "letter": "A",
       "confidence": 1,
       "parts": [
        {
         "id": "bus_factor",
         "label": "Bus factor",
         "weight": 25,
-        "raw": 2,
-        "norm": 0.6131471927654584,
-        "points": 15.32867981913646,
-        "detail": "2 people wrote half of 2,666 human commits this year",
-        "share": 15.32867981913646
+        "raw": 3,
+        "norm": 0.7737056144690831,
+        "points": 19.342640361727078,
+        "detail": "3 people wrote half of 2,690 human commits this year",
+        "share": 19.342640361727078
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 52,
+        "raw": 53,
         "norm": 1,
         "points": 15,
-        "detail": "52+ people committed in the last 12 months",
+        "detail": "53+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -526,7 +527,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 11.419928601668062,
+        "raw": 11.439069598163359,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2015-06-09 (11.4 years ago)",
@@ -536,10 +537,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 70969,
+        "raw": 71030,
         "norm": 1,
         "points": 15,
-        "detail": "70,969 commits in total",
+        "detail": "71,030 commits in total",
         "share": 15
        }
       ],
@@ -556,10 +557,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 561,
+        "raw": 582,
         "norm": 1,
         "points": 25,
-        "detail": "561 human commits in the last 90 days",
+        "detail": "582 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -576,30 +577,30 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.9598641556035814,
-        "norm": 0.9598641556035814,
-        "points": 23.996603890089535,
-        "detail": "3,109 closed vs 3,239 opened (issues 1,100/1,131, pull requests 2,009/2,108; bots and stale-bot closures left out)",
-        "share": 23.996603890089535
+        "raw": 0.9457667972280808,
+        "norm": 0.9457667972280808,
+        "points": 23.64416993070202,
+        "detail": "3,139 closed vs 3,319 opened (issues 1,094/1,147, pull requests 2,045/2,172; bots and stale-bot closures left out)",
+        "share": 23.64416993070202
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 13,
-        "norm": 0.9756148085615793,
-        "points": 9.756148085615793,
-        "detail": "Latest release v1.12.33: 2026-10-27 (13 days ago)",
-        "share": 9.756148085615793
+        "raw": 4,
+        "norm": 0.9924326442238344,
+        "points": 9.924326442238344,
+        "detail": "Latest release v1.12.35: 2026-11-12 (4 days ago)",
+        "share": 9.924326442238344
        },
        {
         "id": "release_cadence",
         "label": "Release cadence",
         "weight": 5,
-        "raw": 40,
+        "raw": 42,
         "norm": 1,
         "points": 5,
-        "detail": "40 releases in the last 12 months",
+        "detail": "42 releases in the last 12 months",
         "share": 5
        },
        {
@@ -618,7 +619,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 92,
+      "score": 91,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -646,11 +647,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 1,
-        "norm": 1,
-        "points": 7.5,
-        "detail": "23 of the last 23 human changes on develop were approved or merged by someone else",
-        "share": 23.076923076923077
+        "raw": 0.9629629629629629,
+        "norm": 0.9629629629629629,
+        "points": 7.222222222222221,
+        "detail": "26 of the last 27 human changes on develop were approved or merged by someone else",
+        "share": 22.22222222222222
        },
        {
         "id": "security_policy",
@@ -687,7 +688,7 @@
      }
     },
     "fidelity": {
-     "score": 92,
+     "score": 93,
      "letter": "A"
     }
    }
@@ -702,7 +703,7 @@
    "name": "Bitwarden (apps)",
    "description": "Bitwarden client apps (web, browser extension, desktop, and cli).",
    "homepage": "https://bitwarden.com",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -729,9 +730,9 @@
     "agent_files": []
    },
    "context": {
-    "stars": 14185,
-    "forks": 2203,
-    "open_issues": 1443
+    "stars": 14241,
+    "forks": 2216,
+    "open_issues": 1494
    },
    "scorecard": null,
    "signals": {
@@ -741,39 +742,39 @@
     },
     "bus_factor": {
      "value": 16,
-     "detail": "16 people wrote half of 3,693 human commits this year"
+     "detail": "16 people wrote half of 3,702 human commits this year"
     },
     "active_contributors": {
-     "value": 146,
-     "detail": "146+ people committed in the last 12 months"
+     "value": 147,
+     "detail": "147+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 960,
-     "detail": "960 human commits in the last 90 days"
+     "value": 958,
+     "detail": "958 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 23764,
-     "detail": "23,764 commits in total"
+     "value": 23848,
+     "detail": "23,848 commits in total"
     },
     "age": {
-     "value": 10.92040468349938,
+     "value": 10.939545679994676,
      "detail": "First commit 2015-12-09 (10.9 years ago)"
     },
     "follow_through": {
-     "value": 0.9019931065487786,
-     "detail": "6,019 closed vs 6,673 opened (issues 1,186/1,454, pull requests 4,833/5,219; bots and stale-bot closures left out)"
+     "value": 0.896546613309619,
+     "detail": "6,049 closed vs 6,747 opened (issues 1,196/1,456, pull requests 4,853/5,291; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 4,
-     "detail": "Latest release desktop-v2026.10.4: 2026-11-05 (4 days ago)"
+     "value": 11,
+     "detail": "Latest release desktop-v2026.10.4: 2026-11-05 (11 days ago)"
     },
     "release_cadence": {
-     "value": 92,
-     "detail": "92 releases in the last 12 months"
+     "value": 87,
+     "detail": "87 releases in the last 12 months"
     },
     "release_integrity": {
      "value": 0,
@@ -800,8 +801,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 0.9523809523809523,
-     "detail": "20 of the last 21 human changes on main were approved or merged by someone else · 1 pushed straight to the branch"
+     "value": 1,
+     "detail": "25 of the last 25 human changes on main were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -835,17 +836,17 @@
         "raw": 16,
         "norm": 1,
         "points": 25,
-        "detail": "16 people wrote half of 3,693 human commits this year",
+        "detail": "16 people wrote half of 3,702 human commits this year",
         "share": 25
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 146,
+        "raw": 147,
         "norm": 1,
         "points": 15,
-        "detail": "146+ people committed in the last 12 months",
+        "detail": "147+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -872,7 +873,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 10.92040468349938,
+        "raw": 10.939545679994676,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2015-12-09 (10.9 years ago)",
@@ -882,10 +883,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 23764,
+        "raw": 23848,
         "norm": 1,
         "points": 15,
-        "detail": "23,764 commits in total",
+        "detail": "23,848 commits in total",
         "share": 15
        }
       ],
@@ -902,10 +903,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 960,
+        "raw": 958,
         "norm": 1,
         "points": 25,
-        "detail": "960 human commits in the last 90 days",
+        "detail": "958 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -922,30 +923,30 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.9019931065487786,
-        "norm": 0.9019931065487786,
-        "points": 22.549827663719466,
-        "detail": "6,019 closed vs 6,673 opened (issues 1,186/1,454, pull requests 4,833/5,219; bots and stale-bot closures left out)",
-        "share": 22.549827663719466
+        "raw": 0.896546613309619,
+        "norm": 0.896546613309619,
+        "points": 22.413665332740475,
+        "detail": "6,049 closed vs 6,747 opened (issues 1,196/1,456, pull requests 4,853/5,291; bots and stale-bot closures left out)",
+        "share": 22.413665332740475
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 4,
-        "norm": 0.9924326442238344,
-        "points": 9.924326442238344,
-        "detail": "Latest release desktop-v2026.10.4: 2026-11-05 (4 days ago)",
-        "share": 9.924326442238344
+        "raw": 11,
+        "norm": 0.9793273044104384,
+        "points": 9.793273044104383,
+        "detail": "Latest release desktop-v2026.10.4: 2026-11-05 (11 days ago)",
+        "share": 9.793273044104383
        },
        {
         "id": "release_cadence",
         "label": "Release cadence",
         "weight": 5,
-        "raw": 92,
+        "raw": 87,
         "norm": 1,
         "points": 5,
-        "detail": "92 releases in the last 12 months",
+        "detail": "87 releases in the last 12 months",
         "share": 5
        },
        {
@@ -964,7 +965,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 68,
+      "score": 69,
       "letter": "C",
       "confidence": 1,
       "parts": [
@@ -992,11 +993,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.9523809523809523,
-        "norm": 0.9523809523809523,
-        "points": 7.142857142857142,
-        "detail": "20 of the last 21 human changes on main were approved or merged by someone else · 1 pushed straight to the branch",
-        "share": 21.978021978021975
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "25 of the last 25 human changes on main were approved or merged by someone else",
+        "share": 23.076923076923077
        },
        {
         "id": "security_policy",
@@ -1048,7 +1049,7 @@
    "name": "Audacity",
    "description": "Audio Editor                                     ",
    "homepage": "https://www.audacityteam.org/manual/getting-started/",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -1064,25 +1065,25 @@
     "source": "detected from LICENSE.txt"
    },
    "ai": {
-    "checked": 962,
-    "disclosed": 78,
+    "checked": 1000,
+    "disclosed": 116,
     "tools": {
-     "Assisted-by tag": 77,
-     "Claude": 1
+     "Assisted-by tag": 113,
+     "Claude": 3
     },
     "window_days": 90,
-    "truncated": false,
+    "truncated": true,
     "agent_files": [],
     "policy": "https://github.com/audacity/audacity/blob/master/AI_POLICY.md"
    },
    "context": {
-    "stars": 19004,
-    "forks": 2724,
-    "open_issues": 1912
+    "stars": 19087,
+    "forks": 2733,
+    "open_issues": 1923
    },
    "scorecard": {
     "score": 4.8,
-    "date": "2026-11-02",
+    "date": "2026-11-09",
     "url": "https://scorecard.dev/viewer/?uri=github.com/audacity/audacity"
    },
    "signals": {
@@ -1092,35 +1093,35 @@
     },
     "bus_factor": {
      "value": 3,
-     "detail": "3 people wrote half of 3,363 human commits this year"
+     "detail": "3 people wrote half of 3,394 human commits this year"
     },
     "active_contributors": {
-     "value": 32,
-     "detail": "32+ people committed in the last 12 months"
+     "value": 34,
+     "detail": "34+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 808,
-     "detail": "808 human commits in the last 90 days"
+     "value": 848,
+     "detail": "848 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 25887,
-     "detail": "25,887 commits in total"
+     "value": 25978,
+     "detail": "25,978 commits in total"
     },
     "age": {
-     "value": 16.793979638502293,
+     "value": 16.813120634997592,
      "detail": "First commit 2010-01-23 (16.8 years ago)"
     },
     "follow_through": {
-     "value": 0.7783822996010156,
-     "detail": "2,146 closed vs 2,757 opened (issues 1,311/1,844, pull requests 835/913; bots and stale-bot closures left out)"
+     "value": 0.7799712849964107,
+     "detail": "2,173 closed vs 2,786 opened (issues 1,341/1,872, pull requests 832/914; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 7,
-     "detail": "Latest release Audacity-4.0.2: 2026-11-02 (7 days ago)"
+     "value": 14,
+     "detail": "Latest release Audacity-4.0.2: 2026-11-02 (14 days ago)"
     },
     "release_cadence": {
      "value": 7,
@@ -1152,7 +1153,7 @@
     },
     "code_review": {
      "value": 1,
-     "detail": "30 of the last 30 human changes on master were approved or merged by someone else"
+     "detail": "29 of the last 29 human changes on master were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -1181,17 +1182,17 @@
         "raw": 3,
         "norm": 0.7737056144690831,
         "points": 19.342640361727078,
-        "detail": "3 people wrote half of 3,363 human commits this year",
+        "detail": "3 people wrote half of 3,394 human commits this year",
         "share": 19.342640361727078
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 32,
+        "raw": 34,
         "norm": 1,
         "points": 15,
-        "detail": "32+ people committed in the last 12 months",
+        "detail": "34+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -1218,7 +1219,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 16.793979638502293,
+        "raw": 16.813120634997592,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2010-01-23 (16.8 years ago)",
@@ -1228,10 +1229,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 25887,
+        "raw": 25978,
         "norm": 1,
         "points": 15,
-        "detail": "25,887 commits in total",
+        "detail": "25,978 commits in total",
         "share": 15
        }
       ],
@@ -1248,10 +1249,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 808,
+        "raw": 848,
         "norm": 1,
         "points": 25,
-        "detail": "808 human commits in the last 90 days",
+        "detail": "848 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -1268,21 +1269,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.7783822996010156,
-        "norm": 0.7783822996010156,
-        "points": 19.45955749002539,
-        "detail": "2,146 closed vs 2,757 opened (issues 1,311/1,844, pull requests 835/913; bots and stale-bot closures left out)",
-        "share": 19.45955749002539
+        "raw": 0.7799712849964107,
+        "norm": 0.7799712849964107,
+        "points": 19.499282124910266,
+        "detail": "2,173 closed vs 2,786 opened (issues 1,341/1,872, pull requests 832/914; bots and stale-bot closures left out)",
+        "share": 19.499282124910266
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 7,
-        "norm": 0.9867947312196229,
-        "points": 9.867947312196229,
-        "detail": "Latest release Audacity-4.0.2: 2026-11-02 (7 days ago)",
-        "share": 9.867947312196229
+        "raw": 14,
+        "norm": 0.9737638415628078,
+        "points": 9.737638415628078,
+        "detail": "Latest release Audacity-4.0.2: 2026-11-02 (14 days ago)",
+        "share": 9.737638415628078
        },
        {
         "id": "release_cadence",
@@ -1341,7 +1342,7 @@
         "raw": 1,
         "norm": 1,
         "points": 7.5,
-        "detail": "30 of the last 30 human changes on master were approved or merged by someone else",
+        "detail": "29 of the last 29 human changes on master were approved or merged by someone else",
         "share": 23.076923076923077
        },
        {
@@ -1385,347 +1386,6 @@
    }
   },
   {
-   "id": "github.com/janhq/jan",
-   "forge": "github",
-   "host": "github.com",
-   "owner": "janhq",
-   "repo": "jan",
-   "url": "https://github.com/janhq/jan",
-   "name": "Jan",
-   "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer.",
-   "homepage": "https://jan.ai/",
-   "scored_at": "2026-11-09T19:46:20.840Z",
-   "mode": "full",
-   "status": {
-    "archived": false,
-    "fork": false,
-    "mirror": null,
-    "moved_to": null,
-    "deprecated": false
-   },
-   "license": {
-    "spdx": "Apache-2.0",
-    "kind": "open",
-    "label": "Apache-2.0: OSI and FSF approved",
-    "source": "detected from LICENSE"
-   },
-   "ai": {
-    "checked": 1000,
-    "disclosed": 12,
-    "tools": {
-     "Claude": 12
-    },
-    "window_days": 90,
-    "truncated": true,
-    "agent_files": [],
-    "policy": "https://github.com/janhq/jan/blob/main/CONTRIBUTING.md"
-   },
-   "context": {
-    "stars": 45635,
-    "forks": 3166,
-    "open_issues": 570
-   },
-   "scorecard": null,
-   "signals": {
-    "license": {
-     "value": 1,
-     "detail": "Apache-2.0: OSI and FSF approved (detected from LICENSE)"
-    },
-    "bus_factor": {
-     "value": 2,
-     "detail": "2 people wrote half of 2,242 human commits this year"
-    },
-    "active_contributors": {
-     "value": 50,
-     "detail": "50+ people committed in the last 12 months"
-    },
-    "recent_commits": {
-     "value": 877,
-     "detail": "877 human commits in the last 90 days"
-    },
-    "longest_gap": {
-     "value": 7,
-     "detail": "Longest quiet stretch: about 7 days"
-    },
-    "history": {
-     "value": 9459,
-     "detail": "9,459 commits in total"
-    },
-    "age": {
-     "value": 3.232658688873679,
-     "detail": "First commit 2023-08-17 (3.2 years ago)"
-    },
-    "follow_through": {
-     "value": 0.713631156930126,
-     "detail": "1,869 closed vs 2,619 opened (issues 504/1,005, pull requests 1,365/1,614; bots and stale-bot closures left out)"
-    },
-    "release_freshness": {
-     "value": 13,
-     "detail": "Latest release v0.8.8: 2026-10-28 (13 days ago)"
-    },
-    "release_cadence": {
-     "value": 16,
-     "detail": "16 releases in the last 12 months"
-    },
-    "release_integrity": {
-     "value": 0.5,
-     "detail": "Checksums attached, no signatures"
-    },
-    "docs": {
-     "value": 1,
-     "detail": "README ✓ · docs site/folder ✓ · updated this year ✓"
-    },
-    "security_policy": {
-     "value": 1,
-     "detail": "Security policy found in the repository"
-    },
-    "dependency_updates": {
-     "value": 1,
-     "detail": "Dependabot or Renovate configured"
-    },
-    "ci": {
-     "value": 1,
-     "detail": "CI found: GitHub Actions"
-    },
-    "best_practices": {
-     "value": 0,
-     "detail": "No OpenSSF Best Practices badge found"
-    },
-    "code_review": {
-     "value": 0.5666666666666667,
-     "detail": "17 of the last 30 human changes on main were approved or merged by someone else"
-    },
-    "backing": {
-     "value": 0.6,
-     "detail": "Owned by the organization \"janhq\""
-    }
-   },
-   "notes": [],
-   "calls": 29,
-   "category": "local-ai",
-   "blurb": "Desktop chat app for local models.",
-   "anti_features": [],
-   "license_changes": [],
-   "computed": {
-    "grades": {
-     "reliability": {
-      "id": "reliability",
-      "label": "Reliability",
-      "score": 79,
-      "letter": "B",
-      "confidence": 1,
-      "parts": [
-       {
-        "id": "bus_factor",
-        "label": "Bus factor",
-        "weight": 25,
-        "raw": 2,
-        "norm": 0.6131471927654584,
-        "points": 15.32867981913646,
-        "detail": "2 people wrote half of 2,242 human commits this year",
-        "share": 15.32867981913646
-       },
-       {
-        "id": "active_contributors",
-        "label": "Active contributors",
-        "weight": 15,
-        "raw": 50,
-        "norm": 1,
-        "points": 15,
-        "detail": "50+ people committed in the last 12 months",
-        "share": 15
-       },
-       {
-        "id": "backing",
-        "label": "Backing",
-        "weight": 15,
-        "raw": 0.6,
-        "norm": 0.6,
-        "points": 9,
-        "detail": "Owned by the organization \"janhq\"",
-        "share": 9
-       },
-       {
-        "id": "license",
-        "label": "License",
-        "weight": 15,
-        "raw": 1,
-        "norm": 1,
-        "points": 15,
-        "detail": "Apache-2.0: OSI and FSF approved (detected from LICENSE)",
-        "share": 15
-       },
-       {
-        "id": "age",
-        "label": "Age",
-        "weight": 15,
-        "raw": 3.232658688873679,
-        "norm": 0.6465317377747357,
-        "points": 9.697976066621036,
-        "detail": "First commit 2023-08-17 (3.2 years ago)",
-        "share": 9.697976066621036
-       },
-       {
-        "id": "history",
-        "label": "Track record",
-        "weight": 15,
-        "raw": 9459,
-        "norm": 1,
-        "points": 15,
-        "detail": "9,459 commits in total",
-        "share": 15
-       }
-      ],
-      "notes": []
-     },
-     "maintenance": {
-      "id": "maintenance",
-      "label": "Maintenance",
-      "score": 92,
-      "letter": "A",
-      "confidence": 1,
-      "parts": [
-       {
-        "id": "recent_commits",
-        "label": "Recent activity",
-        "weight": 25,
-        "raw": 877,
-        "norm": 1,
-        "points": 25,
-        "detail": "877 human commits in the last 90 days",
-        "share": 25
-       },
-       {
-        "id": "longest_gap",
-        "label": "Steadiness",
-        "weight": 20,
-        "raw": 7,
-        "norm": 0.9611111111111111,
-        "points": 19.22222222222222,
-        "detail": "Longest quiet stretch: about 7 days",
-        "share": 19.22222222222222
-       },
-       {
-        "id": "follow_through",
-        "label": "Follow-through",
-        "weight": 25,
-        "raw": 0.713631156930126,
-        "norm": 0.713631156930126,
-        "points": 17.84077892325315,
-        "detail": "1,869 closed vs 2,619 opened (issues 504/1,005, pull requests 1,365/1,614; bots and stale-bot closures left out)",
-        "share": 17.84077892325315
-       },
-       {
-        "id": "release_freshness",
-        "label": "Release freshness",
-        "weight": 10,
-        "raw": 13,
-        "norm": 0.9756148085615793,
-        "points": 9.756148085615793,
-        "detail": "Latest release v0.8.8: 2026-10-28 (13 days ago)",
-        "share": 9.756148085615793
-       },
-       {
-        "id": "release_cadence",
-        "label": "Release cadence",
-        "weight": 5,
-        "raw": 16,
-        "norm": 1,
-        "points": 5,
-        "detail": "16 releases in the last 12 months",
-        "share": 5
-       },
-       {
-        "id": "docs",
-        "label": "Documentation",
-        "weight": 15,
-        "raw": 1,
-        "norm": 1,
-        "points": 15,
-        "detail": "README ✓ · docs site/folder ✓ · updated this year ✓",
-        "share": 15
-       }
-      ],
-      "notes": []
-     },
-     "security": {
-      "id": "security",
-      "label": "Visible security",
-      "score": 71,
-      "letter": "B",
-      "confidence": 1,
-      "parts": [
-       {
-        "id": "release_integrity",
-        "label": "Release integrity",
-        "weight": 7.5,
-        "raw": 0.5,
-        "norm": 0.5,
-        "points": 3.75,
-        "detail": "Checksums attached, no signatures",
-        "share": 11.538461538461538
-       },
-       {
-        "id": "dependency_updates",
-        "label": "Dependency updates",
-        "weight": 7.5,
-        "raw": 1,
-        "norm": 1,
-        "points": 7.5,
-        "detail": "Dependabot or Renovate configured",
-        "share": 23.076923076923077
-       },
-       {
-        "id": "code_review",
-        "label": "Code review",
-        "weight": 7.5,
-        "raw": 0.5666666666666667,
-        "norm": 0.5666666666666667,
-        "points": 4.25,
-        "detail": "17 of the last 30 human changes on main were approved or merged by someone else",
-        "share": 13.076923076923077
-       },
-       {
-        "id": "security_policy",
-        "label": "Security policy",
-        "weight": 5,
-        "raw": 1,
-        "norm": 1,
-        "points": 5,
-        "detail": "Security policy found in the repository",
-        "share": 15.384615384615385
-       },
-       {
-        "id": "ci",
-        "label": "Automated tests",
-        "weight": 2.5,
-        "raw": 1,
-        "norm": 1,
-        "points": 2.5,
-        "detail": "CI found: GitHub Actions",
-        "share": 7.6923076923076925
-       },
-       {
-        "id": "best_practices",
-        "label": "Best-practices badge",
-        "weight": 2.5,
-        "raw": 0,
-        "norm": 0,
-        "points": 0,
-        "detail": "No OpenSSF Best Practices badge found",
-        "share": 0
-       }
-      ],
-      "notes": []
-     }
-    },
-    "fidelity": {
-     "score": 81,
-     "letter": "B"
-    }
-   }
-  },
-  {
    "id": "github.com/penpot/penpot",
    "forge": "github",
    "host": "github.com",
@@ -1735,7 +1395,7 @@
    "name": "Penpot",
    "description": "Penpot: The open-source design platform for Product teams that need scalable collaboration.",
    "homepage": "https://penpot.app",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -1752,10 +1412,10 @@
    },
    "ai": {
     "checked": 1000,
-    "disclosed": 6,
+    "disclosed": 5,
     "tools": {
      "Cursor": 2,
-     "Claude": 4
+     "Claude": 3
     },
     "window_days": 90,
     "truncated": true,
@@ -1765,13 +1425,13 @@
     "policy": "https://github.com/penpot/penpot/blob/develop/CONTRIBUTING.md"
    },
    "context": {
-    "stars": 62214,
-    "forks": 4388,
-    "open_issues": 948
+    "stars": 62428,
+    "forks": 4424,
+    "open_issues": 943
    },
    "scorecard": {
-    "score": 5.9,
-    "date": "2026-11-02",
+    "score": 5.7,
+    "date": "2026-11-09",
     "url": "https://scorecard.dev/viewer/?uri=github.com/penpot/penpot"
    },
    "signals": {
@@ -1781,35 +1441,35 @@
     },
     "bus_factor": {
      "value": 3,
-     "detail": "3 people wrote half of 5,321 human commits this year"
+     "detail": "3 people wrote half of 5,356 human commits this year"
     },
     "active_contributors": {
-     "value": 202,
-     "detail": "202+ people committed in the last 12 months"
+     "value": 203,
+     "detail": "203+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 1273,
-     "detail": "1,273 human commits in the last 90 days"
+     "value": 1312,
+     "detail": "1,312 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 24671,
-     "detail": "24,671 commits in total"
+     "value": 24804,
+     "detail": "24,804 commits in total"
     },
     "age": {
-     "value": 11.395183120389383,
+     "value": 11.41432411688468,
      "detail": "First commit 2015-06-18 (11.4 years ago)"
     },
     "follow_through": {
-     "value": 0.9146844898761549,
-     "detail": "4,653 closed vs 5,087 opened (issues 1,566/1,884, pull requests 3,087/3,203; bots and stale-bot closures left out)"
+     "value": 0.9169377990430622,
+     "detail": "4,791 closed vs 5,225 opened (issues 1,629/1,939, pull requests 3,162/3,286; bots and stale-bot closures left out)"
     },
     "release_freshness": {
      "value": 0,
-     "detail": "Latest release 2.19.0: 2026-11-09 (0 days ago)"
+     "detail": "Latest release 2.19.2: 2026-11-16 (0 days ago)"
     },
     "release_cadence": {
      "value": 33,
@@ -1841,7 +1501,7 @@
     },
     "code_review": {
      "value": 0.5,
-     "detail": "13 of the last 26 human changes on develop were approved or merged by someone else · 13 pushed straight to the branch"
+     "detail": "13 of the last 26 human changes on develop were approved or merged by someone else · 12 pushed straight to the branch"
     },
     "backing": {
      "value": 0.6,
@@ -1870,17 +1530,17 @@
         "raw": 3,
         "norm": 0.7737056144690831,
         "points": 19.342640361727078,
-        "detail": "3 people wrote half of 5,321 human commits this year",
+        "detail": "3 people wrote half of 5,356 human commits this year",
         "share": 19.342640361727078
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 202,
+        "raw": 203,
         "norm": 1,
         "points": 15,
-        "detail": "202+ people committed in the last 12 months",
+        "detail": "203+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -1907,7 +1567,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 11.395183120389383,
+        "raw": 11.41432411688468,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2015-06-18 (11.4 years ago)",
@@ -1917,10 +1577,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 24671,
+        "raw": 24804,
         "norm": 1,
         "points": 15,
-        "detail": "24,671 commits in total",
+        "detail": "24,804 commits in total",
         "share": 15
        }
       ],
@@ -1937,10 +1597,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 1273,
+        "raw": 1312,
         "norm": 1,
         "points": 25,
-        "detail": "1,273 human commits in the last 90 days",
+        "detail": "1,312 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -1957,11 +1617,11 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.9146844898761549,
-        "norm": 0.9146844898761549,
-        "points": 22.867112246903872,
-        "detail": "4,653 closed vs 5,087 opened (issues 1,566/1,884, pull requests 3,087/3,203; bots and stale-bot closures left out)",
-        "share": 22.867112246903872
+        "raw": 0.9169377990430622,
+        "norm": 0.9169377990430622,
+        "points": 22.923444976076553,
+        "detail": "4,791 closed vs 5,225 opened (issues 1,629/1,939, pull requests 3,162/3,286; bots and stale-bot closures left out)",
+        "share": 22.923444976076553
        },
        {
         "id": "release_freshness",
@@ -1970,7 +1630,7 @@
         "raw": 0,
         "norm": 1,
         "points": 10,
-        "detail": "Latest release 2.19.0: 2026-11-09 (0 days ago)",
+        "detail": "Latest release 2.19.2: 2026-11-16 (0 days ago)",
         "share": 10
        },
        {
@@ -2030,7 +1690,7 @@
         "raw": 0.5,
         "norm": 0.5,
         "points": 3.75,
-        "detail": "13 of the last 26 human changes on develop were approved or merged by someone else · 13 pushed straight to the branch",
+        "detail": "13 of the last 26 human changes on develop were approved or merged by someone else · 12 pushed straight to the branch",
         "share": 11.538461538461538
        },
        {
@@ -2083,7 +1743,7 @@
    "name": "KeePassXC",
    "description": "KeePassXC is a cross-platform community-driven port of the Windows application “KeePass Password Safe”.",
    "homepage": "https://keepassxc.org/",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -2099,7 +1759,7 @@
     "source": "detected from COPYING"
    },
    "ai": {
-    "checked": 70,
+    "checked": 75,
     "disclosed": 6,
     "tools": {
      "Claude": 3,
@@ -2113,9 +1773,9 @@
     ]
    },
    "context": {
-    "stars": 29886,
-    "forks": 2019,
-    "open_issues": 998
+    "stars": 30020,
+    "forks": 2045,
+    "open_issues": 1019
    },
    "scorecard": {
     "score": 7.5,
@@ -2129,35 +1789,35 @@
     },
     "bus_factor": {
      "value": 2,
-     "detail": "2 people wrote half of 159 human commits this year"
+     "detail": "2 people wrote half of 161 human commits this year"
     },
     "active_contributors": {
      "value": 12,
      "detail": "12+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 63,
-     "detail": "63 human commits in the last 90 days"
+     "value": 68,
+     "detail": "68 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 28,
      "detail": "Longest quiet stretch: about 28 days"
     },
     "history": {
-     "value": 5054,
-     "detail": "5,054 commits in total"
+     "value": 5060,
+     "detail": "5,060 commits in total"
     },
     "age": {
-     "value": 16.258110149060766,
+     "value": 16.27725114555606,
      "detail": "First commit 2010-08-07 (16.3 years ago)"
     },
     "follow_through": {
-     "value": 0.7935483870967742,
-     "detail": "984 closed vs 1,240 opened (issues 773/880, pull requests 211/360; bots and stale-bot closures left out)"
+     "value": 0.7752184273232724,
+     "detail": "976 closed vs 1,259 opened (issues 767/881, pull requests 209/378; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 19,
-     "detail": "Latest release 2.8.0: 2026-10-21 (19 days ago)"
+     "value": 26,
+     "detail": "Latest release 2.8.0: 2026-10-21 (26 days ago)"
     },
     "release_cadence": {
      "value": 3,
@@ -2189,8 +1849,8 @@
      "url": "https://www.bestpractices.dev/projects/6326"
     },
     "code_review": {
-     "value": 0.9666666666666667,
-     "detail": "29 of the last 30 human changes on develop were approved or merged by someone else · 1 pushed straight to the branch"
+     "value": 1,
+     "detail": "30 of the last 30 human changes on develop were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -2219,7 +1879,7 @@
         "raw": 2,
         "norm": 0.6131471927654584,
         "points": 15.32867981913646,
-        "detail": "2 people wrote half of 159 human commits this year",
+        "detail": "2 people wrote half of 161 human commits this year",
         "share": 15.32867981913646
        },
        {
@@ -2256,7 +1916,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 16.258110149060766,
+        "raw": 16.27725114555606,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2010-08-07 (16.3 years ago)",
@@ -2266,10 +1926,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 5054,
+        "raw": 5060,
         "norm": 1,
         "points": 15,
-        "detail": "5,054 commits in total",
+        "detail": "5,060 commits in total",
         "share": 15
        }
       ],
@@ -2278,7 +1938,7 @@
      "maintenance": {
       "id": "maintenance",
       "label": "Maintenance",
-      "score": 90,
+      "score": 89,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -2286,10 +1946,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 63,
+        "raw": 68,
         "norm": 1,
         "points": 25,
-        "detail": "63 human commits in the last 90 days",
+        "detail": "68 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -2306,21 +1966,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.7935483870967742,
-        "norm": 0.7935483870967742,
-        "points": 19.838709677419356,
-        "detail": "984 closed vs 1,240 opened (issues 773/880, pull requests 211/360; bots and stale-bot closures left out)",
-        "share": 19.838709677419356
+        "raw": 0.7752184273232724,
+        "norm": 0.7752184273232724,
+        "points": 19.38046068308181,
+        "detail": "976 closed vs 1,259 opened (issues 767/881, pull requests 209/378; bots and stale-bot closures left out)",
+        "share": 19.38046068308181
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 19,
-        "norm": 0.9645615491970106,
-        "points": 9.645615491970107,
-        "detail": "Latest release 2.8.0: 2026-10-21 (19 days ago)",
-        "share": 9.645615491970107
+        "raw": 26,
+        "norm": 0.9518242546846472,
+        "points": 9.518242546846471,
+        "detail": "Latest release 2.8.0: 2026-10-21 (26 days ago)",
+        "share": 9.518242546846471
        },
        {
         "id": "release_cadence",
@@ -2348,7 +2008,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 72,
+      "score": 73,
       "letter": "B",
       "confidence": 1,
       "parts": [
@@ -2376,11 +2036,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.9666666666666667,
-        "norm": 0.9666666666666667,
-        "points": 7.25,
-        "detail": "29 of the last 30 human changes on develop were approved or merged by someone else · 1 pushed straight to the branch",
-        "share": 22.307692307692307
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "30 of the last 30 human changes on develop were approved or merged by someone else",
+        "share": 23.076923076923077
        },
        {
         "id": "security_policy",
@@ -2432,7 +2092,7 @@
    "name": "Joplin",
    "description": "Joplin - the privacy-focused note taking app with sync capabilities for Windows, macOS, Linux, Android and iOS.",
    "homepage": "https://joplinapp.org",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -2448,7 +2108,7 @@
     "source": "detected from LICENSE"
    },
    "ai": {
-    "checked": 572,
+    "checked": 576,
     "disclosed": 4,
     "tools": {
      "Claude": 4
@@ -2460,8 +2120,8 @@
     ]
    },
    "context": {
-    "stars": 57114,
-    "forks": 6414,
+    "stars": 57213,
+    "forks": 6452,
     "open_issues": 674
    },
    "scorecard": {
@@ -2476,35 +2136,35 @@
     },
     "bus_factor": {
      "value": 2,
-     "detail": "2 people wrote half of 1,708 human commits this year"
+     "detail": "2 people wrote half of 1,710 human commits this year"
     },
     "active_contributors": {
      "value": 78,
      "detail": "78+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 453,
-     "detail": "453 human commits in the last 90 days"
+     "value": 413,
+     "detail": "413 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 16133,
-     "detail": "16,133 commits in total"
+     "value": 16174,
+     "detail": "16,174 commits in total"
     },
     "age": {
-     "value": 10.056566400486728,
+     "value": 10.075707396982027,
      "detail": "First commit 2016-10-19 (10.1 years ago)"
     },
     "follow_through": {
-     "value": 0.8600148920327625,
-     "detail": "2,310 closed vs 2,686 opened (issues 751/1,085, pull requests 1,559/1,601; bots and stale-bot closures left out)"
+     "value": 0.8553857622064853,
+     "detail": "2,295 closed vs 2,683 opened (issues 745/1,078, pull requests 1,550/1,605; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 12,
-     "detail": "Latest release v3.7.22: 2026-10-28 (12 days ago)"
+     "value": 19,
+     "detail": "Latest release v3.7.22: 2026-10-28 (19 days ago)"
     },
     "release_cadence": {
      "value": 12,
@@ -2535,8 +2195,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 0.19047619047619047,
-     "detail": "4 of the last 21 human changes on dev were approved or merged by someone else · 17 pushed straight to the branch"
+     "value": 0.2692307692307692,
+     "detail": "7 of the last 26 human changes on dev were approved or merged by someone else · 15 pushed straight to the branch"
     },
     "backing": {
      "value": 0.3,
@@ -2570,7 +2230,7 @@
         "raw": 2,
         "norm": 0.6131471927654584,
         "points": 15.32867981913646,
-        "detail": "2 people wrote half of 1,708 human commits this year",
+        "detail": "2 people wrote half of 1,710 human commits this year",
         "share": 15.32867981913646
        },
        {
@@ -2607,7 +2267,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 10.056566400486728,
+        "raw": 10.075707396982027,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2016-10-19 (10.1 years ago)",
@@ -2617,10 +2277,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 16133,
+        "raw": 16174,
         "norm": 1,
         "points": 15,
-        "detail": "16,133 commits in total",
+        "detail": "16,174 commits in total",
         "share": 15
        }
       ],
@@ -2637,10 +2297,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 453,
+        "raw": 413,
         "norm": 1,
         "points": 25,
-        "detail": "453 human commits in the last 90 days",
+        "detail": "413 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -2657,21 +2317,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.8600148920327625,
-        "norm": 0.8600148920327625,
-        "points": 21.500372300819063,
-        "detail": "2,310 closed vs 2,686 opened (issues 751/1,085, pull requests 1,559/1,601; bots and stale-bot closures left out)",
-        "share": 21.500372300819063
+        "raw": 0.8553857622064853,
+        "norm": 0.8553857622064853,
+        "points": 21.384644055162134,
+        "detail": "2,295 closed vs 2,683 opened (issues 745/1,078, pull requests 1,550/1,605; bots and stale-bot closures left out)",
+        "share": 21.384644055162134
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 12,
-        "norm": 0.9774692939481615,
-        "points": 9.774692939481614,
-        "detail": "Latest release v3.7.22: 2026-10-28 (12 days ago)",
-        "share": 9.774692939481614
+        "raw": 19,
+        "norm": 0.9645615491970106,
+        "points": 9.645615491970107,
+        "detail": "Latest release v3.7.22: 2026-10-28 (19 days ago)",
+        "share": 9.645615491970107
        },
        {
         "id": "release_cadence",
@@ -2699,7 +2359,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 62,
+      "score": 64,
       "letter": "C",
       "confidence": 1,
       "parts": [
@@ -2727,11 +2387,352 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.19047619047619047,
-        "norm": 0.19047619047619047,
-        "points": 1.4285714285714284,
-        "detail": "4 of the last 21 human changes on dev were approved or merged by someone else · 17 pushed straight to the branch",
-        "share": 4.395604395604395
+        "raw": 0.2692307692307692,
+        "norm": 0.2692307692307692,
+        "points": 2.019230769230769,
+        "detail": "7 of the last 26 human changes on dev were approved or merged by someone else · 15 pushed straight to the branch",
+        "share": 6.213017751479289
+       },
+       {
+        "id": "security_policy",
+        "label": "Security policy",
+        "weight": 5,
+        "raw": 1,
+        "norm": 1,
+        "points": 5,
+        "detail": "Security policy found in the repository",
+        "share": 15.384615384615385
+       },
+       {
+        "id": "ci",
+        "label": "Automated tests",
+        "weight": 2.5,
+        "raw": 1,
+        "norm": 1,
+        "points": 2.5,
+        "detail": "CI found: GitHub Actions",
+        "share": 7.6923076923076925
+       },
+       {
+        "id": "best_practices",
+        "label": "Best-practices badge",
+        "weight": 2.5,
+        "raw": 0,
+        "norm": 0,
+        "points": 0,
+        "detail": "No OpenSSF Best Practices badge found",
+        "share": 0
+       }
+      ],
+      "notes": []
+     }
+    },
+    "fidelity": {
+     "score": 80,
+     "letter": "B"
+    }
+   }
+  },
+  {
+   "id": "github.com/janhq/jan",
+   "forge": "github",
+   "host": "github.com",
+   "owner": "janhq",
+   "repo": "jan",
+   "url": "https://github.com/janhq/jan",
+   "name": "Jan",
+   "description": "Jan is an open source alternative to ChatGPT that runs 100% offline on your computer.",
+   "homepage": "https://jan.ai/",
+   "scored_at": "2026-11-16T19:33:44.751Z",
+   "mode": "full",
+   "status": {
+    "archived": false,
+    "fork": false,
+    "mirror": null,
+    "moved_to": null,
+    "deprecated": false
+   },
+   "license": {
+    "spdx": "Apache-2.0",
+    "kind": "open",
+    "label": "Apache-2.0: OSI and FSF approved",
+    "source": "detected from LICENSE"
+   },
+   "ai": {
+    "checked": 1000,
+    "disclosed": 12,
+    "tools": {
+     "Claude": 12
+    },
+    "window_days": 90,
+    "truncated": true,
+    "agent_files": [],
+    "policy": "https://github.com/janhq/jan/blob/main/CONTRIBUTING.md"
+   },
+   "context": {
+    "stars": 45745,
+    "forks": 3179,
+    "open_issues": 581
+   },
+   "scorecard": null,
+   "signals": {
+    "license": {
+     "value": 1,
+     "detail": "Apache-2.0: OSI and FSF approved (detected from LICENSE)"
+    },
+    "bus_factor": {
+     "value": 2,
+     "detail": "2 people wrote half of 2,346 human commits this year"
+    },
+    "active_contributors": {
+     "value": 50,
+     "detail": "50+ people committed in the last 12 months"
+    },
+    "recent_commits": {
+     "value": 923,
+     "detail": "923 human commits in the last 90 days"
+    },
+    "longest_gap": {
+     "value": 7,
+     "detail": "Longest quiet stretch: about 7 days"
+    },
+    "history": {
+     "value": 9594,
+     "detail": "9,594 commits in total"
+    },
+    "age": {
+     "value": 3.251799685368976,
+     "detail": "First commit 2023-08-17 (3.3 years ago)"
+    },
+    "follow_through": {
+     "value": 0.7154875717017208,
+     "detail": "1,871 closed vs 2,615 opened (issues 514/1,003, pull requests 1,357/1,612; bots and stale-bot closures left out)"
+    },
+    "release_freshness": {
+     "value": 20,
+     "detail": "Latest release v0.8.8: 2026-10-28 (20 days ago)"
+    },
+    "release_cadence": {
+     "value": 15,
+     "detail": "15 releases in the last 12 months"
+    },
+    "release_integrity": {
+     "value": 0.5,
+     "detail": "Checksums attached, no signatures"
+    },
+    "docs": {
+     "value": 1,
+     "detail": "README ✓ · docs site/folder ✓ · updated this year ✓"
+    },
+    "security_policy": {
+     "value": 1,
+     "detail": "Security policy found in the repository"
+    },
+    "dependency_updates": {
+     "value": 1,
+     "detail": "Dependabot or Renovate configured"
+    },
+    "ci": {
+     "value": 1,
+     "detail": "CI found: GitHub Actions"
+    },
+    "best_practices": {
+     "value": 0,
+     "detail": "No OpenSSF Best Practices badge found"
+    },
+    "code_review": {
+     "value": 0.36666666666666664,
+     "detail": "11 of the last 30 human changes on main were approved or merged by someone else"
+    },
+    "backing": {
+     "value": 0.6,
+     "detail": "Owned by the organization \"janhq\""
+    }
+   },
+   "notes": [],
+   "calls": 29,
+   "category": "local-ai",
+   "blurb": "Desktop chat app for local models.",
+   "anti_features": [],
+   "license_changes": [],
+   "computed": {
+    "grades": {
+     "reliability": {
+      "id": "reliability",
+      "label": "Reliability",
+      "score": 79,
+      "letter": "B",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "bus_factor",
+        "label": "Bus factor",
+        "weight": 25,
+        "raw": 2,
+        "norm": 0.6131471927654584,
+        "points": 15.32867981913646,
+        "detail": "2 people wrote half of 2,346 human commits this year",
+        "share": 15.32867981913646
+       },
+       {
+        "id": "active_contributors",
+        "label": "Active contributors",
+        "weight": 15,
+        "raw": 50,
+        "norm": 1,
+        "points": 15,
+        "detail": "50+ people committed in the last 12 months",
+        "share": 15
+       },
+       {
+        "id": "backing",
+        "label": "Backing",
+        "weight": 15,
+        "raw": 0.6,
+        "norm": 0.6,
+        "points": 9,
+        "detail": "Owned by the organization \"janhq\"",
+        "share": 9
+       },
+       {
+        "id": "license",
+        "label": "License",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "Apache-2.0: OSI and FSF approved (detected from LICENSE)",
+        "share": 15
+       },
+       {
+        "id": "age",
+        "label": "Age",
+        "weight": 15,
+        "raw": 3.251799685368976,
+        "norm": 0.6503599370737951,
+        "points": 9.755399056106928,
+        "detail": "First commit 2023-08-17 (3.3 years ago)",
+        "share": 9.755399056106928
+       },
+       {
+        "id": "history",
+        "label": "Track record",
+        "weight": 15,
+        "raw": 9594,
+        "norm": 1,
+        "points": 15,
+        "detail": "9,594 commits in total",
+        "share": 15
+       }
+      ],
+      "notes": []
+     },
+     "maintenance": {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "score": 92,
+      "letter": "A",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "recent_commits",
+        "label": "Recent activity",
+        "weight": 25,
+        "raw": 923,
+        "norm": 1,
+        "points": 25,
+        "detail": "923 human commits in the last 90 days",
+        "share": 25
+       },
+       {
+        "id": "longest_gap",
+        "label": "Steadiness",
+        "weight": 20,
+        "raw": 7,
+        "norm": 0.9611111111111111,
+        "points": 19.22222222222222,
+        "detail": "Longest quiet stretch: about 7 days",
+        "share": 19.22222222222222
+       },
+       {
+        "id": "follow_through",
+        "label": "Follow-through",
+        "weight": 25,
+        "raw": 0.7154875717017208,
+        "norm": 0.7154875717017208,
+        "points": 17.88718929254302,
+        "detail": "1,871 closed vs 2,615 opened (issues 514/1,003, pull requests 1,357/1,612; bots and stale-bot closures left out)",
+        "share": 17.88718929254302
+       },
+       {
+        "id": "release_freshness",
+        "label": "Release freshness",
+        "weight": 10,
+        "raw": 20,
+        "norm": 0.9627315527884076,
+        "points": 9.627315527884075,
+        "detail": "Latest release v0.8.8: 2026-10-28 (20 days ago)",
+        "share": 9.627315527884075
+       },
+       {
+        "id": "release_cadence",
+        "label": "Release cadence",
+        "weight": 5,
+        "raw": 15,
+        "norm": 1,
+        "points": 5,
+        "detail": "15 releases in the last 12 months",
+        "share": 5
+       },
+       {
+        "id": "docs",
+        "label": "Documentation",
+        "weight": 15,
+        "raw": 1,
+        "norm": 1,
+        "points": 15,
+        "detail": "README ✓ · docs site/folder ✓ · updated this year ✓",
+        "share": 15
+       }
+      ],
+      "notes": []
+     },
+     "security": {
+      "id": "security",
+      "label": "Visible security",
+      "score": 66,
+      "letter": "C",
+      "confidence": 1,
+      "parts": [
+       {
+        "id": "release_integrity",
+        "label": "Release integrity",
+        "weight": 7.5,
+        "raw": 0.5,
+        "norm": 0.5,
+        "points": 3.75,
+        "detail": "Checksums attached, no signatures",
+        "share": 11.538461538461538
+       },
+       {
+        "id": "dependency_updates",
+        "label": "Dependency updates",
+        "weight": 7.5,
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "Dependabot or Renovate configured",
+        "share": 23.076923076923077
+       },
+       {
+        "id": "code_review",
+        "label": "Code review",
+        "weight": 7.5,
+        "raw": 0.36666666666666664,
+        "norm": 0.36666666666666664,
+        "points": 2.75,
+        "detail": "11 of the last 30 human changes on main were approved or merged by someone else",
+        "share": 8.461538461538462
        },
        {
         "id": "security_policy",
@@ -2783,7 +2784,7 @@
    "name": "Ollama",
    "description": "Get up and running with Kimi, GLM, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma and other models.",
    "homepage": "https://ollama.com",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -2799,10 +2800,10 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 361,
-    "disclosed": 4,
+    "checked": 356,
+    "disclosed": 3,
     "tools": {
-     "Devin": 3,
+     "Devin": 2,
      "OpenAI Codex": 1
     },
     "window_days": 90,
@@ -2814,9 +2815,9 @@
     "policy": "https://github.com/ollama/ollama/blob/main/CONTRIBUTING.md"
    },
    "context": {
-    "stars": 186438,
-    "forks": 18975,
-    "open_issues": 4614
+    "stars": 187241,
+    "forks": 19114,
+    "open_issues": 4669
    },
    "scorecard": null,
    "signals": {
@@ -2826,35 +2827,35 @@
     },
     "bus_factor": {
      "value": 3,
-     "detail": "3 people wrote half of 1,159 human commits this year"
+     "detail": "3 people wrote half of 1,143 human commits this year"
     },
     "active_contributors": {
-     "value": 28,
-     "detail": "28+ people committed in the last 12 months"
+     "value": 27,
+     "detail": "27+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 316,
-     "detail": "316 human commits in the last 90 days"
+     "value": 306,
+     "detail": "306 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 0,
      "detail": "Commits every week this year"
     },
     "history": {
-     "value": 5985,
-     "detail": "5,985 commits in total"
+     "value": 6002,
+     "detail": "6,002 commits in total"
     },
     "age": {
-     "value": 3.3843273835779653,
+     "value": 3.403468380073263,
      "detail": "First commit 2023-06-22 (3.4 years ago)"
     },
     "follow_through": {
-     "value": 0.6168137482582443,
-     "detail": "3,984 closed vs 6,459 opened (issues 2,213/2,992, pull requests 1,771/3,467; bots and stale-bot closures left out)"
+     "value": 0.6098918083462133,
+     "detail": "3,946 closed vs 6,470 opened (issues 2,189/2,959, pull requests 1,757/3,511; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 6,
-     "detail": "Latest release v0.40.15: 2026-11-03 (6 days ago)"
+     "value": 7,
+     "detail": "Latest release v0.40.16: 2026-11-09 (7 days ago)"
     },
     "release_cadence": {
      "value": 95,
@@ -2904,7 +2905,7 @@
      "reliability": {
       "id": "reliability",
       "label": "Reliability",
-      "score": 83,
+      "score": 84,
       "letter": "B",
       "confidence": 1,
       "parts": [
@@ -2915,17 +2916,17 @@
         "raw": 3,
         "norm": 0.7737056144690831,
         "points": 19.342640361727078,
-        "detail": "3 people wrote half of 1,159 human commits this year",
+        "detail": "3 people wrote half of 1,143 human commits this year",
         "share": 19.342640361727078
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 28,
+        "raw": 27,
         "norm": 1,
         "points": 15,
-        "detail": "28+ people committed in the last 12 months",
+        "detail": "27+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -2952,20 +2953,20 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 3.3843273835779653,
-        "norm": 0.676865476715593,
-        "points": 10.152982150733896,
+        "raw": 3.403468380073263,
+        "norm": 0.6806936760146526,
+        "points": 10.21040514021979,
         "detail": "First commit 2023-06-22 (3.4 years ago)",
-        "share": 10.152982150733896
+        "share": 10.21040514021979
        },
        {
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 5985,
+        "raw": 6002,
         "norm": 1,
         "points": 15,
-        "detail": "5,985 commits in total",
+        "detail": "6,002 commits in total",
         "share": 15
        }
       ],
@@ -2982,10 +2983,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 316,
+        "raw": 306,
         "norm": 1,
         "points": 25,
-        "detail": "316 human commits in the last 90 days",
+        "detail": "306 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -3002,21 +3003,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.6168137482582443,
-        "norm": 0.6168137482582443,
-        "points": 15.420343706456109,
-        "detail": "3,984 closed vs 6,459 opened (issues 2,213/2,992, pull requests 1,771/3,467; bots and stale-bot closures left out)",
-        "share": 15.420343706456109
+        "raw": 0.6098918083462133,
+        "norm": 0.6098918083462133,
+        "points": 15.24729520865533,
+        "detail": "3,946 closed vs 6,470 opened (issues 2,189/2,959, pull requests 1,757/3,511; bots and stale-bot closures left out)",
+        "share": 15.24729520865533
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 6,
-        "norm": 0.988670467824422,
-        "points": 9.88670467824422,
-        "detail": "Latest release v0.40.15: 2026-11-03 (6 days ago)",
-        "share": 9.88670467824422
+        "raw": 7,
+        "norm": 0.9867947312196229,
+        "points": 9.867947312196229,
+        "detail": "Latest release v0.40.16: 2026-11-09 (7 days ago)",
+        "share": 9.867947312196229
        },
        {
         "id": "release_cadence",
@@ -3128,7 +3129,7 @@
    "name": "OBS Studio",
    "description": "OBS Studio - Free and open source software for live streaming and screen recording",
    "homepage": "https://obsproject.com",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -3144,7 +3145,7 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 171,
+    "checked": 191,
     "disclosed": 0,
     "tools": {},
     "window_days": 90,
@@ -3153,13 +3154,13 @@
     "policy": "https://github.com/obsproject/obs-studio/blob/master/CONTRIBUTING.md"
    },
    "context": {
-    "stars": 79225,
-    "forks": 11141,
-    "open_issues": 1218
+    "stars": 79584,
+    "forks": 11254,
+    "open_issues": 1210
    },
    "scorecard": {
-    "score": 6,
-    "date": "2026-11-02",
+    "score": 6.1,
+    "date": "2026-11-09",
     "url": "https://scorecard.dev/viewer/?uri=github.com/obsproject/obs-studio"
    },
    "signals": {
@@ -3169,35 +3170,35 @@
     },
     "bus_factor": {
      "value": 3,
-     "detail": "3 people wrote half of 482 human commits this year"
+     "detail": "3 people wrote half of 495 human commits this year"
     },
     "active_contributors": {
-     "value": 39,
-     "detail": "39+ people committed in the last 12 months"
+     "value": 40,
+     "detail": "40+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 104,
-     "detail": "104 human commits in the last 90 days"
+     "value": 98,
+     "detail": "98 human commits in the last 90 days"
     },
     "longest_gap": {
      "value": 14,
      "detail": "Longest quiet stretch: about 14 days"
     },
     "history": {
-     "value": 15831,
-     "detail": "15,831 commits in total"
+     "value": 15852,
+     "detail": "15,852 commits in total"
     },
     "age": {
-     "value": 13.108048388977615,
+     "value": 13.127189385472914,
      "detail": "First commit 2013-10-01 (13.1 years ago)"
     },
     "follow_through": {
-     "value": 0.7952270977675134,
-     "detail": "1,033 closed vs 1,299 opened (issues 441/597, pull requests 592/702; bots and stale-bot closures left out)"
+     "value": 0.8102524866105585,
+     "detail": "1,059 closed vs 1,307 opened (issues 451/599, pull requests 608/708; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 11,
-     "detail": "Latest release 33.0.1: 2026-10-29 (11 days ago)"
+     "value": 18,
+     "detail": "Latest release 33.0.1: 2026-10-29 (18 days ago)"
     },
     "release_cadence": {
      "value": 10,
@@ -3228,8 +3229,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 0.9666666666666667,
-     "detail": "29 of the last 30 human changes on master were approved or merged by someone else"
+     "value": 1,
+     "detail": "30 of the last 30 human changes on master were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -3258,17 +3259,17 @@
         "raw": 3,
         "norm": 0.7737056144690831,
         "points": 19.342640361727078,
-        "detail": "3 people wrote half of 482 human commits this year",
+        "detail": "3 people wrote half of 495 human commits this year",
         "share": 19.342640361727078
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 39,
+        "raw": 40,
         "norm": 1,
         "points": 15,
-        "detail": "39+ people committed in the last 12 months",
+        "detail": "40+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -3295,7 +3296,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 13.108048388977615,
+        "raw": 13.127189385472914,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2013-10-01 (13.1 years ago)",
@@ -3305,10 +3306,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 15831,
+        "raw": 15852,
         "norm": 1,
         "points": 15,
-        "detail": "15,831 commits in total",
+        "detail": "15,852 commits in total",
         "share": 15
        }
       ],
@@ -3325,10 +3326,10 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 104,
+        "raw": 98,
         "norm": 1,
         "points": 25,
-        "detail": "104 human commits in the last 90 days",
+        "detail": "98 human commits in the last 90 days",
         "share": 25
        },
        {
@@ -3345,21 +3346,21 @@
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.7952270977675134,
-        "norm": 0.7952270977675134,
-        "points": 19.880677444187835,
-        "detail": "1,033 closed vs 1,299 opened (issues 441/597, pull requests 592/702; bots and stale-bot closures left out)",
-        "share": 19.880677444187835
+        "raw": 0.8102524866105585,
+        "norm": 0.8102524866105585,
+        "points": 20.256312165263964,
+        "detail": "1,059 closed vs 1,307 opened (issues 451/599, pull requests 608/708; bots and stale-bot closures left out)",
+        "share": 20.256312165263964
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 11,
-        "norm": 0.9793273044104384,
-        "points": 9.793273044104383,
-        "detail": "Latest release 33.0.1: 2026-10-29 (11 days ago)",
-        "share": 9.793273044104383
+        "raw": 18,
+        "norm": 0.9663950241317363,
+        "points": 9.663950241317362,
+        "detail": "Latest release 33.0.1: 2026-10-29 (18 days ago)",
+        "share": 9.663950241317362
        },
        {
         "id": "release_cadence",
@@ -3387,7 +3388,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 45,
+      "score": 46,
       "letter": "D",
       "confidence": 1,
       "parts": [
@@ -3415,11 +3416,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.9666666666666667,
-        "norm": 0.9666666666666667,
-        "points": 7.25,
-        "detail": "29 of the last 30 human changes on master were approved or merged by someone else",
-        "share": 22.307692307692307
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "30 of the last 30 human changes on master were approved or merged by someone else",
+        "share": 23.076923076923077
        },
        {
         "id": "security_policy",
@@ -3456,7 +3457,7 @@
      }
     },
     "fidelity": {
-     "score": 75,
+     "score": 76,
      "letter": "B"
     }
    }
@@ -3471,7 +3472,7 @@
    "name": "SimpleX Chat",
    "description": "SimpleX - the first messaging network operating without user identifiers of any kind - 100% private by design! iOS, Android and desktop apps 📱!",
    "homepage": "https://simplex.chat",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -3487,17 +3488,19 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 39,
+    "checked": 528,
     "disclosed": 0,
     "tools": {},
     "window_days": 90,
     "truncated": false,
-    "agent_files": []
+    "agent_files": [
+     "CLAUDE.md"
+    ]
    },
    "context": {
-    "stars": 19669,
-    "forks": 1326,
-    "open_issues": 1307
+    "stars": 19705,
+    "forks": 1320,
+    "open_issues": 1329
    },
    "scorecard": null,
    "signals": {
@@ -3506,40 +3509,40 @@
      "detail": "AGPL-3.0: OSI and FSF approved (GitHub license detection)"
     },
     "bus_factor": {
-     "value": 1,
-     "detail": "1 person wrote half of 650 human commits this year"
+     "value": 2,
+     "detail": "2 people wrote half of 1,134 human commits this year"
     },
     "active_contributors": {
-     "value": 66,
-     "detail": "66+ people committed in the last 12 months"
+     "value": 69,
+     "detail": "69+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 36,
-     "detail": "36 human commits in the last 90 days"
+     "value": 468,
+     "detail": "468 human commits in the last 90 days"
     },
     "longest_gap": {
-     "value": 21,
-     "detail": "Longest quiet stretch: about 21 days"
+     "value": 0,
+     "detail": "Commits every week this year"
     },
     "history": {
-     "value": 6435,
-     "detail": "6,435 commits in total"
+     "value": 6972,
+     "detail": "6,972 commits in total"
     },
     "age": {
-     "value": 6.886828239156336,
+     "value": 6.905969235651634,
      "detail": "First commit 2019-12-21 (6.9 years ago)"
     },
     "follow_through": {
-     "value": 0.7337349397590361,
-     "detail": "1,218 closed vs 1,660 opened (issues 177/303, pull requests 1,041/1,357; bots and stale-bot closures left out)"
+     "value": 0.7359550561797753,
+     "detail": "1,310 closed vs 1,780 opened (issues 185/300, pull requests 1,125/1,480; bots and stale-bot closures left out)"
     },
     "release_freshness": {
      "value": 2,
-     "detail": "Latest release v7.1.2: 2026-11-07 (2 days ago)"
+     "detail": "Latest release v7.1.4: 2026-11-14 (2 days ago)"
     },
     "release_cadence": {
-     "value": 14,
-     "detail": "14 releases in the last 12 months"
+     "value": 16,
+     "detail": "16 releases in the last 12 months"
     },
     "release_integrity": {
      "value": 0,
@@ -3566,8 +3569,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 0.23333333333333334,
-     "detail": "7 of the last 30 human changes on stable were approved or merged by someone else · 13 pushed straight to the branch"
+     "value": 1,
+     "detail": "30 of the last 30 human changes on stable were approved or merged by someone else"
     },
     "backing": {
      "value": 0.6,
@@ -3575,7 +3578,7 @@
     }
    },
    "notes": [],
-   "calls": 19,
+   "calls": 24,
    "category": "communication",
    "blurb": "Messaging without phone numbers or user IDs.",
    "anti_features": [],
@@ -3585,7 +3588,7 @@
      "reliability": {
       "id": "reliability",
       "label": "Reliability",
-      "score": 79,
+      "score": 84,
       "letter": "B",
       "confidence": 1,
       "parts": [
@@ -3593,20 +3596,20 @@
         "id": "bus_factor",
         "label": "Bus factor",
         "weight": 25,
-        "raw": 1,
-        "norm": 0.3868528072345416,
-        "points": 9.671320180863539,
-        "detail": "1 person wrote half of 650 human commits this year",
-        "share": 9.671320180863539
+        "raw": 2,
+        "norm": 0.6131471927654584,
+        "points": 15.32867981913646,
+        "detail": "2 people wrote half of 1,134 human commits this year",
+        "share": 15.32867981913646
        },
        {
         "id": "active_contributors",
         "label": "Active contributors",
         "weight": 15,
-        "raw": 66,
+        "raw": 69,
         "norm": 1,
         "points": 15,
-        "detail": "66+ people committed in the last 12 months",
+        "detail": "69+ people committed in the last 12 months",
         "share": 15
        },
        {
@@ -3633,7 +3636,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 6.886828239156336,
+        "raw": 6.905969235651634,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2019-12-21 (6.9 years ago)",
@@ -3643,10 +3646,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 6435,
+        "raw": 6972,
         "norm": 1,
         "points": 15,
-        "detail": "6,435 commits in total",
+        "detail": "6,972 commits in total",
         "share": 15
        }
       ],
@@ -3655,7 +3658,7 @@
      "maintenance": {
       "id": "maintenance",
       "label": "Maintenance",
-      "score": 89,
+      "score": 93,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -3663,31 +3666,31 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 36,
-        "norm": 0.918382006208717,
-        "points": 22.959550155217926,
-        "detail": "36 human commits in the last 90 days",
-        "share": 22.959550155217926
+        "raw": 468,
+        "norm": 1,
+        "points": 25,
+        "detail": "468 human commits in the last 90 days",
+        "share": 25
        },
        {
         "id": "longest_gap",
         "label": "Steadiness",
         "weight": 20,
-        "raw": 21,
-        "norm": 0.8833333333333333,
-        "points": 17.666666666666664,
-        "detail": "Longest quiet stretch: about 21 days",
-        "share": 17.666666666666664
+        "raw": 0,
+        "norm": 1,
+        "points": 20,
+        "detail": "Commits every week this year",
+        "share": 20
        },
        {
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.7337349397590361,
-        "norm": 0.7337349397590361,
-        "points": 18.343373493975903,
-        "detail": "1,218 closed vs 1,660 opened (issues 177/303, pull requests 1,041/1,357; bots and stale-bot closures left out)",
-        "share": 18.343373493975903
+        "raw": 0.7359550561797753,
+        "norm": 0.7359550561797753,
+        "points": 18.398876404494384,
+        "detail": "1,310 closed vs 1,780 opened (issues 185/300, pull requests 1,125/1,480; bots and stale-bot closures left out)",
+        "share": 18.398876404494384
        },
        {
         "id": "release_freshness",
@@ -3696,17 +3699,17 @@
         "raw": 2,
         "norm": 0.9962091367899787,
         "points": 9.962091367899786,
-        "detail": "Latest release v7.1.2: 2026-11-07 (2 days ago)",
+        "detail": "Latest release v7.1.4: 2026-11-14 (2 days ago)",
         "share": 9.962091367899786
        },
        {
         "id": "release_cadence",
         "label": "Release cadence",
         "weight": 5,
-        "raw": 14,
+        "raw": 16,
         "norm": 1,
         "points": 5,
-        "detail": "14 releases in the last 12 months",
+        "detail": "16 releases in the last 12 months",
         "share": 5
        },
        {
@@ -3725,8 +3728,8 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 28,
-      "letter": "F",
+      "score": 46,
+      "letter": "D",
       "confidence": 1,
       "parts": [
        {
@@ -3753,11 +3756,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.23333333333333334,
-        "norm": 0.23333333333333334,
-        "points": 1.75,
-        "detail": "7 of the last 30 human changes on stable were approved or merged by someone else · 13 pushed straight to the branch",
-        "share": 5.384615384615385
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "30 of the last 30 human changes on stable were approved or merged by someone else",
+        "share": 23.076923076923077
        },
        {
         "id": "security_policy",
@@ -3794,8 +3797,8 @@
      }
     },
     "fidelity": {
-     "score": 65,
-     "letter": "C"
+     "score": 74,
+     "letter": "B"
     }
    }
   },
@@ -3809,7 +3812,7 @@
    "name": "Signal (Android)",
    "description": "A private messenger for Android.",
    "homepage": "https://signal.org",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -3825,17 +3828,17 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 990,
+    "checked": 1000,
     "disclosed": 0,
     "tools": {},
     "window_days": 90,
-    "truncated": false,
+    "truncated": true,
     "agent_files": []
    },
    "context": {
-    "stars": 29601,
-    "forks": 6935,
-    "open_issues": 507
+    "stars": 29648,
+    "forks": 6948,
+    "open_issues": 490
    },
    "scorecard": {
     "score": 5,
@@ -3849,35 +3852,35 @@
     },
     "bus_factor": {
      "value": 2,
-     "detail": "2 people wrote half of 3,341 human commits this year"
+     "detail": "2 people wrote half of 3,382 human commits this year"
     },
     "active_contributors": {
      "value": 38,
      "detail": "38+ people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 892,
-     "detail": "892 human commits in the last 90 days"
+     "value": 946,
+     "detail": "946 human commits in the last 90 days"
     },
     "longest_gap": {
-     "value": 7,
-     "detail": "Longest quiet stretch: about 7 days"
+     "value": 0,
+     "detail": "Commits every week this year"
     },
     "history": {
-     "value": 21324,
-     "detail": "21,324 commits in total"
+     "value": 21422,
+     "detail": "21,422 commits in total"
     },
     "age": {
-     "value": 14.888595357061373,
+     "value": 14.907736353556672,
      "detail": "First commit 2011-12-20 (14.9 years ago)"
     },
     "follow_through": {
-     "value": 0.8008720930232558,
-     "detail": "551 closed vs 688 opened (issues 419/524, pull requests 132/164; bots and stale-bot closures left out)"
+     "value": 0.8268398268398268,
+     "detail": "573 closed vs 693 opened (issues 441/528, pull requests 132/165; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 10,
-     "detail": "Latest release v8.34.2: 2026-10-30 (10 days ago)"
+     "value": 7,
+     "detail": "Latest release v8.35.2: 2026-11-09 (7 days ago)"
     },
     "release_cadence": {
      "value": 26,
@@ -3938,7 +3941,7 @@
         "raw": 2,
         "norm": 0.6131471927654584,
         "points": 15.32867981913646,
-        "detail": "2 people wrote half of 3,341 human commits this year",
+        "detail": "2 people wrote half of 3,382 human commits this year",
         "share": 15.32867981913646
        },
        {
@@ -3975,7 +3978,7 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 14.888595357061373,
+        "raw": 14.907736353556672,
         "norm": 1,
         "points": 15,
         "detail": "First commit 2011-12-20 (14.9 years ago)",
@@ -3985,10 +3988,10 @@
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 21324,
+        "raw": 21422,
         "norm": 1,
         "points": 15,
-        "detail": "21,324 commits in total",
+        "detail": "21,422 commits in total",
         "share": 15
        }
       ],
@@ -3997,7 +4000,7 @@
      "maintenance": {
       "id": "maintenance",
       "label": "Maintenance",
-      "score": 94,
+      "score": 96,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -4005,41 +4008,41 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 892,
+        "raw": 946,
         "norm": 1,
         "points": 25,
-        "detail": "892 human commits in the last 90 days",
+        "detail": "946 human commits in the last 90 days",
         "share": 25
        },
        {
         "id": "longest_gap",
         "label": "Steadiness",
         "weight": 20,
-        "raw": 7,
-        "norm": 0.9611111111111111,
-        "points": 19.22222222222222,
-        "detail": "Longest quiet stretch: about 7 days",
-        "share": 19.22222222222222
+        "raw": 0,
+        "norm": 1,
+        "points": 20,
+        "detail": "Commits every week this year",
+        "share": 20
        },
        {
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.8008720930232558,
-        "norm": 0.8008720930232558,
-        "points": 20.021802325581394,
-        "detail": "551 closed vs 688 opened (issues 419/524, pull requests 132/164; bots and stale-bot closures left out)",
-        "share": 20.021802325581394
+        "raw": 0.8268398268398268,
+        "norm": 0.8268398268398268,
+        "points": 20.67099567099567,
+        "detail": "573 closed vs 693 opened (issues 441/528, pull requests 132/165; bots and stale-bot closures left out)",
+        "share": 20.670995670995673
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 10,
-        "norm": 0.9811888466490065,
-        "points": 9.811888466490066,
-        "detail": "Latest release v8.34.2: 2026-10-30 (10 days ago)",
-        "share": 9.811888466490066
+        "raw": 7,
+        "norm": 0.9867947312196229,
+        "points": 9.867947312196229,
+        "detail": "Latest release v8.35.2: 2026-11-09 (7 days ago)",
+        "share": 9.867947312196229
        },
        {
         "id": "release_cadence",
@@ -4136,7 +4139,7 @@
      }
     },
     "fidelity": {
-     "score": 64,
+     "score": 65,
      "letter": "C"
     }
    }
@@ -4151,7 +4154,7 @@
    "name": "PocketPal AI",
    "description": "An app that brings language models directly to your phone.",
    "homepage": "",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -4167,7 +4170,7 @@
     "source": "GitHub license detection"
    },
    "ai": {
-    "checked": 339,
+    "checked": 400,
     "disclosed": 0,
     "tools": {},
     "window_days": 90,
@@ -4177,9 +4180,9 @@
     ]
    },
    "context": {
-    "stars": 9132,
-    "forks": 1055,
-    "open_issues": 138
+    "stars": 9442,
+    "forks": 1129,
+    "open_issues": 131
    },
    "scorecard": null,
    "signals": {
@@ -4189,35 +4192,35 @@
     },
     "bus_factor": {
      "value": 1,
-     "detail": "1 person wrote half of 652 human commits this year"
+     "detail": "1 person wrote half of 703 human commits this year"
     },
     "active_contributors": {
      "value": 28,
      "detail": "28 people committed in the last 12 months"
     },
     "recent_commits": {
-     "value": 237,
-     "detail": "237 human commits in the last 90 days"
+     "value": 265,
+     "detail": "265 human commits in the last 90 days"
     },
     "longest_gap": {
-     "value": 14,
-     "detail": "Longest quiet stretch: about 14 days"
+     "value": 7,
+     "detail": "Longest quiet stretch: about 7 days"
     },
     "history": {
-     "value": 1032,
-     "detail": "1,032 commits in total"
+     "value": 1097,
+     "detail": "1,097 commits in total"
     },
     "age": {
-     "value": 2.208023735645296,
+     "value": 2.2271647321405936,
      "detail": "First commit 2024-08-25 (2.2 years ago)"
     },
     "follow_through": {
-     "value": 0.9422382671480144,
-     "detail": "522 closed vs 554 opened (issues 239/246, pull requests 283/308; bots and stale-bot closures left out)"
+     "value": 0.9649122807017544,
+     "detail": "550 closed vs 570 opened (issues 255/247, pull requests 295/323; bots and stale-bot closures left out)"
     },
     "release_freshness": {
-     "value": 4,
-     "detail": "Latest release v1.22.1: 2026-11-05 (4 days ago)"
+     "value": 6,
+     "detail": "Latest release v1.23.0: 2026-11-10 (6 days ago)"
     },
     "release_cadence": {
      "value": 40,
@@ -4248,8 +4251,8 @@
      "detail": "No OpenSSF Best Practices badge found"
     },
     "code_review": {
-     "value": 0.9473684210526315,
-     "detail": "18 of the last 19 human changes on main were approved or merged by someone else · 1 pushed straight to the branch"
+     "value": 1,
+     "detail": "25 of the last 25 human changes on main were approved or merged by someone else"
     },
     "backing": {
      "value": 0.3,
@@ -4267,7 +4270,7 @@
      "reliability": {
       "id": "reliability",
       "label": "Reliability",
-      "score": 64,
+      "score": 65,
       "letter": "C",
       "confidence": 1,
       "parts": [
@@ -4278,7 +4281,7 @@
         "raw": 1,
         "norm": 0.3868528072345416,
         "points": 9.671320180863539,
-        "detail": "1 person wrote half of 652 human commits this year",
+        "detail": "1 person wrote half of 703 human commits this year",
         "share": 9.671320180863539
        },
        {
@@ -4315,21 +4318,21 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 2.208023735645296,
-        "norm": 0.4416047471290592,
-        "points": 6.624071206935889,
+        "raw": 2.2271647321405936,
+        "norm": 0.4454329464281187,
+        "points": 6.681494196421781,
         "detail": "First commit 2024-08-25 (2.2 years ago)",
-        "share": 6.62407120693589
+        "share": 6.681494196421782
        },
        {
         "id": "history",
         "label": "Track record",
         "weight": 15,
-        "raw": 1032,
-        "norm": 0.9130186988713969,
-        "points": 13.695280483070952,
-        "detail": "1,032 commits in total",
-        "share": 13.695280483070952
+        "raw": 1097,
+        "norm": 0.9210465798154436,
+        "points": 13.815698697231653,
+        "detail": "1,097 commits in total",
+        "share": 13.815698697231653
        }
       ],
       "notes": []
@@ -4337,7 +4340,7 @@
      "maintenance": {
       "id": "maintenance",
       "label": "Maintenance",
-      "score": 97,
+      "score": 98,
       "letter": "A",
       "confidence": 1,
       "parts": [
@@ -4345,41 +4348,41 @@
         "id": "recent_commits",
         "label": "Recent activity",
         "weight": 25,
-        "raw": 237,
+        "raw": 265,
         "norm": 1,
         "points": 25,
-        "detail": "237 human commits in the last 90 days",
+        "detail": "265 human commits in the last 90 days",
         "share": 25
        },
        {
         "id": "longest_gap",
         "label": "Steadiness",
         "weight": 20,
-        "raw": 14,
-        "norm": 0.9222222222222223,
-        "points": 18.444444444444446,
-        "detail": "Longest quiet stretch: about 14 days",
-        "share": 18.444444444444446
+        "raw": 7,
+        "norm": 0.9611111111111111,
+        "points": 19.22222222222222,
+        "detail": "Longest quiet stretch: about 7 days",
+        "share": 19.22222222222222
        },
        {
         "id": "follow_through",
         "label": "Follow-through",
         "weight": 25,
-        "raw": 0.9422382671480144,
-        "norm": 0.9422382671480144,
-        "points": 23.55595667870036,
-        "detail": "522 closed vs 554 opened (issues 239/246, pull requests 283/308; bots and stale-bot closures left out)",
-        "share": 23.55595667870036
+        "raw": 0.9649122807017544,
+        "norm": 0.9649122807017544,
+        "points": 24.12280701754386,
+        "detail": "550 closed vs 570 opened (issues 255/247, pull requests 295/323; bots and stale-bot closures left out)",
+        "share": 24.12280701754386
        },
        {
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 4,
-        "norm": 0.9924326442238344,
-        "points": 9.924326442238344,
-        "detail": "Latest release v1.22.1: 2026-11-05 (4 days ago)",
-        "share": 9.924326442238344
+        "raw": 6,
+        "norm": 0.988670467824422,
+        "points": 9.88670467824422,
+        "detail": "Latest release v1.23.0: 2026-11-10 (6 days ago)",
+        "share": 9.88670467824422
        },
        {
         "id": "release_cadence",
@@ -4407,7 +4410,7 @@
      "security": {
       "id": "security",
       "label": "Visible security",
-      "score": 30,
+      "score": 31,
       "letter": "F",
       "confidence": 1,
       "parts": [
@@ -4435,11 +4438,11 @@
         "id": "code_review",
         "label": "Code review",
         "weight": 7.5,
-        "raw": 0.9473684210526315,
-        "norm": 0.9473684210526315,
-        "points": 7.105263157894736,
-        "detail": "18 of the last 19 human changes on main were approved or merged by someone else · 1 pushed straight to the branch",
-        "share": 21.86234817813765
+        "raw": 1,
+        "norm": 1,
+        "points": 7.5,
+        "detail": "25 of the last 25 human changes on main were approved or merged by someone else",
+        "share": 23.076923076923077
        },
        {
         "id": "security_policy",
@@ -4476,7 +4479,7 @@
      }
     },
     "fidelity": {
-     "score": 64,
+     "score": 65,
      "letter": "C"
     }
    }
@@ -4491,7 +4494,7 @@
    "name": "Pika ORM",
    "description": "Pika ORM for Java",
    "homepage": "",
-   "scored_at": "2026-11-09T19:46:20.840Z",
+   "scored_at": "2026-11-16T19:33:44.751Z",
    "mode": "full",
    "status": {
     "archived": false,
@@ -4529,7 +4532,7 @@
     },
     "bus_factor": {
      "value": 1,
-     "detail": "1 person wrote half of 84 human commits this year"
+     "detail": "1 person wrote half of 83 human commits this year"
     },
     "active_contributors": {
      "value": 3,
@@ -4548,16 +4551,16 @@
      "detail": "276 commits in total"
     },
     "age": {
-     "value": 1.4348565746444597,
-     "detail": "First commit 2025-06-03 (1.4 years ago)"
+     "value": 1.4539975711397572,
+     "detail": "First commit 2025-06-03 (1.5 years ago)"
     },
     "follow_through": {
      "value": null,
      "detail": "No issues or pull requests opened in the last year"
     },
     "release_freshness": {
-     "value": 22,
-     "detail": "Latest tag v0.1.4: 2026-10-18 (22 days ago)"
+     "value": 29,
+     "detail": "Latest tag v0.1.4: 2026-10-18 (29 days ago)"
     },
     "release_cadence": {
      "value": 4,
@@ -4597,7 +4600,7 @@
     }
    },
    "notes": [],
-   "calls": 26,
+   "calls": 25,
    "category": "coding",
    "blurb": "A young Java ORM, our \"middle of the road\" example.",
    "anti_features": [],
@@ -4618,7 +4621,7 @@
         "raw": 1,
         "norm": 0.3868528072345416,
         "points": 9.671320180863539,
-        "detail": "1 person wrote half of 84 human commits this year",
+        "detail": "1 person wrote half of 83 human commits this year",
         "share": 9.671320180863539
        },
        {
@@ -4655,11 +4658,11 @@
         "id": "age",
         "label": "Age",
         "weight": 15,
-        "raw": 1.4348565746444597,
-        "norm": 0.28697131492889194,
-        "points": 4.304569723933379,
-        "detail": "First commit 2025-06-03 (1.4 years ago)",
-        "share": 4.304569723933379
+        "raw": 1.4539975711397572,
+        "norm": 0.29079951422795147,
+        "points": 4.361992713419272,
+        "detail": "First commit 2025-06-03 (1.5 years ago)",
+        "share": 4.361992713419272
        },
        {
         "id": "history",
@@ -4677,7 +4680,7 @@
      "maintenance": {
       "id": "maintenance",
       "label": "Maintenance",
-      "score": 76,
+      "score": 75,
       "letter": "B",
       "confidence": 0.75,
       "parts": [
@@ -4712,11 +4715,11 @@
         "id": "release_freshness",
         "label": "Release freshness",
         "weight": 10,
-        "raw": 22,
-        "norm": 0.9590819691638153,
-        "points": 9.590819691638153,
-        "detail": "Latest tag v0.1.4: 2026-10-18 (22 days ago)",
-        "share": 12.787759588850871
+        "raw": 29,
+        "norm": 0.9464170339785938,
+        "points": 9.464170339785937,
+        "detail": "Latest tag v0.1.4: 2026-10-18 (29 days ago)",
+        "share": 12.61889378638125
        },
        {
         "id": "release_cadence",
